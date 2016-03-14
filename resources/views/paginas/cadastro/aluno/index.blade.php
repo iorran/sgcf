@@ -1,0 +1,77 @@
+@extends('layouts.master') @section('content')
+<!-- Main content -->
+<section class="content">
+	
+	<!-- Default box -->
+	<div class="box box-primary"> 
+    	@include('sweet::alert') 
+		<div class="box-header">
+			<legend>Alunos</legend>
+			<a href="{{ route('cadastro.aluno.create') }}"
+				class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Incluir</a>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body">
+			<table id="dataTableAluno" class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Matricula</th>
+						<th>Nome</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@forelse($alunos as $aluno)
+					<tr>
+						<td>{{ $aluno->id }}</td>
+						<td>{{ $aluno->matricula }}</td>
+						<td>{{ $aluno->usuario->nome }}</td>
+						<td align="center">
+							<a href="{{ route('cadastro.aluno.edit', $aluno->id) }}" class="btn btn-success">
+								<i class="fa fa-fw fa-edit"></i>
+							</a> 
+							<a href="{{ route('cadastro.aluno.show', $aluno->id) }}" class="btn btn-info">
+								<i class="fa fa-fw fa-eye"></i>
+							</a>
+							<button type="button" class="btn btn-danger" remover-aluno="true" data-id="{{ $aluno->id }}">
+								<i class="fa fa-fw fa-remove"></i>
+							</button>
+							<form id="formRemoverAluno{{ $aluno->id }}" action="{{ route('cadastro.aluno.destroy', $aluno->id) }}" method="post">
+								<input type="hidden" name="_method" value="DELETE">
+								{!! csrf_field() !!}
+							</form>
+						</td>
+					</tr>
+					@empty
+					<tr>
+						<td colspan="4">Nenhum registro encontrado.</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					@endforelse
+
+				</tbody>
+				<tfoot>
+					<tr>
+						<th>ID</th>
+						<th>Matricula</th>
+						<th>Nome</th>
+						<th></th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<!-- /.box-body -->
+	</div>
+	<!-- /.box -->
+
+</section>
+<!-- /.content -->
+
+@endsection
+@section('additionalsJavascript')
+	@include('javascript.aluno.jquery')
+	@include('javascript.aluno.datatable') 
+@endsection
