@@ -17,8 +17,9 @@ class AlunoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$alunos = Aluno::get ();
-		return view ( 'paginas.cadastro.aluno.index', compact ( 'alunos' ) );
+		$data['alunos'] = Aluno::get ();
+		$data['page_title'] = 'Alunos';
+		return view ( 'paginas.cadastro.aluno.index')->with($data);
 	}
 	
 	/**
@@ -132,7 +133,7 @@ class AlunoController extends Controller {
 			
 			DB::commit ();
 			
-			alert ()->success ( '',  config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+			alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			DB::rollback ();

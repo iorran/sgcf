@@ -3,10 +3,9 @@
 <section class="content">
 	
 	<!-- Default box -->
-	<div class="box box-primary"> 
+	<div class="box box-default"> 
     	@include('sweet::alert') 
 		<div class="box-header">
-			<legend>Alunos</legend>
 			<a href="{{ route('cadastro.aluno.create') }}"
 				class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Incluir</a>
 		</div>
