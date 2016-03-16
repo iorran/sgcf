@@ -34,7 +34,7 @@ class PacienteRequest extends Request {
 				{ 
 					return [
 							'nome' => 'required',
-							'telefone' => 'between:11,12',
+							'telefone' => 'between:10,11',
 							'nascimento'        => 'date_format:Y-m-d',
 							'cep' => 'size:8',
 					];
@@ -44,7 +44,7 @@ class PacienteRequest extends Request {
 				{
 					return [ 
 							'nome' => 'required', 
-							'telefone' => 'between:11,12',
+							'telefone' => 'between:10,11',
 							'nascimento'        => 'date_format:Y-m-d',
 							'cep' => 'size:8',
 					];

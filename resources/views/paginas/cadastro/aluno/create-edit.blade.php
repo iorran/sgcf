@@ -3,8 +3,7 @@
 <!-- Main content -->
 <section class="content"> 
 	<div class="box box-default"> 
-		<div class="box-header">
-			<legend>Gerenciar Aluno</legend> 
+		<div class="box-header"> 
 		</div>
 		<!-- form start --> 
 		

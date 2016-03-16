@@ -13,8 +13,7 @@ class HomeController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function getIndex() {
-		$data['page_title'] = 'Home';
-		$data['page_breadcrumb'] = 'início';
+		$data['page_title'] = 'Home'; 
 		return view ( 'paginas.home' )->with($data);
 	} 
 	 

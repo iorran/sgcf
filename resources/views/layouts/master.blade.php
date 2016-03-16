@@ -53,7 +53,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- You can dynamically generate breadcrumbs here -->
             <ol class="breadcrumb">
                 <li><a href="{{ route('home.index') }}"><i class="fa fa-home"></i> Home</a></li>
-                <li class="active">{{ $page_breadcrumb or null }}</li>
+                @if(isset($page_title) && $page_title != "Home") <li class="active">{{ $page_title or null }} </li>@endif
             </ol>
         </section>
 

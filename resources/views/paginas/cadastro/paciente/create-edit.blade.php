@@ -1,12 +1,7 @@
 @extends('layouts.master') @section('content')
 
 <!-- Main content -->
-<section class="content">
-	<div class="box box-primary">
-		<div class="box-header">
-			<legend>Gerenciar Paciente</legend>
-		</div>
-		<div class="box-body">
+<section class="content"> 
 			<!-- form start --> 
 			@if(isset($paciente->id))
 				<form class="form-horizontal" action="{{route('cadastro.paciente.update', $paciente->id)}}" method="post">
@@ -93,7 +88,7 @@
 										<div class="col-md-4">
 											<input id="logradouro" name="logradouro" type="text"
 												placeholder="Logradouro" class="form-control input-md"
-												value="{{ old('logradouro',  isset($paciente->logradouro) ? $paciente->logradouro : null) }}">
+												value="{{ old('logradouro',  isset($paciente->endereco->logradouro) ? $paciente->endereco->logradouro : null) }}">
 												@if($errors->has('Logradouro')) {!! $errors->first('Logradouro', '<span class="help-block">:message</span>') !!} @endif
 										</div>
 									</div>
@@ -103,7 +98,7 @@
 										<div class="col-md-4">
 											<input id="numero" name="numero" type="number" placeholder="Nº"
 												class="form-control input-md"
-												value="{{ old('numero',  isset($paciente->numero) ? $paciente->numero : null) }}">
+												value="{{ old('numero',  isset($paciente->endereco->numero) ? $paciente->endereco->numero : null) }}">
 												@if($errors->has('numero')) {!! $errors->first('numero', '<span class="help-block">:message</span>') !!} @endif
 										</div> 
 									</div> 
@@ -113,7 +108,7 @@
 										<div class="col-md-4">
 											<input id="cep" name="cep" type="number" placeholder="CEP"
 												class="form-control input-md"
-												value="{{ old('cep',  isset($paciente->cep) ? $paciente->cep : null) }}">
+												value="{{ old('cep',  isset($paciente->endereco->cep) ? $paciente->endereco->cep : null) }}">
 												@if($errors->has('cep')) {!! $errors->first('cep', '<span class="help-block">:message</span>') !!} @endif
 										</div>
 									</div>
@@ -123,7 +118,7 @@
 										<div class="col-md-4">
 											<input id="bairro" name="bairro" type="text" placeholder="Bairro"
 												class="form-control input-md"
-												value="{{ old('bairro',  isset($paciente->bairro) ? $paciente->bairro : null) }}">
+												value="{{ old('bairro',  isset($paciente->endereco->bairro) ? $paciente->endereco->bairro : null) }}">
 												@if($errors->has('bairro')) {!! $errors->first('bairro', '<span class="help-block">:message</span>') !!} @endif
 										</div>  
 									</div>	  
@@ -133,7 +128,7 @@
 										<div class="col-md-4">
 											<input id="cidade" name="cidade" type="text" placeholder="Cidade"
 												class="form-control input-md"
-												value="{{ old('cidade',  isset($paciente->cidade) ? $paciente->cidade : null) }}">
+												value="{{ old('cidade',  isset($paciente->endereco->cidade) ? $paciente->endereco->cidade : null) }}">
 												@if($errors->has('cidade')) {!! $errors->first('cidade', '<span class="help-block">:message</span>') !!} @endif
 										</div> 
 									</div>	 
@@ -143,7 +138,7 @@
 										<div class="col-md-4">
 											<input id="estado" name="estado" type="text" placeholder="Estado"
 												class="form-control input-md"
-												value="{{ old('estado',  isset($paciente->estado) ? $paciente->estado : null) }}">
+												value="{{ old('estado',  isset($paciente->endereco->estado) ? $paciente->endereco->estado : null) }}">
 												@if($errors->has('estado')) {!! $errors->first('estado', '<span class="help-block">:message</span>') !!} @endif
 										</div>
 									</div> 
@@ -153,7 +148,7 @@
 									<label class="col-md-4 control-label" for="cadastrarAluno"></label>
 									<div class="col-md-4">
 										<button id="cadastrarAluno" name="cadastrarAluno"
-											class="btn btn-primary">Salvar</button>
+											class="btn btn-success">Salvar</button>
 										<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
 									</div>
 								</div>  
@@ -161,10 +156,7 @@
 	              		</div>  
 					</fieldset>  
 					{!! csrf_field() !!} 
-				</form> 
-		</div>
-	</div>
-	<!-- /.box -->
+				</form>  
 </section>
 <!-- /.content -->
 
