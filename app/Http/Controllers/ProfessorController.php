@@ -17,8 +17,9 @@ class ProfessorController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$professores = Professor::get ();
-		return view ( 'paginas.cadastro.professor.index', compact ( 'professores' ) );
+		$data['professores'] = Professor::get ();
+		$data['page_title'] = 'Professores'; 
+		return view ( 'paginas.cadastro.professor.index')->with($data);
 	}
 	
 	/**
@@ -27,7 +28,8 @@ class ProfessorController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view ( 'paginas.cadastro.professor.create-edit' );
+		$data['page_title'] = 'Novo professor'; 
+		return view ( 'paginas.cadastro.professor.create-edit' )->with($data);
 	}
 	
 	/**
@@ -67,9 +69,10 @@ class ProfessorController extends Controller {
 	 * @param int $id        	
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id) {
-		$professor = Professor::findOrFail ( $id );
-		return view ( 'paginas.cadastro.professor.show' )->withProfessor ( $professor );
+	public function show($id) { 
+		$data['professor'] = Professor::findOrFail ( $id );
+		$data['page_title'] = 'Visualizar professor';
+		return view ( 'paginas.cadastro.professor.show')->with($data); 
 	}
 	
 	/**
@@ -79,8 +82,9 @@ class ProfessorController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		$professor = Professor::findOrFail ( $id );
-		return view ( 'paginas.cadastro.professor.create-edit' )->withProfessor ( $professor );
+		$data['professor'] = Professor::findOrFail ( $id );
+		$data['page_title'] = 'Editar professor';
+		return view ( 'paginas.cadastro.professor.create-edit' )->with($data); 
 	}
 	
 	/**

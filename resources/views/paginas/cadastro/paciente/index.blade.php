@@ -5,12 +5,11 @@
 <section class="content">
 
 	<!-- Default box -->
-	<div class="box box-primary">
+	<div class="box box-default">
 		@include('sweet::alert')
-		<div class="box-header">
-			<legend>Pacientes</legend>
+		<div class="box-header"> 
 			<a href="{{ route('cadastro.paciente.create') }}"
-				class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Incluir</a>
+				class="btn btn-success"><i class="fa fa-fw fa-plus"></i> Incluir</a>
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
@@ -32,7 +31,7 @@
 						<td>{{ $paciente->nome }}</td>
 						<td align="center"><a
 							href="{{ route('cadastro.paciente.edit', $paciente->id) }}"
-							class="btn btn-success"> <i class="fa fa-fw fa-edit"></i>
+							class="btn btn-primary"> <i class="fa fa-fw fa-edit"></i>
 						</a> <a
 							href="{{ route('cadastro.paciente.show', $paciente->id) }}"
 							class="btn btn-info"> <i class="fa fa-fw fa-eye"></i>

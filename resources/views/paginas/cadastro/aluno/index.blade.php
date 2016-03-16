@@ -7,7 +7,7 @@
     	@include('sweet::alert') 
 		<div class="box-header">
 			<a href="{{ route('cadastro.aluno.create') }}"
-				class="btn btn-primary"><i class="fa fa-fw fa-plus"></i> Incluir</a>
+				class="btn btn-success"><i class="fa fa-fw fa-plus"></i> Incluir</a>
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
@@ -27,7 +27,7 @@
 						<td>{{ $aluno->matricula }}</td>
 						<td>{{ $aluno->usuario->nome }}</td>
 						<td align="center">
-							<a href="{{ route('cadastro.aluno.edit', $aluno->id) }}" class="btn btn-success">
+							<a href="{{ route('cadastro.aluno.edit', $aluno->id) }}" class="btn btn-primary">
 								<i class="fa fa-fw fa-edit"></i>
 							</a> 
 							<a href="{{ route('cadastro.aluno.show', $aluno->id) }}" class="btn btn-info">

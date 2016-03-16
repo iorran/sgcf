@@ -13,7 +13,8 @@ class HomeController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function getIndex() {
-		return view ( 'paginas.home' );
+		$data['page_title'] = 'Home'; 
+		return view ( 'paginas.home' )->with($data);
 	} 
 	 
 	

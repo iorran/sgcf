@@ -15,9 +15,8 @@ class CreatePacientesTable extends Migration {
 			$table->string ( 'naturalidade' )->nullable();
 			$table->string ( 'profissao' )->nullable();
 			$table->string ( 'nacionalidade' )->nullable();
-			$table->date ( 'nascimento' )->nullable();
-			$table->integer('ddd')->nullable(); 
-			$table->integer('telefone')->nullable()->default('NULL'); 
+			$table->date ( 'nascimento' )->nullable(); 
+			$table->string('telefone')->nullable(); 
 			$table->integer ( 'endereco_id', false, true );
 			$table->foreign ( 'endereco_id' )->references ( 'id' )->on ( 'enderecos' );
 			$table->timestamps ();

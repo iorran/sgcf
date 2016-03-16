@@ -3,7 +3,7 @@
 <section class="content">
 	
 	<!-- Default box -->
-	<div class="box box-primary"> 
+	<div class="box box-default"> 
     	@include('sweet::alert') 
 		<div class="box-header">
 			<legend>Bem vindo, {!! Session('usuario.0.nome') !!}</legend> 

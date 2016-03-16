@@ -6,7 +6,7 @@ use App\Http\Requests\PacienteRequest;
 use App\Models\Endereco;
 use App\Models\Paciente;
 use DB;
-use Exception; 
+use Exception;
 use Log;
 
 class PacienteController extends Controller {
@@ -16,8 +16,9 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$pacientes = Paciente::get ();
-		return view ( 'paginas.cadastro.paciente.index', compact ( 'pacientes' ) );
+		$data ['pacientes'] = Paciente::get ();
+		$data ['page_title'] = 'Pacientes';
+		return view ( 'paginas.cadastro.paciente.index' )->with ( $data );
 	}
 	
 	/**
@@ -26,7 +27,8 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view ( 'paginas.cadastro.paciente.create-edit' );
+		$data ['page_title'] = 'Novo paciente';
+		return view ( 'paginas.cadastro.paciente.create-edit' )->with ( $data );
 	}
 	
 	/**
@@ -39,24 +41,24 @@ class PacienteController extends Controller {
 		try {
 			DB::beginTransaction ();
 			
-			$endereco = new Endereco(); 
-			$endereco->logradouro = $request->get ( "logradouro" ); 
-			$endereco->numero = $request->get ( "numero" ); 
-			$endereco->bairro = $request->get ( "bairro" ); 
-			$endereco->cep = $request->get ( "cep" ); 
-			$endereco->cidade = $request->get ( "cidade" ); 
-			$endereco->estado = $request->get ( "estado" ); 
+			$endereco = new Endereco ();
+			$endereco->logradouro = $request->get ( "logradouro" );
+			$endereco->numero = $request->get ( "numero" );
+			$endereco->bairro = $request->get ( "bairro" );
+			$endereco->cep = $request->get ( "cep" );
+			$endereco->cidade = $request->get ( "cidade" );
+			$endereco->estado = $request->get ( "estado" );
 			$endereco->save ();
 			
-			$paciente = new Paciente();
-
-			$paciente->nome = $request->get ( "nome" ); 
-			$paciente->naturalidade = $request->get ( "naturalidade" ); 
-			$paciente->profissao = $request->get ( "profissao" ); 
-			$paciente->nacionalidade = $request->get ( "nacionalidade" ); 
-			$paciente->nascimento = $request->get ( "nascimento" ); 
-			$paciente->ddd = $request->get ( "ddd" ); 
-			$paciente->telefone = $request->get ( "telefone" ); 
+			$paciente = new Paciente ();
+			
+			$paciente->nome = $request->get ( "nome" );
+			$paciente->naturalidade = $request->get ( "naturalidade" );
+			$paciente->profissao = $request->get ( "profissao" );
+			$paciente->nacionalidade = $request->get ( "nacionalidade" );
+			$paciente->nascimento = $request->get ( "nascimento" );
+			$paciente->ddd = $request->get ( "ddd" );
+			$paciente->telefone = $request->get ( "telefone" );
 			$endereco->paciente ()->save ( $paciente );
 			
 			DB::commit ();
@@ -77,7 +79,9 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		//
+		$data ['paciente'] = Paciente::findOrFail ( $id );
+		$data ['page_title'] = 'Visualizar paciente';
+		return view ( 'paginas.cadastro.paciente.show' )->with ( $data );
 	}
 	
 	/**
@@ -87,7 +91,9 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		//
+		$data ['paciente'] = Paciente::findOrFail ( $id );
+		$data ['page_title'] = 'Editar paciente';
+		return view ( 'paginas.cadastro.paciente.create-edit' )->with ( $data );
 	}
 	
 	/**
@@ -98,7 +104,39 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(PacienteRequest $request, $id) {
-		//
+		try {
+			DB::beginTransaction ();
+			
+			$endereco = Endereco::findOrFail ( $id );
+			$endereco->logradouro = $request->get ( "logradouro" );
+			$endereco->numero = $request->get ( "numero" );
+			$endereco->bairro = $request->get ( "bairro" );
+			$endereco->cep = $request->get ( "cep" );
+			$endereco->cidade = $request->get ( "cidade" );
+			$endereco->estado = $request->get ( "estado" );
+			
+			$paciente = $endereco->paciente;
+			$paciente->nome = $request->get ( "nome" );
+			$paciente->naturalidade = $request->get ( "naturalidade" );
+			$paciente->profissao = $request->get ( "profissao" );
+			$paciente->nacionalidade = $request->get ( "nacionalidade" );
+			$paciente->nascimento = $request->get ( "nascimento" );
+			$paciente->ddd = $request->get ( "ddd" );
+			$paciente->telefone = $request->get ( "telefone" );
+			
+			// $aluno->save();
+			// $aluno->usuario->save();
+			$endereco->push ();
+			
+			DB::commit ();
+			
+			alert ()->success ( '', config ( 'constants.UPDATED' ) )->autoclose ( 2000 );
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			DB::rollback ();
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		}
+		return redirect ( 'cadastro/paciente' );
 	}
 	
 	/**
@@ -108,6 +146,30 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($id) {
-		//
+		try {
+			DB::beginTransaction ();
+
+			$endereco = Endereco::findOrFail ( $id );
+			$endereco->paciente->delete ();
+			$endereco->delete ();
+			
+			DB::commit ();
+			
+			alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			DB::rollback ();
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		}
+		return redirect ( 'cadastro/paciente' );
+	}
+	
+	/**
+	 * Error 404
+	 *
+	 * @return response
+	 */
+	public function missingMethod($params = array()) {
+		return view ( 'errors.404', $params );
 	}
 }
