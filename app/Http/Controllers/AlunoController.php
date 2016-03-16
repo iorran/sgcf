@@ -19,6 +19,7 @@ class AlunoController extends Controller {
 	public function index() {
 		$data['alunos'] = Aluno::get ();
 		$data['page_title'] = 'Alunos';
+		$data['page_breadcrumb'] = 'alunos';
 		return view ( 'paginas.cadastro.aluno.index')->with($data);
 	}
 	
@@ -28,7 +29,8 @@ class AlunoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view ( 'paginas.cadastro.aluno.create-edit' );
+		$data['page_title'] = 'Cadastra aluno'; 
+		return view ( 'paginas.cadastro.aluno.create-edit' )->with($data);
 	}
 	
 	/**
@@ -69,8 +71,10 @@ class AlunoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		$aluno = Aluno::findOrFail ( $id );
-		return view ( 'paginas.cadastro.aluno.show' )->withAluno ( $aluno );
+		$aluno = Aluno::findOrFail ( $id ); 
+		$data['page_title'] = 'Aluno #'.$aluno->id;
+		$data['page_breadcrumb'] = 'visualizar aluno';
+		return view ( 'paginas.cadastro.aluno.show' )->withAluno ( $aluno )->with($data);
 	}
 	
 	/**

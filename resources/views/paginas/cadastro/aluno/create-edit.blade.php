@@ -2,7 +2,7 @@
 
 <!-- Main content -->
 <section class="content"> 
-	<div class="box box-primary">
+	<div class="box box-default"> 
 		<div class="box-header">
 			<legend>Gerenciar Aluno</legend> 
 		</div>
@@ -78,7 +78,7 @@
 					<label class="col-md-4 control-label" for="cadastrarAluno"></label>
 					<div class="col-md-4">
 						<button id="cadastrarAluno" name="cadastrarAluno"
-							class="btn btn-primary">Salvar</button>
+							class="btn btn-success">Salvar</button>
 						<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
 					</div>
 				</div>

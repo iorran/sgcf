@@ -33,7 +33,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js'></script>
     <![endif]-->
 </head>
-<body class="skin-green sidebar-mini">
+<body class="skin-green sidebar-collapse sidebar-mini">
 <div class="wrapper">
 
     <!-- Header -->
@@ -52,8 +52,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </h1>
             <!-- You can dynamically generate breadcrumbs here -->
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
+                <li><a href="{{ route('home.index') }}"><i class="fa fa-home"></i> Home</a></li>
+                <li class="active">{{ $page_breadcrumb or null }}</li>
             </ol>
         </section>
 
@@ -81,5 +81,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/bower_components/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
 <!-- FastClick -->
 <script src="{{asset('/bower_components/admin-lte/plugins/fastclick/fastclick.min.js')}}"></script>
+@yield('additionalsJavascript')
 </body>
 </html>

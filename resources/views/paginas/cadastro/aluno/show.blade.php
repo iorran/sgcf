@@ -2,9 +2,8 @@
 
 <!-- Main content -->
 <section class="content"> 
-	<div class="box box-primary">
-		<div class="box-header">
-			<legend>Aluno #{{$aluno->id}}</legend> 
+	<div class="box box-default">
+		<div class="box-header"> 
 		</div>
 		<!-- form start -->
 		<form class="form-horizontal" action="{{url('cadastro/aluno')}}"
