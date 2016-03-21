@@ -171,5 +171,5 @@ class PacienteController extends Controller {
 	 */
 	public function missingMethod($params = array()) {
 		return view ( 'errors.404', $params );
-	}
+	} 
 }

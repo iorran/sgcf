@@ -9,6 +9,7 @@ use DB;
 use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Log;
+use Response;
 
 class AlunoController extends Controller {
 	/**
@@ -144,6 +145,7 @@ class AlunoController extends Controller {
 		}
 		return redirect ( 'cadastro/aluno' );
 	}
+	
 	/**
 	 * Error 404
 	 *
@@ -151,5 +153,29 @@ class AlunoController extends Controller {
 	 */
 	public function missingMethod($params = array()) {
 		return view ( 'errors.404', $params );
+	}
+	
+	/**
+	 * Return JSON Cliente list
+	 *
+	 * @return json
+	 */
+	public function getAllAlunosJson() {
+		try { 
+			$alunos = Aluno::get (); 
+			$response = null;
+			foreach ( $alunos as $aluno ) { 
+				$response  [] = [ 
+						'id' => $aluno->id,
+						'title' => $aluno->usuario->nome,
+						'eventColor' => 'green' 
+				];
+			}
+		} catch ( Exception $e ) {
+			Log::error ( $e );
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		} finally{
+			return Response::json ( $response );
+		}
 	}
 }

@@ -13,7 +13,17 @@
 	                			<li><a href="{{route('cadastro.paciente.index')}}"><i class="fa fa-circle-o"></i> Pacientes </a></li>
 	                			<li><a href="{{route('cadastro.professor.index')}}"><i class="fa fa-circle-o"></i> Professores </a></li>
 	              			</ul>
-            			</li>
+            			</li> 
+            			<li class="treeview">
+              				<a href="#">
+	                			<i class="fa fa-calendar"></i> <span>Consultas</span> <i class="fa fa-angle-left pull-right"></i>
+	              			</a>	
+	              			<ul class="treeview-menu">
+	                			<li><a href="{{route('agenda.index')}}"><i class="fa fa-circle-o"></i> Nova </a></li>
+	                			<li><a href="{{route('agenda.index')}}"><i class="fa fa-circle-o"></i> Agenda </a></li>
+	                			<li><a href="{{route('agenda.index')}}"><i class="fa fa-circle-o"></i> Desmarcar consulta </a></li>
+	                		</ul>
+            			</li>  
 					</ul>   
         		</section>
         		<!-- /.sidebar -->

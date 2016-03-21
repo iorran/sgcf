@@ -20,12 +20,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.
     -->
-    <link href="{{ asset('/bower_components/admin-lte/dist/css/skins/_all-skins.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/bower_components/admin-lte/dist/css/skins/skin-green.min.css')}}" rel="stylesheet" type="text/css" />
 	<!-- Sweet Alert -->
 	<link rel="stylesheet" type="text/css" href="{{asset('node_modules/sweetalert/dist/sweetalert.css')}}">   
 	<!-- Sweet Alert -->
 	<script src="{{asset('node_modules/sweetalert/dist/sweetalert.min.js')}}"></script>
-	    
+    <!-- fullCalendar 2.2.5-->  
+	<link href="{{ asset('/bower_components/fullcalendar/dist/fullcalendar.min.css')}}" rel='stylesheet' />
+	<link href="{{ asset('/bower_components/fullcalendar/dist/fullcalendar.print.css')}}" rel='stylesheet' media='print' />
+	<link href="{{ asset('/bower_components/fullcalendar/dist/jquery-ui-custom/custom-theme/jquery-ui.min.css')}}" rel='stylesheet' />
+	<link href="{{ asset('/bower_components/fullcalendar-scheduler/dist/scheduler.min.css')}}" rel='stylesheet' />
+	 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

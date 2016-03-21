@@ -18,7 +18,7 @@ Route::group(['middleware' => 'web'], function () {
  
 /*
  |--------------------------------------------------------------------------
- | Rotas Geral
+ | Rotas de Aluno
  |--------------------------------------------------------------------------
  |
  */
@@ -43,28 +43,36 @@ Route::group(['middleware' => ['web','auth'] ], function () {
 |  
 */
 
-Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function () {
-	//Route::auth();
-	/*
-	 * Cadastro de aluno
-	 */
-	
-	/*
-	 * Forma explicita
-	 */
-// 	Route::get('aluno', 'AlunoController@index');
-// 	Route::get('aluno/create', 'AlunoController@create');
-// 	Route::get('aluno/create', 'AlunoController@store');
-// 	Route::get('aluno/edit/{id}', 'AlunoController@edit');
-
-	/*
-	 * Forma implicita
-	 */
-// 	Route::controller('aluno', 'AlunoController');
-
+/*
+ * Cadastro
+ */
+Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function () { 
 	//Alunos
 	Route::resource('aluno', 'AlunoController');
 	//Professor
-	Route::resource('professor', 'ProfessorController'); 
-	
+	Route::resource('professor', 'ProfessorController');  
 }); 
+
+/*
+ * Consulta
+ */ 
+Route::group(['middleware' => ['web','auth'] ], function () { 
+	//Agenda
+	Route::resource('agenda', 'AgendaController');  
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Rotas de Webservice
+ |--------------------------------------------------------------------------
+ |
+ */
+
+Route::group(['prefix' => 'json', 'middleware' => 'web'], function () { 
+	//Todos os alunos
+	Route::get('alunos', 'AlunoController@getAllAlunosJson'); 
+	//Todos as consultas
+	Route::get('agenda', 'ConsultaController@getAllAlunosJson'); 
+});
+	
+
