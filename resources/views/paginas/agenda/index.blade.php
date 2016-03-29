@@ -5,7 +5,8 @@
 	<!-- Default box -->
 	<div class="box box-default">
 		@include('sweet::alert')
-		<div class="box-header"></div>
+		<div class="box-header"> 
+		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
 			 
@@ -19,5 +20,8 @@
 </section>
 <!-- /.content -->
 
-@endsection @section('additionalsJavascript')
-@include('javascript.agenda.jquery') @endsection
+@endsection 
+
+@section('additionalsJavascript')
+	@include('javascript.agenda.jquery') 
+@endsection

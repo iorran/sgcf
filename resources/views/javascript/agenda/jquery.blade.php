@@ -11,7 +11,7 @@
 	src="{{ asset('/bower_components/fullcalendar-scheduler/dist/scheduler.min.js')}}"></script>
 
 <script>  
-$(function() { // dom ready
+$(function() { // dom ready 
 	$('#calendar').fullCalendar({ 
 	    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives', // Licença
 		theme: true, //Tema
@@ -41,7 +41,7 @@ $(function() { // dom ready
 			},
 		},
 		//Alunos
-		resourceAreaWidth: '10%',
+		resourceAreaWidth: '20%',
 		resourceLabelText: 'Alunos',
 		resources:{
 			url: '{!! url("json/alunos/") !!}',
@@ -50,14 +50,85 @@ $(function() { // dom ready
 		slotWidth: '200',//tamanho do slot
 		lazyFetching: true,
 		events: [
-			{ id: '1', resourceId: '1', start: '2016-03-21T09:00:00', end: '2016-03-21T10:00:00', title: 'event 1222222' },
-			{ id: '2', resourceId: '1', start: '2016-03-21T11:00:00', end: '2016-03-21T12:00:00', title: 'event 2' },
-			{ id: '3', resourceId: '2', start: '2016-03-21T13:00:00', end: '2016-03-21T14:00:00', title: 'event 4' },
-		]
+			{ id: '1', resourceId: '1', start: '2016-03-21T09:00:00-03:00', end: '2016-03-21T10:00:00-03:00', title: 'event 1222222' },
+			{ id: '2', resourceId: '1', start: '2016-03-21T11:00:00-03:00', end: '2016-03-21T12:00:00-03:00', title: 'event 2' },
+			{ id: '3', resourceId: '2', start: '2016-03-21T13:00:00-03:00', end: '2016-03-21T14:00:00-03:00', title: 'event 4' },
+		], 
+		eventClick: function(calEvent, jsEvent, view) { 
+	        var events = $('#calendar').fullCalendar('clientEvents'); 
+	        
+	        alert('Event: ' + calEvent.title);
+	        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+	        alert('View: ' + view.name); 
+
+	        // change the border color just for fun
+	        $(this).css('border-color', 'red');
+
+	    },
+	    dayClick: function (date, jsEvent, view) {
+		    //Eventos apenas na timelineday
+	        if( view.name == 'timelineDay'){ 
+			    //recupero todos os eventos
+		        var events = $('#calendar').fullCalendar('clientEvents');
+		        for (var i = 0; i < events.length; i++) { 
+		            if (moment(date).isSame(moment(events[i].start))) {
+						//Caso tenha evento marcado, disponibilizo a opção para desmarca-lo.
+						alert(1);
+		                break;
+		            }
+		            else if (i == events.length - 1) {  
+						//Marco a consulta 
+						if(verificarHorario(date)){
+							marcarConsulta( moment(date.format()), moment(date.format()).add(1, 'h'));
+						}
+		            }
+		        }
+	        }//end if
+	    }
 	});  	
-});  
-	// readjust sizing after font load
-	$(window).on('load', function() {
-		$('#calendar').fullCalendar('render');
+});    
+//Verificar se é horario de almoço
+function verificarHorario(date){
+	//Horário do evento 
+	var hora = date.format('HH');
+	/*
+	A variavel date obtida no evento dayClick do full calendar vem sem o GTM
+	Passo ela como parametro para o moment(), assim ele me tras com GMT local.
+	A o metodo isBefore do moment, por não receber parametro está comparando a data do evento com a atual.
+	*/
+	var data_evento = moment(date.format()); 
+ 
+	if (data_evento.isBefore()){
+		swal("Atenção","Horário atual maior que o horário desejado.","info");
+		return false;
+	}else if(hora == 13){
+		swal("Atenção","Horário de almoço","info");
+		return false;
+	}else{
+		return true;
+	}
+}
+//Marcar consulta
+function marcarConsulta(start, end){ 
+	swal({   
+		title: "Deseja marcar uma consulta?",   
+		text:  "De " + start.format("DD/MM/YYYY HH:mm:ss") + " até " +  end.format("DD/MM/YYYY HH:mm:ss"),   
+		type: "info",   
+		showCancelButton: true,   
+		confirmButtonColor: "#00a65a",   
+		confirmButtonText: "Sim",   
+		cancelButtonText: "Não",   
+		closeOnConfirm: true,   
+		closeOnCancel: true 
+	}, function(isConfirm){   
+		if (isConfirm) {     
+			window.location = "{!! url('agenda/marcar') !!}";  
+		}else{
+		}
 	});
+}
+// readjust sizing after font load
+$(window).on('load', function() {
+	$('#calendar').fullCalendar('render');
+});
 </script>

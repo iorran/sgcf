@@ -58,7 +58,8 @@ Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function
  */ 
 Route::group(['middleware' => ['web','auth'] ], function () { 
 	//Agenda
-	Route::resource('agenda', 'AgendaController');  
+	Route::get('agenda', 'AgendaController@index'); 
+	Route::get('agenda/marcar', 'AgendaController@marcar'); 
 });
 
 /*

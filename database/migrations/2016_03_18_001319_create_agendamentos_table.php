@@ -17,6 +17,7 @@ class CreateAgendamentosTable extends Migration {
 			$table->foreign ( 'usuario_id' )->references ( 'id' )->on ( 'usuarios' );
 			$table->integer ( 'paciente_id', false, true );
 			$table->foreign ( 'paciente_id' )->references ( 'id' )->on ( 'pacientes' );
+			$table->timestamps ();
 		} );
 	}
 	

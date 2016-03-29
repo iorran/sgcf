@@ -35,8 +35,21 @@ class AgendaController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create() {
-		//
+	public function marcar() { 
+		$data['page_title'] = 'Nova consulta';
+		try { 
+			// Data e hora
+			$data ['dataAtual'] = date ( 'Y-m-d' );
+			$data ['horaAtual'] = date ( 'H:i' );
+			// Pacientes
+			$data['pacientes'] = Paciente::get ();
+		
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		}finally {
+			return view ( 'paginas.agenda.marcar' )->with($data);
+		}
 	}
 	
 	/**
