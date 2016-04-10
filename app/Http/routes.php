@@ -59,7 +59,7 @@ Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function
 Route::group(['middleware' => ['web','auth'] ], function () { 
 	//Agenda
 	Route::get('agenda', 'AgendaController@index'); 
-	Route::get('agenda/marcar', 'AgendaController@marcar'); 
+	Route::post('agenda/marcar', 'AgendaController@marcar'); 
 });
 
 /*

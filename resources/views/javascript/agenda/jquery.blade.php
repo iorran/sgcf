@@ -27,7 +27,7 @@ $(function() { // dom ready
 		    dow: [ 1, 2, 3, 4 ] 
 		},
 		minTime: '09:00:00',
-		maxTime: '18:00:00',
+		maxTime: '17:00:00',
 		//Cabeçalho
 		header: {
 			left: 'today prev,next',
@@ -65,7 +65,7 @@ $(function() { // dom ready
 	        $(this).css('border-color', 'red');
 
 	    },
-	    dayClick: function (date, jsEvent, view) {
+	    dayClick: function (date, jsEvent, view, resourceObj) {
 		    //Eventos apenas na timelineday
 	        if( view.name == 'timelineDay'){ 
 			    //recupero todos os eventos
@@ -79,7 +79,7 @@ $(function() { // dom ready
 		            else if (i == events.length - 1) {  
 						//Marco a consulta 
 						if(verificarHorario(date)){
-							marcarConsulta( moment(date.format()), moment(date.format()).add(1, 'h'));
+							marcarConsulta( moment(date.format()), moment(date.format()).add(1, 'h'), resourceObj);
 						}
 		            }
 		        }
@@ -99,7 +99,7 @@ function verificarHorario(date){
 	var data_evento = moment(date.format()); 
  
 	if (data_evento.isBefore()){
-		swal("Atenção","Horário atual maior que o horário desejado.","info");
+		swal("Atenção","Não é possível marcar uma consulta para um horário anterior.","info");
 		return false;
 	}else if(hora == 13){
 		swal("Atenção","Horário de almoço","info");
@@ -109,10 +109,11 @@ function verificarHorario(date){
 	}
 }
 //Marcar consulta
-function marcarConsulta(start, end){ 
+function marcarConsulta(start, end, resourceObj){  
 	swal({   
+		html: true,
 		title: "Deseja marcar uma consulta?",   
-		text:  "De " + start.format("DD/MM/YYYY HH:mm:ss") + " até " +  end.format("DD/MM/YYYY HH:mm:ss"),   
+		text:  "Aluno: " + resourceObj.title +"<br>Início: " + start.format("DD/MM/YYYY") + " às " + start.format("HH:mm:ss") + "<br>Término: " +  end.format("DD/MM/YYYY") + " às " + end.format("HH:mm:ss"),   
 		type: "info",   
 		showCancelButton: true,   
 		confirmButtonColor: "#00a65a",   
@@ -121,10 +122,31 @@ function marcarConsulta(start, end){
 		closeOnConfirm: true,   
 		closeOnCancel: true 
 	}, function(isConfirm){   
-		if (isConfirm) {     
-			window.location = "{!! url('agenda/marcar') !!}";  
-		}else{
-		}
+		if (isConfirm) {   
+			$.redirect(
+				"{!! url('agenda/marcar') !!}", 
+				{ 
+					events_start: start.format(), 
+					events_end: end.format(), 
+					aluno_id: resourceObj.id, 
+					aluno_nome: resourceObj.title, 
+					_token: '{!! csrf_token() !!}'
+				}
+			);  
+// 			$.post( 
+// 				"{!! url('agenda/marcar') !!}", 
+// 				{ 
+// 					events_start: start.format(), 
+// 					events_end: end.format(), 
+// 					aluno_id: resourceObj.id, 
+// 					aluno_nome: resourceObj.title, 
+// 					_token: '{!! csrf_token() !!}'
+// 				}, 
+// 				function( data ) {
+// 		  			console.log( data ); // John  
+// 				}
+// 			); 
+		} 
 	});
 }
 // readjust sizing after font load

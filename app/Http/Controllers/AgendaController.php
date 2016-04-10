@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aluno;
-use App\Models\Paciente;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Models\Paciente; 
 use Log;
+use Illuminate\Http\Request;
+use Response;
 
 class AgendaController extends Controller {
 	/**
@@ -28,29 +28,7 @@ class AgendaController extends Controller {
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
 		return view ( 'paginas.agenda.index' )->with ( $data );
-	}
-	
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function marcar() { 
-		$data['page_title'] = 'Nova consulta';
-		try { 
-			// Data e hora
-			$data ['dataAtual'] = date ( 'Y-m-d' );
-			$data ['horaAtual'] = date ( 'H:i' );
-			// Pacientes
-			$data['pacientes'] = Paciente::get ();
-		
-		} catch ( \Exception $e ) {
-			Log::error ( $e );
-			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
-		}finally {
-			return view ( 'paginas.agenda.marcar' )->with($data);
-		}
-	}
+	} 
 	
 	/**
 	 * Store a newly created resource in storage.
@@ -58,9 +36,24 @@ class AgendaController extends Controller {
 	 * @param \Illuminate\Http\Request $request        	
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request) {
-		//
-	}
+	public function marcar(Request $request) { 
+		$data = null;
+		try {   
+			$data['page_title'] = 'Nova consulta';
+			$data['events_start'] = $request->get('events_start');
+			$data['events_end'] = $request->get('events_end');
+			$data['aluno_id'] = $request->get('aluno_id');
+			$data['aluno_nome'] = $request->get('aluno_nome');
+			// Pacientes
+			$data['pacientes'] = Paciente::get ();
+		
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		} finally{
+			return view ( 'paginas.agenda.marcar' )->with ( $data );
+		}
+	} 
 	
 	/**
 	 * Display the specified resource.

@@ -10,32 +10,44 @@
 		<div class="box-body">
 			<form class="form-horizontal">
 				<fieldset> 
-					<!-- Select Basic -->
+					<!-- Text input-->
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="cliente">Cliente</label>
+						<label class="col-md-4 control-label" for="nome">Aluno</label>
 						<div class="col-md-4">
-							<select id="cliente" name="cliente" class="form-control">
-								<option value="1">Option one</option>
-							</select>
+							<input id="nome" name="nome" type="text" class="form-control input-md"
+								value="{!! $aluno_nome !!}" readonly="readonly">
+							<input id="aluno_id" name="aluno_id" type="hidden" value="{!! $aluno_id !!}">
+						</div>
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="inicio">Início</label>
+						<div class="col-md-4">
+							<input id="inicio" name="inicio" type="text" class="form-control input-md"
+								value="{!! $events_start !!}" readonly="readonly"> 
+						</div>
+					</div>
+					
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="termino">Término</label>
+						<div class="col-md-4">
+							<input id="termino" name="termino" type="text" class="form-control input-md"
+								value="{!! $events_end !!}" readonly="readonly"> 
 						</div>
 					</div>
 
 					<!-- Select Basic -->
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="aluno">Aluno</label>
+						<label class="col-md-4 control-label" for="paciente_id">Paciente</label>
 						<div class="col-md-4">
-							<select id="aluno" name="aluno" class="form-control">
-								<option value="1">Option one</option>
-							</select>
-						</div>
-					</div>
-
-					<!-- Select Basic -->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="horário">Horário</label>
-						<div class="col-md-4">
-							<select id="horário" name="horário" class="form-control">
-								<option value="1">Option one</option>
+							<select id="paciente_id" name="paciente_id" class="form-control">
+								@forelse($pacientes as $paciente)
+								<option value="{!!  $paciente->id !!}">{!!  $paciente->nome !!}</option>
+								@empty 
+								<option value="">Nenhum paciente cadastrado.</option>
+								@endforelse
 							</select>
 						</div>
 					</div>
@@ -44,8 +56,8 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="marcar"></label>
 						<div class="col-md-8">
-							<button id="marcar" name="marcar" class="btn btn-success">Marcar</button>
-							<button id="voltar" name="voltar" class="btn btn-default">Voltar</button>
+							<button type="submit" name="marcar" class="btn btn-success">Marcar</button>
+							<a href="{{ url('agenda')}}" name="voltar" class="btn btn-default">Voltar</a>
 						</div>
 					</div>
 

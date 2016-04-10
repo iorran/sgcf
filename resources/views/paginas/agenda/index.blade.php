@@ -8,8 +8,8 @@
 		<div class="box-header"> 
 		</div>
 		<!-- /.box-header -->
-		<div class="box-body">
-			 
+		<div class="box-body"> 
+		
 			<div id="calendar"></div> 
 
 		</div>
