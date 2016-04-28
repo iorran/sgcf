@@ -101,7 +101,7 @@ function verificarHorario(date){
 	if (data_evento.isBefore()){
 		swal("Atenção","Não é possível marcar uma consulta para um horário anterior.","info");
 		return false;
-	}else if(hora == 13){
+	}else if(hora == 12){
 		swal("Atenção","Horário de almoço","info");
 		return false;
 	}else{
