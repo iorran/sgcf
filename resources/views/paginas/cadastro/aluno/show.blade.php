@@ -40,6 +40,15 @@
 					</div>
 				</div> 
 
+				<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="telefone">Telefone</label>
+					<div class="col-md-4"> 
+						<input type="text" class="form-control input-md"
+							placeholder="{{ $aluno->usuario->telefone }}" disabled="disabled">
+					</div>
+				</div>
+
 				<!-- Button -->
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="cadastrarAluno"></label>

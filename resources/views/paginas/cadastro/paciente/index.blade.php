@@ -29,23 +29,33 @@
 						<td>{{ $paciente->id }}</td>
 						<td>{{ $paciente->telefone }}</td>
 						<td>{{ $paciente->nome }}</td>
-						<td align="center"><a
-							href="{{ route('cadastro.paciente.edit', $paciente->id) }}"
-							class="btn btn-primary"> <i class="fa fa-fw fa-edit"></i>
-						</a> <a
-							href="{{ route('cadastro.paciente.show', $paciente->id) }}"
-							class="btn btn-info"> <i class="fa fa-fw fa-eye"></i>
-						</a>
-							<button type="button" class="btn btn-danger"
-								remover-paciente="true" data-id="{{ $paciente->id }}">
-								<i class="fa fa-fw fa-remove"></i>
-							</button>
-							<form id="formRemoverPaciente{{ $paciente->id }}"
-								action="{{ route('cadastro.paciente.destroy', $paciente->id) }}"
-								method="post">
-								<input type="hidden" name="_method" value="DELETE"> {!!
-								csrf_field() !!}
-							</form></td>
+						<td align="center">
+							@if ($paciente->trashed())   
+								<form action="{{ route('cadastro.paciente.destroy', $paciente->id ) }}" method="post">
+									<input type="hidden" name="_method" value="DELETE">
+									{!! csrf_field() !!}
+									<button type="submit" class="btn btn-warning">
+										<i class="fa fa-fw fa-undo"></i>
+									</button>
+								</form>
+							@else 
+								<a href="{{ route('cadastro.paciente.edit', $paciente->id) }}" class="btn btn-primary"> 
+									<i class="fa fa-fw fa-edit"></i>
+								</a> 
+								<a href="{{ route('cadastro.paciente.show', $paciente->id) }}" class="btn btn-info"> 
+									<i class="fa fa-fw fa-eye"></i>
+								</a>
+								<button type="button" class="btn btn-danger" remover-paciente="true" data-id="{{ $paciente->id }}">
+									<i class="fa fa-fw fa-remove"></i>
+								</button>
+								<form id="formRemoverPaciente{{ $paciente->id }}"
+									action="{{ route('cadastro.paciente.destroy', $paciente->id) }}"
+									method="post">
+									<input type="hidden" name="_method" value="DELETE"> {!!
+									csrf_field() !!}
+								</form>
+							@endif
+						</td>
 					</tr>
 					@empty
 					<tr>

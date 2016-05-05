@@ -12,9 +12,11 @@ class CreateProfessoresTable extends Migration {
 			$table->engine = 'InnoDB';
 			$table->increments ( 'id' );
 			$table->string ( 'login' )->unique ();
+			$table->string ( 'crefito' )->nullable();
 			$table->integer ( 'usuario_id', false, true );
 			$table->foreign ( 'usuario_id' )->references ( 'id' )->on ( 'usuarios' );
 			$table->timestamps ();
+			$table->SoftDeletes ();
 		} );
 	}
 	

@@ -18,9 +18,9 @@ class AlunoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$data['alunos'] = Aluno::get ();
-		$data['page_title'] = 'Alunos'; 
-		return view ( 'paginas.cadastro.aluno.index')->with($data);
+		$data ['alunos'] = Aluno::withTrashed ()->get ();
+		$data ['page_title'] = 'Alunos';
+		return view ( 'paginas.cadastro.aluno.index' )->with ( $data );
 	}
 	
 	/**
@@ -29,8 +29,8 @@ class AlunoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		$data['page_title'] = 'Novo aluno'; 
-		return view ( 'paginas.cadastro.aluno.create-edit' )->with($data);
+		$data ['page_title'] = 'Novo aluno';
+		return view ( 'paginas.cadastro.aluno.create-edit' )->with ( $data );
 	}
 	
 	/**
@@ -46,6 +46,7 @@ class AlunoController extends Controller {
 			$usuario = new Usuario ();
 			$usuario->nome = $request->get ( "nome" );
 			$usuario->email = $request->get ( "email" );
+			$usuario->telefone = $request->get ( "telefone" );
 			$usuario->senha = Crypt::encrypt ( $request->get ( "senha" ) );
 			$usuario->save ();
 			
@@ -71,9 +72,9 @@ class AlunoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		$data['aluno'] = Aluno::findOrFail ( $id ); 
-		$data['page_title'] = 'Visualizar aluno';
-		return view ( 'paginas.cadastro.aluno.show' )->with($data);
+		$data ['aluno'] = Aluno::findOrFail ( $id );
+		$data ['page_title'] = 'Visualizar aluno';
+		return view ( 'paginas.cadastro.aluno.show' )->with ( $data );
 	}
 	
 	/**
@@ -83,9 +84,9 @@ class AlunoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		$data['aluno'] = Aluno::findOrFail ( $id );
-		$data['page_title'] = 'Editar aluno';
-		return view ( 'paginas.cadastro.aluno.create-edit' )->with($data);
+		$data ['aluno'] = Aluno::findOrFail ( $id );
+		$data ['page_title'] = 'Editar aluno';
+		return view ( 'paginas.cadastro.aluno.create-edit' )->with ( $data );
 	}
 	
 	/**
@@ -127,17 +128,21 @@ class AlunoController extends Controller {
 	 * @param int $id        	
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id) {
+	public function destroy($id) { 
 		try {
 			DB::beginTransaction ();
-			
-			$aluno = Aluno::find ( $id );
-			$aluno->delete ();
-			$aluno->usuario->delete ();
-			
+
+			$aluno = Aluno::withTrashed()->find ( $id );
+			if ($aluno->trashed ()) {
+				$aluno->restore ();
+				$aluno->usuario->restore ();
+				alert ()->success ( '', config ( 'constants.RECOVERED' ) )->autoclose ( 2000 );
+			} else {
+				$aluno->delete ();
+				$aluno->usuario->delete ();
+				alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+			} 
 			DB::commit ();
-			
-			alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			DB::rollback ();
@@ -161,11 +166,11 @@ class AlunoController extends Controller {
 	 * @return json
 	 */
 	public function getAllAlunosJson() {
-		try { 
-			$alunos = Aluno::get (); 
+		try {
+			$alunos = Aluno::get ();
 			$response = null;
-			foreach ( $alunos as $aluno ) { 
-				$response  [] = [ 
+			foreach ( $alunos as $aluno ) {
+				$response [] = [ 
 						'id' => $aluno->id,
 						'title' => $aluno->usuario->nome,
 						'eventColor' => 'green' 

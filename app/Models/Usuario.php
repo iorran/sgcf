@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Usuario extends Model {
 	/**
@@ -11,6 +12,15 @@ class Usuario extends Model {
 	 * @var string
 	 */
 	protected $table = 'usuarios';
+
+	use SoftDeletes;
+	
+	/**
+	 * The attributes that should be mutated to dates.
+	 *
+	 * @var array
+	 */
+	protected $dates = ['deleted_at'];
 	
 	/**
 	 * The attributes that are mass assignable.
@@ -39,7 +49,7 @@ class Usuario extends Model {
 	 * @var Aluno
 	 */
 	public function aluno() {
-		return $this->hasOne( 'App\Models\Aluno');
+		return $this->hasOne( 'App\Models\Aluno')->withTrashed();
 	}
 	
 	/**
@@ -48,6 +58,7 @@ class Usuario extends Model {
 	 * @var Professor
 	 */
 	public function professor() {
-		return $this->hasOne( 'App\Models\Professor');
+		return $this->hasOne( 'App\Models\Professor')->withTrashed();
 	}
+	
 }

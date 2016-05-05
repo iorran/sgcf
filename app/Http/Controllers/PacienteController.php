@@ -16,7 +16,7 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$data ['pacientes'] = Paciente::get ();
+		$data ['pacientes'] = Paciente::withTrashed ()->get ();
 		$data ['page_title'] = 'Pacientes';
 		return view ( 'paginas.cadastro.paciente.index' )->with ( $data );
 	}
@@ -53,11 +53,11 @@ class PacienteController extends Controller {
 			$paciente = new Paciente ();
 			
 			$paciente->nome = $request->get ( "nome" );
+			$paciente->cpf = $request->get ( "cpf" );
 			$paciente->naturalidade = $request->get ( "naturalidade" );
 			$paciente->profissao = $request->get ( "profissao" );
 			$paciente->nacionalidade = $request->get ( "nacionalidade" );
 			$paciente->nascimento = $request->get ( "nascimento" );
-			$paciente->ddd = $request->get ( "ddd" );
 			$paciente->telefone = $request->get ( "telefone" );
 			$endereco->paciente ()->save ( $paciente );
 			
@@ -107,7 +107,16 @@ class PacienteController extends Controller {
 		try {
 			DB::beginTransaction ();
 			
-			$endereco = Endereco::findOrFail ( $id );
+			$paciente = Paciente::findOrFail ( $id );
+			$paciente->nome = $request->get ( "nome" );
+			$paciente->cpf = $request->get ( "cpf" );
+			$paciente->naturalidade = $request->get ( "naturalidade" );
+			$paciente->profissao = $request->get ( "profissao" );
+			$paciente->nacionalidade = $request->get ( "nacionalidade" );
+			$paciente->nascimento = $request->get ( "nascimento" );
+			$paciente->telefone = $request->get ( "telefone" );
+			
+			$endereco = $paciente->endereco;
 			$endereco->logradouro = $request->get ( "logradouro" );
 			$endereco->numero = $request->get ( "numero" );
 			$endereco->bairro = $request->get ( "bairro" );
@@ -115,18 +124,9 @@ class PacienteController extends Controller {
 			$endereco->cidade = $request->get ( "cidade" );
 			$endereco->estado = $request->get ( "estado" );
 			
-			$paciente = $endereco->paciente;
-			$paciente->nome = $request->get ( "nome" );
-			$paciente->naturalidade = $request->get ( "naturalidade" );
-			$paciente->profissao = $request->get ( "profissao" );
-			$paciente->nacionalidade = $request->get ( "nacionalidade" );
-			$paciente->nascimento = $request->get ( "nascimento" );
-			$paciente->ddd = $request->get ( "ddd" );
-			$paciente->telefone = $request->get ( "telefone" );
-			
 			// $aluno->save();
 			// $aluno->usuario->save();
-			$endereco->push ();
+			$paciente->push ();
 			
 			DB::commit ();
 			
@@ -148,14 +148,19 @@ class PacienteController extends Controller {
 	public function destroy($id) {
 		try {
 			DB::beginTransaction ();
-
-			$endereco = Endereco::findOrFail ( $id );
-			$endereco->paciente->delete ();
-			$endereco->delete ();
+			$paciente = Paciente::withTrashed ()->find ( $id );
+			
+			if ($paciente->trashed ()) {
+				$paciente->restore ();
+				$paciente->endereco->restore ();
+				alert ()->success ( '', config ( 'constants.RECOVERED' ) )->autoclose ( 2000 );
+			} else {
+				$paciente->endereco->delete ();
+				$paciente->delete ();
+				alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+			}
 			
 			DB::commit ();
-			
-			alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			DB::rollback ();
@@ -171,5 +176,5 @@ class PacienteController extends Controller {
 	 */
 	public function missingMethod($params = array()) {
 		return view ( 'errors.404', $params );
-	} 
+	}
 }

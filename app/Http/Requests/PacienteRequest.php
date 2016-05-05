@@ -37,6 +37,7 @@ class PacienteRequest extends Request {
 							'telefone' => 'between:10,11',
 							'nascimento'        => 'date_format:Y-m-d',
 							'cep' => 'size:8',
+							'cpf' => 'size:11',
 					];
 				}
 			case 'PUT' :
@@ -47,6 +48,7 @@ class PacienteRequest extends Request {
 							'telefone' => 'between:10,11',
 							'nascimento'        => 'date_format:Y-m-d',
 							'cep' => 'size:8',
+							'cpf' => 'size:11',
 					];
 				}
 			default :

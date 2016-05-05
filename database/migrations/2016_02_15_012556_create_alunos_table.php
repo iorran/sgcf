@@ -15,6 +15,7 @@ class CreateAlunosTable extends Migration {
 			$table->integer ( 'usuario_id', false, true );
 			$table->foreign ( 'usuario_id' )->references ( 'id' )->on ( 'usuarios' );
 			$table->timestamps ();
+			$table->SoftDeletes ();
 		} );
 	}
 	

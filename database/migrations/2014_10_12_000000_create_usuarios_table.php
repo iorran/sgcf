@@ -14,8 +14,10 @@ class CreateUsuariosTable extends Migration {
 			$table->string ( 'senha' );
 			$table->string ( 'nome' );
 			$table->string ( 'email' )->unique ();
+			$table->string ( 'telefone' )->nullable ();
 			$table->rememberToken ();
 			$table->timestamps ();
+			$table->SoftDeletes ();
 		} );
 	}
 	

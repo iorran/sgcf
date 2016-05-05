@@ -29,6 +29,16 @@
 										</div>
 									</div>
 									<!-- Text input-->
+									<div class="form-group @if($errors->has('cpf')) {!! 'has-error' !!} @endif">
+										<label class="col-md-4 control-label" for="nome">CPF</label>
+										<div class="col-md-4">
+											<input id="cpf" name="cpf" type="number"
+												placeholder="Apenas dígitos" class="form-control input-md" 
+												value="{{ old('cpf',  isset($paciente->cpf) ? $paciente->cpf : null) }}" disabled>
+												@if($errors->has('cpf')) {!! $errors->first('cpf', '<span class="help-block">:message</span>') !!} @endif
+										</div>
+									</div>
+									<!-- Text input-->
 									<div class="form-group @if($errors->has('profissao')) {!! 'has-error' !!} @endif">
 										<label class="col-md-4 control-label" for="profissao">Profissão</label>
 										<div class="col-md-4">

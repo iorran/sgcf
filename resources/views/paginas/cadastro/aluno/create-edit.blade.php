@@ -48,6 +48,17 @@
 							@if($errors->has('email')) {!! $errors->first('email', '<span class="help-block">:message</span>') !!} @endif
 					</div>
 				</div>
+
+				<!-- Text input-->
+				<div class="form-group @if($errors->has('telefone')) {!! 'has-error' !!} @endif">
+					<label class="col-md-4 control-label" for="telefone">Telefone</label>
+					<div class="col-md-4">
+						<input id="telefone" name="telefone" type="number"
+							placeholder="DDD + Número " class="form-control input-md"
+							value="{{ old('telefone',  isset($aluno->usuario->telefone) ? $aluno->usuario->telefone : null) }}">
+							@if($errors->has('telefone')) {!! $errors->first('telefone', '<span class="help-block">:message</span>') !!} @endif
+					</div>
+				</div>
 				
 				@if(!isset($aluno->id))
 					<!-- Password input-->
