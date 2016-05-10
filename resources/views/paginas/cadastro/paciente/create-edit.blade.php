@@ -63,7 +63,7 @@
 										<label class="col-md-4 control-label" for="nascimento">Data de
 											nascimento</label>
 										<div class="col-md-4">
-											<input id="nascimento" name="nascimento" type="date"
+											<input id="nascimento" name="nascimento" type="date" max="{{date('Y-m-d')}}"
 												placeholder="dd/mm/aaaa" class="form-control input-md"
 												value="{{ old('nascimento',  isset($paciente->nascimento) ? $paciente->nascimento : null) }}">
 												@if($errors->has('nascimento')) {!! $errors->first('nascimento', '<span class="help-block">:message</span>') !!} @endif

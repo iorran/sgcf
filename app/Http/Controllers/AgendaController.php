@@ -2,58 +2,117 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Aluno;
-use App\Models\Paciente; 
-use Log;
+use App\Models\Agendamento;
+use App\Models\Paciente;
 use Illuminate\Http\Request;
+use Log;
 use Response;
+use DB;
+use Exception;
 
 class AgendaController extends Controller {
 	/**
-	 * Display a listing of the resource.
+	 * Tela inicial com o calendario de todas as consultas
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
 		try {
 			$data ['page_title'] = 'Consultas';
-			// Data e hora
-			$data ['dataAtual'] = date ( 'Y-m-d' );
-			$data ['horaAtual'] = date ( 'H:i' );
-			// Pacientes
-			$data['pacientes'] = Paciente::get ();
-			 
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
 		return view ( 'paginas.agenda.index' )->with ( $data );
-	} 
+	}
 	
 	/**
-	 * Store a newly created resource in storage.
+	 * Exibe a tela para confirmar a marcação da consulta
 	 *
-	 * @param \Illuminate\Http\Request $request        	
 	 * @return \Illuminate\Http\Response
 	 */
-	public function marcar(Request $request) { 
+	public function create(Request $request) {
 		$data = null;
-		try {   
-			$data['page_title'] = 'Nova consulta';
-			$data['events_start'] = $request->get('events_start');
-			$data['events_end'] = $request->get('events_end');
-			$data['aluno_id'] = $request->get('aluno_id');
-			$data['aluno_nome'] = $request->get('aluno_nome');
+		try {
+			$data ['page_title'] = 'Nova consulta';
+			$data ['events_start'] = $request->get ( 'events_start' );
+			$data ['events_end'] = $request->get ( 'events_end' );
+			$data ['aluno_id'] = $request->get ( 'aluno_id' );
+			$data ['aluno_nome'] = $request->get ( 'aluno_nome' );
 			// Pacientes
-			$data['pacientes'] = Paciente::get ();
-		
+			$data ['pacientes'] = Paciente::get ();
+			
+			// formatando a data start
+			$result_start = explode ( "T", $data ['events_start'] );
+			$data ['data_consulta'] = $result_start [0];
+			$data_splitada_start = explode ( "-", $result_start [0] );
+			$data ['data_start'] = $data_splitada_start [2] . "/" . $data_splitada_start [1] . "/" . $data_splitada_start [0];
+			// formatando a hora start
+			$result1_start = explode ( "-", $result_start [1] );
+			$data ['hora_start'] = $result1_start [0];
+			
+			// formatando a data end
+			$result_end = explode ( "T", $data ['events_end'] ); 
+			$data_splitada_end = explode ( "-", $result_end [0] );
+			$data ['data_end'] = $data_splitada_end [2] . "/" . $data_splitada_end [1] . "/" . $data_splitada_end [0];
+			// formatando a hora end
+			$result1_end = explode ( "-", $result_end [1] );
+			$data ['hora_end'] = $result1_end [0];
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
-		} finally{
-			return view ( 'paginas.agenda.marcar' )->with ( $data );
 		}
-	} 
+		return view ( 'paginas.agenda.marcar' )->with ( $data );
+	}
+	
+	/**
+	 * Salva as informações da consulta
+	 *
+	 * @param \Illuminate\Http\AgendamentoRequest $request        	
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request) {
+		try {
+			DB::beginTransaction ();
+			
+			$agendamento = new Agendamento ();
+			$agendamento->events_start = $request->get ( 'events_start' );
+			$agendamento->events_end = $request->get ( 'events_end' );
+			$agendamento->aluno_id = $request->get ( 'aluno_id' );
+			$agendamento->paciente_id = $request->get ( 'paciente_id' );
+			$agendamento->hora_start = $request->get ( 'hora_start' );
+			$agendamento->hora_end = $request->get ( 'hora_end' );
+			$agendamento->data_consulta = $request->get ( 'data_consulta' ); 
+			$agendamento->save ();
+			
+			DB::commit ();
+			
+			alert ()->success ( '', config ( 'constants.SAVED' ) )->autoclose ( 2000 );
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			DB::rollback ();
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		}
+		return redirect ( 'agenda' );
+	}
+	
+	/**
+	 * Exibe o painel com as opções da consulta marcada
+	 *
+	 * @param \Illuminate\Http\AgendamentoRequest $request        	
+	 * @return \Illuminate\Http\Response
+	 */
+	public function showDetalhes(Request $request) {
+		try { 
+			$data ['agendamento'] = Agendamento::findOrFail ( $request->get ( 'events_id' ) );
+			$data ['page_title'] = 'Gerenciar consulta';
+			$data ['editavel'] = $request->get ( 'editavel' );
+			return view ( 'paginas.agenda.gerenciar-marcacao' )->with ( $data );
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		}
+	}
 	
 	/**
 	 * Display the specified resource.
@@ -62,7 +121,7 @@ class AgendaController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		//
+		dd ( $id );
 	}
 	
 	/**
@@ -111,21 +170,25 @@ class AgendaController extends Controller {
 	 * @return json
 	 */
 	public function getAllAgendaJson() {
-// 		try { 
-// 			$alunos = Aluno::get (); 
-// 			$response = null;
-// 			foreach ( $alunos as $aluno ) { 
-// 				$response  [] = [ 
-// 						'id' => $aluno->id,
-// 						'title' => $aluno->usuario->nome,
-// 						'eventColor' => 'green' 
-// 				];
-// 			}
-// 		} catch ( Exception $e ) {
-// 			Log::error ( $e );
-// 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
-// 		} finally{
-// 			return Response::json ( $response );
-// 		}
+		try {
+			$agendamentos = Agendamento::get ();
+			$response = null;
+			$event_id = 1;
+			foreach ( $agendamentos as $agendamento ) {
+				$response [] = [ 
+						'id' => $event_id,
+						'resourceId' => $agendamento->aluno->id,
+						'title' => $agendamento->paciente->nome,
+						'start' => $agendamento->events_start,
+						'end' => $agendamento->events_end 
+				];
+				$event_id ++;
+			}
+		} catch ( Exception $e ) {
+			Log::error ( $e );
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		} finally{
+			return Response::json ( $response );
+		}
 	}
 }

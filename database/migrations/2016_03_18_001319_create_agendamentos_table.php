@@ -13,8 +13,11 @@ class CreateAgendamentosTable extends Migration {
 			$table->increments ( 'id' );
 			$table->string ( 'events_start');
 			$table->string ( 'events_end'); 
-			$table->integer ( 'usuario_id', false, true );
-			$table->foreign ( 'usuario_id' )->references ( 'id' )->on ( 'usuarios' );
+			$table->time ( 'hora_start');  
+			$table->time ( 'hora_end');   
+			$table->date ( 'data_consulta');   
+			$table->integer ( 'aluno_id', false, true );
+			$table->foreign ( 'aluno_id' )->references ( 'id' )->on ( 'alunos' );
 			$table->integer ( 'paciente_id', false, true );
 			$table->foreign ( 'paciente_id' )->references ( 'id' )->on ( 'pacientes' );
 			$table->timestamps ();

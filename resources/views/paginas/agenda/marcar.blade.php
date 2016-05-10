@@ -8,7 +8,13 @@
 		<div class="box-header"></div>
 		<!-- /.box-header -->
 		<div class="box-body">
-			<form class="form-horizontal">
+			<form class="form-horizontal" action="{{route('agenda.store')}}" method="post">
+				{!! csrf_field() !!} 
+				<input id="events_start" name="events_start" type="hidden" value="{!! $events_start !!}">  
+				<input id="events_end" name="events_end" type="hidden" value="{!! $events_end !!}">   
+				<input id="hora_start" name="hora_start" type="hidden" value="{!! $hora_start !!}">   
+				<input id="hora_end" name="hora_end" type="hidden" value="{!! $hora_end !!}">   
+				<input id="data_consulta" name="data_consulta" type="hidden" value="{!! $data_consulta !!}">    
 				<fieldset> 
 					<!-- Text input-->
 					<div class="form-group">
@@ -25,7 +31,7 @@
 						<label class="col-md-4 control-label" for="inicio">Início</label>
 						<div class="col-md-4">
 							<input id="inicio" name="inicio" type="text" class="form-control input-md"
-								value="{!! $events_start !!}" readonly="readonly"> 
+								value="{!! $data_start.' às '.$hora_start !!}" readonly="readonly"> 
 						</div>
 					</div>
 					
@@ -34,7 +40,7 @@
 						<label class="col-md-4 control-label" for="termino">Término</label>
 						<div class="col-md-4">
 							<input id="termino" name="termino" type="text" class="form-control input-md"
-								value="{!! $events_end !!}" readonly="readonly"> 
+								value="{!!  $data_end.' às '.$hora_end !!}" readonly="readonly"> 
 						</div>
 					</div>
 

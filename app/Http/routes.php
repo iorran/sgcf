@@ -58,8 +58,9 @@ Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function
  */ 
 Route::group(['middleware' => ['web','auth'] ], function () { 
 	//Agenda
-	Route::get('agenda', 'AgendaController@index'); 
-	Route::post('agenda/marcar', 'AgendaController@marcar'); 
+	Route::resource('agenda', 'AgendaController');
+	Route::post('agenda/create', 'AgendaController@create');	// create aceita apenas get
+	Route::post('agenda/detalhes', 'AgendaController@showDetalhes');  
 });
 
 /*
@@ -73,7 +74,7 @@ Route::group(['prefix' => 'json', 'middleware' => 'web'], function () {
 	//Todos os alunos
 	Route::get('alunos', 'AlunoController@getAllAlunosJson'); 
 	//Todos as consultas
-	Route::get('agenda', 'ConsultaController@getAllAlunosJson'); 
+	Route::get('agendas', 'AgendaController@getAllAgendaJson'); 
 });
 	
 

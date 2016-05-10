@@ -15,10 +15,10 @@ $(function() { // dom ready
 	$('#calendar').fullCalendar({ 
 	    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives', // Licença
 		theme: true, //Tema
-		now: '{!! $dataAtual !!}', // Set data atual
-		scrollTime: '{!! $horaAtual !!}', //Set hora atual
+		now: '{!! date ( "Y-m-d" ) !!}', // Set data atual
+		scrollTime: '{!! date ( "H:i" ) !!}', //Set hora atual
 		editable: false, // enable draggable events
-		aspectRatio: 3.8, // tamanho height
+		aspectRatio: 3.3, // tamanho height
 		weekends: false, // escondo finais de semana
 		hiddenDays: [5], // escondo a sexta feira
 		businessHours: { //horario de funcionamento para os dias da semana
@@ -27,7 +27,7 @@ $(function() { // dom ready
 		    dow: [ 1, 2, 3, 4 ] 
 		},
 		minTime: '09:00:00',
-		maxTime: '17:00:00',
+		maxTime: '17:00:00', 
 		//Cabeçalho
 		header: {
 			left: 'today prev,next',
@@ -37,7 +37,8 @@ $(function() { // dom ready
 		defaultView: 'timelineDay', 
 		views: {
 			timelineDay: {
-				slotDuration: '01:00' //1 hora de duração
+				slotDuration: '01:00', //1 hora de duração 
+				slotLabelFormat: 'H:mm'
 			},
 		},
 		//Alunos
@@ -47,48 +48,66 @@ $(function() { // dom ready
 			url: '{!! url("json/alunos/") !!}',
 		},
 		//Consultas
-		slotWidth: '200',//tamanho do slot
-		lazyFetching: true,
-		events: [
-			{ id: '1', resourceId: '1', start: '2016-03-21T09:00:00-03:00', end: '2016-03-21T10:00:00-03:00', title: 'event 1222222' },
-			{ id: '2', resourceId: '1', start: '2016-03-21T11:00:00-03:00', end: '2016-03-21T12:00:00-03:00', title: 'event 2' },
-			{ id: '3', resourceId: '2', start: '2016-03-21T13:00:00-03:00', end: '2016-03-21T14:00:00-03:00', title: 'event 4' },
-		], 
-		eventClick: function(calEvent, jsEvent, view) { 
-	        var events = $('#calendar').fullCalendar('clientEvents'); 
-	        
-	        alert('Event: ' + calEvent.title);
-	        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-	        alert('View: ' + view.name); 
-
-	        // change the border color just for fun
-	        $(this).css('border-color', 'red');
-
+		slotWidth: '100',//tamanho do slot
+		lazyFetching: true, 
+		eventSources: [ 
+	        // your event source
+	        {
+	        	url: '{!! url("json/agendas/") !!}',
+	            color: 'green',    // an option!
+	            cache: true,
+	            error: function() {
+	            	swal("Problemas para carregar as consultas", "Tente novamente");
+	            },
+	        } 
+	    ],
+		/*
+			Eventos
+		*/
+		eventClick: function(calEvent, jsEvent, view) {
+			/*
+			Verifico se a data do evento clicado ainda não passou
+			assim defino se o botão de iniciar a consulta deverá ser apresentado ou não.
+			*/
+			var editavel = moment(calEvent.start).isAfter();   
+	        gerenciarConsulta(calEvent,editavel); 
 	    },
 	    dayClick: function (date, jsEvent, view, resourceObj) {
 		    //Eventos apenas na timelineday
 	        if( view.name == 'timelineDay'){ 
 			    //recupero todos os eventos
-		        var events = $('#calendar').fullCalendar('clientEvents');
-		        for (var i = 0; i < events.length; i++) { 
-		            if (moment(date).isSame(moment(events[i].start))) {
-						//Caso tenha evento marcado, disponibilizo a opção para desmarca-lo.
-						alert(1);
-		                break;
-		            }
-		            else if (i == events.length - 1) {  
-						//Marco a consulta 
-						if(verificarHorario(date)){
-							marcarConsulta( moment(date.format()), moment(date.format()).add(1, 'h'), resourceObj);
-						}
-		            }
-		        }
+		        var events = $('#calendar').fullCalendar('clientEvents'); 
+ 				if( events.length != 0 ){
+			        for (var i = 0; i < events.length; i++) { 
+				        //Caso tenha evento marcado, disponibilizo a opção para gerencia-lo. 
+			        	if ( moment(date.format()).isSame(events[i].start.format()) && events[i].resourceId == resourceObj.id) {
+							var editavel = verificarHorario(date,false);
+					        gerenciarConsulta(events[i],editavel);
+				        	break;// necessita do break, o for percorre todos os eventos do dia. Caso encontre o evento onde foi clicado forço a parada.
+			            }
+			            else if (i == events.length - 1) {  
+							//Marco a consulta 
+							if(verificarHorario(date,true)){
+								marcarConsulta( moment(date.format()), moment(date.format()).add(1, 'h'), resourceObj);
+							}
+			            }
+			        }
+ 				}else{
+ 	 				//Marco a consulta 
+					if(verificarHorario(date,true)){
+						marcarConsulta( moment(date.format()), moment(date.format()).add(1, 'h'), resourceObj);
+					}
+ 				}
 	        }//end if
 	    }
 	});  	
 });    
-//Verificar se é horario de almoço
-function verificarHorario(date){
+/*
+ * Verificar se é horario de almoço
+ * Verificar se ainda é possivel marcar a consulta
+ * A mensagem exibida é flexivel
+ */
+function verificarHorario(date,exibirMsg){
 	//Horário do evento 
 	var hora = date.format('HH');
 	/*
@@ -99,10 +118,12 @@ function verificarHorario(date){
 	var data_evento = moment(date.format()); 
  
 	if (data_evento.isBefore()){
-		swal("Atenção","Não é possível marcar uma consulta para um horário anterior.","info");
+		if(exibirMsg)
+			swal("Atenção","Impossível alterar uma data anterior a atual.","info");
 		return false;
-	}else if(hora == 12){
-		swal("Atenção","Horário de almoço","info");
+	}else if(hora == 12){ 
+		if(exibirMsg)
+			swal("Atenção","Horário de almoço","info");
 		return false;
 	}else{
 		return true;
@@ -124,7 +145,7 @@ function marcarConsulta(start, end, resourceObj){
 	}, function(isConfirm){   
 		if (isConfirm) {   
 			$.redirect(
-				"{!! url('agenda/marcar') !!}", 
+				"{!! route('agenda.create') !!}", 
 				{ 
 					events_start: start.format(), 
 					events_end: end.format(), 
@@ -133,22 +154,38 @@ function marcarConsulta(start, end, resourceObj){
 					_token: '{!! csrf_token() !!}'
 				}
 			);  
-// 			$.post( 
-// 				"{!! url('agenda/marcar') !!}", 
-// 				{ 
-// 					events_start: start.format(), 
-// 					events_end: end.format(), 
-// 					aluno_id: resourceObj.id, 
-// 					aluno_nome: resourceObj.title, 
-// 					_token: '{!! csrf_token() !!}'
-// 				}, 
-// 				function( data ) {
-// 		  			console.log( data ); // John  
-// 				}
-// 			); 
 		} 
 	});
 }
+//Desmarcar a consulta 
+function gerenciarConsulta(param,param2){
+	var evento = param;
+	var editavel = param2;
+	swal({   
+		html: true,
+		title: "Gerenciar consulta",   
+		text : "Paciente: "+ evento.title +"<br>Início: " + evento.start.format("DD/MM/YYYY") + " às " + evento.start.format("HH:mm:ss") + "<br>Término: " +  evento.end.format("DD/MM/YYYY") + " às " + evento.end.format("HH:mm:ss"),   
+		type: "info",   
+		showCancelButton: true,   
+		confirmButtonColor: "#00a65a",   
+		confirmButtonText: "Abrir painel",   
+		cancelButtonText: "Cancelar",   
+		closeOnConfirm: true,   
+		closeOnCancel: true 
+	}, function(isConfirm){   
+		if (isConfirm) {    
+			$.redirect( 
+				"{!! url('agenda/detalhes') !!}", 
+				{ 
+					events_id: evento.id, 
+					editavel: editavel, 
+					_token: '{!! csrf_token() !!}'
+				}
+			);  
+		} 
+	});
+}
+
 // readjust sizing after font load
 $(window).on('load', function() {
 	$('#calendar').fullCalendar('render');
