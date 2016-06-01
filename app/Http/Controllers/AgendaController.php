@@ -52,7 +52,7 @@ class AgendaController extends Controller {
 			$data ['hora_start'] = $result1_start [0];
 			
 			// formatando a data end
-			$result_end = explode ( "T", $data ['events_end'] ); 
+			$result_end = explode ( "T", $data ['events_end'] );
 			$data_splitada_end = explode ( "-", $result_end [0] );
 			$data ['data_end'] = $data_splitada_end [2] . "/" . $data_splitada_end [1] . "/" . $data_splitada_end [0];
 			// formatando a hora end
@@ -68,7 +68,7 @@ class AgendaController extends Controller {
 	/**
 	 * Salva as informações da consulta
 	 *
-	 * @param \Illuminate\Http\AgendamentoRequest $request        	
+	 * @param \Illuminate\Http\Request $request        	
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
@@ -82,7 +82,7 @@ class AgendaController extends Controller {
 			$agendamento->paciente_id = $request->get ( 'paciente_id' );
 			$agendamento->hora_start = $request->get ( 'hora_start' );
 			$agendamento->hora_end = $request->get ( 'hora_end' );
-			$agendamento->data_consulta = $request->get ( 'data_consulta' ); 
+			$agendamento->data_consulta = $request->get ( 'data_consulta' );
 			$agendamento->save ();
 			
 			DB::commit ();
@@ -99,11 +99,11 @@ class AgendaController extends Controller {
 	/**
 	 * Exibe o painel com as opções da consulta marcada
 	 *
-	 * @param \Illuminate\Http\AgendamentoRequest $request        	
+	 * @param \Illuminate\Http\Request $request        	
 	 * @return \Illuminate\Http\Response
 	 */
 	public function showDetalhes(Request $request) {
-		try { 
+		try {
 			$data ['agendamento'] = Agendamento::findOrFail ( $request->get ( 'events_id' ) );
 			$data ['page_title'] = 'Gerenciar consulta';
 			$data ['editavel'] = $request->get ( 'editavel' );
@@ -112,6 +112,30 @@ class AgendaController extends Controller {
 			Log::error ( $e );
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
+	}
+	
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param \Illuminate\Http\Request $request        	
+	 * @return \Illuminate\Http\Response
+	 */
+	public function desmarcarConsulta(Request $request) {
+		try {
+			DB::beginTransaction ();
+			
+			$agendamento = Agendamento::findOrFail ( $request->get ( 'id' ) );
+			$agendamento->delete ();
+			
+			DB::commit ();
+			
+			alert ()->success ( '', config ( 'constants.DESMARCAR' ) )->autoclose ( 2000 );
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			DB::rollback ();
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		}
+		return redirect ( 'agenda' );
 	}
 	
 	/**
@@ -162,10 +186,10 @@ class AgendaController extends Controller {
 	 */
 	public function missingMethod($params = array()) {
 		return view ( 'errors.404', $params );
-	}
+	} 
 	
 	/**
-	 * Return JSON Cliente list
+	 * Return JSON Consultas list
 	 *
 	 * @return json
 	 */
@@ -176,13 +200,13 @@ class AgendaController extends Controller {
 			$event_id = 1;
 			foreach ( $agendamentos as $agendamento ) {
 				$response [] = [ 
-						'id' => $event_id,
+						'id' => $agendamento->id,
 						'resourceId' => $agendamento->aluno->id,
 						'title' => $agendamento->paciente->nome,
 						'start' => $agendamento->events_start,
 						'end' => $agendamento->events_end 
 				];
-				$event_id ++;
+				// $event_id ++;
 			}
 		} catch ( Exception $e ) {
 			Log::error ( $e );

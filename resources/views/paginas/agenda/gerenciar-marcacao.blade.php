@@ -83,12 +83,16 @@
 							@if( $editavel === 'true')
 							<a class="btn btn-app">
 	                    		<i class="fa fa-check"></i> Iniciar consulta
-	                  		</a>
-							<a class="btn btn-app">
+	                  		</a> 
+							<button type="button" class="btn btn-app" desmarcar-consulta="true" data-id="{!! $agendamento->id !!}">
 	                    		<i class="fa fa-close"></i> Desmarcar consulta
-	                  		</a>
+							</button> 
+							<form id="formDesmarcarConsulta{!! $agendamento->id !!}" action="{!! route('agenda.destroy', $agendamento->id ) !!}" method="post">
+								<input type="hidden" name="_method" value="DELETE">
+								{!! csrf_field() !!}
+							</form> 
 	                  		@endif
-							<a class="btn btn-app" href="{{ URL::previous() }}" >
+							<a class="btn btn-app" href="{!! URL::previous() !!}" >
 	                    		<i class="fa fa-undo"></i> Voltar
 	                  		</a> 
 						</div>
@@ -100,4 +104,7 @@
 <!-- /.content -->
 
 
-@endsection @section('additionalsJavascript') @endsection
+@endsection 
+@section('additionalsJavascript')
+	@include('javascript.agenda.jquery')  
+@endsection

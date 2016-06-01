@@ -157,10 +157,10 @@ function marcarConsulta(start, end, resourceObj){
 		} 
 	});
 }
-//Desmarcar a consulta 
+//Gerenciar a consulta 
 function gerenciarConsulta(param,param2){
 	var evento = param;
-	var editavel = param2;
+	var editavel = param2; 
 	swal({   
 		html: true,
 		title: "Gerenciar consulta",   
@@ -185,6 +185,35 @@ function gerenciarConsulta(param,param2){
 		} 
 	});
 }
+//Desmarcar a consulta
+function desmarcarConsulta(id) {
+	swal({   
+		title: "Deseja realmente desmarcar ?",
+	    text: "Você poderá remarca-la.",         
+	    type: "warning",   
+	    showCancelButton: true,   
+	    confirmButtonColor: "#d9534f",
+	    confirmButtonText: "Confirmar", 
+	    cancelButtonText: "Cancelar", 
+	    closeOnConfirm: false,
+	    showLoaderOnConfirm: true
+	}, 
+	function(isConfirm){    
+		if(isConfirm){ 
+			$.redirect( 
+				"{!! url('agenda/desmarcarConsulta') !!}", 
+				{  
+					id : id,  
+					_token: '{!! csrf_token() !!}'
+				}
+			); 
+		} 
+	}); 
+}
+
+$('button[desmarcar-consulta="true"]').on('click', function() { 
+	desmarcarConsulta($(this).attr('data-id')); 
+});
 
 // readjust sizing after font load
 $(window).on('load', function() {

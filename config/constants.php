@@ -10,4 +10,11 @@ return [
 	'RECOVERED' => 'Registro re-ativado com sucesso',
 		
 	'AUTH_FAIL' => 'Credencias não localizadas',
+		
+		
+	/**
+	 * Consulta
+	 */
+	'DESMARCAR' => 'Consulta desmarcada com sucesso',
+		
 ];

@@ -19,6 +19,14 @@
             					<i class="fa fa-calendar"></i> <span>Agenda</span> 
             				</a> 
 			            </li> 
+            			<li class="treeview">
+              				<a href="#">
+	                			<i class="fa fa-file-pdf-o"></i> <span>Relatórios</span> <i class="fa fa-angle-left pull-right"></i>
+	              			</a>	
+	              			<ul class="treeview-menu">
+	                			<li><a href="{{ url('relatorio/consultas-do-dia') }}"><i class="fa fa-circle-o"></i> Consultas de Hoje </a></li>
+	              			</ul>
+            			</li> 
 					</ul>   
         		</section>
         		<!-- /.sidebar -->
