@@ -131,8 +131,8 @@ body {
 									<div class="row">
 
 										<div class="col-xs-8">
-											<div class="checkbox icheck">
-												<label class=""> <a href="#">Esquecu a senha ?</a></label>
+											<div class="checkbox icheck"> 
+												<a href="" data-toggle="modal" data-target="#myModal">Esqueceu a senha ?</a> 
 											</div>
 										</div>
 
@@ -151,7 +151,42 @@ body {
 			</div>
 		</div>
 	</div>
-
+	
+	<!-- Modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Recuperar senha</h4>
+	      </div>
+		  <form action="{{ route('login.recuperar') }}" method="post">
+	      	<div class="modal-body">
+				
+				<div class="form-group">
+					<label for="input-username">Email</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input type="email" name="email" id="email"
+							value="{{ old('email') }}"
+							placeholder="Email" class="form-control" />
+					</div>
+				</div>
+	      
+	      	</div>
+			{!! csrf_field() !!}
+		      <div class="modal-footer">
+		        <button type="submit" class="btn btn-success">Enviar</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		      </div>
+		  </form>
+	    </div>
+	
+	  </div>
+	</div>
+	
 	<footer class="footer">
 		<div class="container">
 			<p class="text-muted">
@@ -160,6 +195,19 @@ body {
 			</p>
 		</div>
 	</footer>
+<!-- REQUIRED JS SCRIPTS -->
 
+<!-- jQuery 2.1.3 -->
+<script src="{{ asset ('/bower_components/admin-lte/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="{{ asset ('/bower_components/admin-lte/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset ('/bower_components/admin-lte/dist/js/app.min.js') }}" type="text/javascript"></script>
+<!-- SlimScroll -->
+<script src="{{asset('/bower_components/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
+<!-- FastClick -->
+<script src="{{asset('/bower_components/admin-lte/plugins/fastclick/fastclick.min.js')}}"></script>
+<!-- Redirect -->
+<script src="{{asset('/bower_components/jquery.redirect/jquery.redirect.js')}}"></script>
 </body>
 </html>

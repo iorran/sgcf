@@ -10,7 +10,7 @@ use Response;
 use DB;
 use Exception;
 
-class AgendaController extends Controller {
+class AgendaController extends Controller { 
 	/**
 	 * Tela inicial com o calendario de todas as consultas
 	 *
@@ -83,6 +83,7 @@ class AgendaController extends Controller {
 			$agendamento->hora_start = $request->get ( 'hora_start' );
 			$agendamento->hora_end = $request->get ( 'hora_end' );
 			$agendamento->data_consulta = $request->get ( 'data_consulta' );
+			//$agendamento->iniciada = "0";
 			$agendamento->save ();
 			
 			DB::commit ();
@@ -145,7 +146,7 @@ class AgendaController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		dd ( $id );
+		//
 	}
 	
 	/**
@@ -196,8 +197,7 @@ class AgendaController extends Controller {
 	public function getAllAgendaJson() {
 		try {
 			$agendamentos = Agendamento::get ();
-			$response = null;
-			$event_id = 1;
+			$response = null; 
 			foreach ( $agendamentos as $agendamento ) {
 				$response [] = [ 
 						'id' => $agendamento->id,
@@ -205,8 +205,7 @@ class AgendaController extends Controller {
 						'title' => $agendamento->paciente->nome,
 						'start' => $agendamento->events_start,
 						'end' => $agendamento->events_end 
-				];
-				// $event_id ++;
+				]; 
 			}
 		} catch ( Exception $e ) {
 			Log::error ( $e );

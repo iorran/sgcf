@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Log;
 use Response;
+use App\Models\Agendamento;
 
 class AlunoController extends Controller {
 	/**
@@ -129,26 +130,41 @@ class AlunoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($id) { 
-		try {
-			DB::beginTransaction ();
-
-			$aluno = Aluno::withTrashed()->find ( $id );
-			if ($aluno->trashed ()) {
-				$aluno->restore ();
-				$aluno->usuario->restore ();
-				alert ()->success ( '', config ( 'constants.RECOVERED' ) )->autoclose ( 2000 );
-			} else {
-				$aluno->delete ();
-				$aluno->usuario->delete ();
-				alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
-			} 
-			DB::commit ();
+		try { 
+			if($this->isConsultaMarcada($id) <= 0){ 
+				DB::beginTransaction ();
+	
+				$aluno = Aluno::withTrashed()->find ( $id );
+				if ($aluno->trashed ()) {
+					$aluno->restore ();
+					$aluno->usuario->restore ();
+					alert ()->success ( '', config ( 'constants.RECOVERED' ) )->autoclose ( 2000 );
+				} else {
+					$aluno->delete ();
+					$aluno->usuario->delete ();
+					alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+				} 
+				DB::commit ();
+			}else{
+				alert ()->info ( 'Este aluno possui consultas marcadas, não será possível desativar.', 'Atenção' )->persistent ( 'Fechar' );
+			}
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			DB::rollback ();
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
 		return redirect ( 'cadastro/aluno' );
+	}
+	
+	/**
+	 * Verificar se o aluno possui alguma consulta marcada
+	 *
+	 * @return boolean
+	 */
+	public function isConsultaMarcada($id) {
+		//$agendamento = Aluno::findOrFail($id)->agendamento()->get();
+		$agendamento = Agendamento::where('aluno_id','=',$id)->where('iniciada','=','0')->get();
+		return count($agendamento);
 	}
 	
 	/**

@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Agendamento extends Model {
 	/**
+	 * 
+	 * O campo iniciada na tabela agendamentos aceita dois valores
+	 * 0 - Não iniciada | 1 - Iniciada
+	 * 
+	 */ 
+	
+	/**
 	 * The table associated with the model.
 	 *
 	 * @var string

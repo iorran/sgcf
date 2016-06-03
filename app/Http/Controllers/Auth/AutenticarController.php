@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AutenticarRequest;
 use App\Models\Aluno;
 use App\Models\Professor;
+use App\Models\Usuario;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Log;
+use Mail;
 
 class AutenticarController extends Controller {
 	/**
@@ -30,7 +33,7 @@ class AutenticarController extends Controller {
 	 */
 	public function getIndex() {
 		return view ( 'login' );
-	} 
+	}
 	
 	/**
 	 * Autenticar o usuario
@@ -40,8 +43,11 @@ class AutenticarController extends Controller {
 	 */
 	public function postAutenticar(AutenticarRequest $request) {
 		try {
-			$professor = Professor::where ( 'login', '=', $request->get ( 'identificacao' ) )->first ();
-			if ($professor) {
+			//Ao relogar limpo todos os cookies antigos
+			Session::flush ();
+			
+			$professor = Professor::where ( 'login', '=', $request->get ( 'identificacao' ) )->first (); 
+			if ($professor != null) {
 				if (Crypt::decrypt ( $professor->usuario->senha ) == $request->get ( 'senha' )) {
 					$sessao ['nome'] = $professor->usuario->nome;
 					$sessao ['email'] = $professor->usuario->email;
@@ -49,9 +55,9 @@ class AutenticarController extends Controller {
 					$this->makeSession ( $sessao );
 					return redirect ()->route ( 'home.index' );
 				}
-			} else {
-				$aluno = Aluno::where ( 'matricula', '=', $request->get ( 'identificacao' ) )->first ();
-				if ($aluno) {
+			} else {  
+				$aluno = Aluno::where ( 'matricula', '=', $request->get ( 'identificacao' ) )->first (); 
+				if ($aluno != null) {
 					if (Crypt::decrypt ( $aluno->usuario->senha ) == $request->get ( 'senha' )) {
 						$sessao ['nome'] = $aluno->usuario->nome;
 						$sessao ['email'] = $aluno->usuario->email;
@@ -91,12 +97,12 @@ class AutenticarController extends Controller {
 	public function getLogout() {
 		try {
 			Session::flush ();
-			return redirect()->to('login');
+			return redirect ()->to ( 'login' );
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 		}
 	}
-
+	
 	/**
 	 * Retorna o usuario da sessão
 	 *
@@ -106,7 +112,7 @@ class AutenticarController extends Controller {
 		try {
 			if (Session::has ( 'usuario' )) {
 				$user = Session::get ( 'usuario' );
-				return $user [0]['nome'];
+				return $user [0] ['nome'];
 			}
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
@@ -122,13 +128,13 @@ class AutenticarController extends Controller {
 		try {
 			if (Session::has ( 'usuario' )) {
 				$user = Session::get ( 'usuario' );
-				return $user [0]['email'];
+				return $user [0] ['email'];
 			}
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 		}
-	} 
-
+	}
+	
 	/**
 	 * Retorna o usuario da sessão
 	 *
@@ -138,11 +144,52 @@ class AutenticarController extends Controller {
 		try {
 			if (Session::has ( 'usuario' )) {
 				$user = Session::get ( 'usuario' );
-				return $user [0]['perfil'];
+				return $user [0] ['perfil'];
 			}
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 		}
+	}
+	
+	/**
+	 * Recuperar senha
+	 *
+	 * @param Request $request        	
+	 *
+	 * @return Email
+	 */
+	public function postRecuperar(Request $request) {
+		try {
+			$user = Usuario::where ( 'email', '=', $request->get ( 'email' ) )->get (); 
+			//dd ( Crypt::decrypt ( $user[0]->senha ) ); 
+		 	
+			$data = array( 
+				'email' => $user[0]->email, 
+				'nome' => $user[0]->nome,
+				'senha' => Crypt::decrypt ( $user[0]->senha )
+			);
+			
+			Mail::send( 'mail', $data, function( $message ) use ($data)
+			{
+				$message->to( $data['email'] )
+					->from( env('MAIL_USERNAME') , "SGCF" )
+					->subject( 'Welcome!' );
+			}); 
+		
+		    return "Your email has been sent successfully";
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+		}
+	}
+	
+	/**
+	 * Error 403
+	 *
+	 * @return response
+	 */
+	public function getAcessoNegado() {
+		$params = array();
+		return view ( 'errors.403', $params );
 	}
 	
 	/**

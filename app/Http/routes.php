@@ -13,7 +13,11 @@ Route::group(['middleware' => 'web'], function () {
 	Route::controller('login', 'Auth\AutenticarController', [
 			'postAutenticar' => 'login.autenticar',
 			'getLogout' => 'login.sair',
+			'postRecuperar' => 'login.recuperar',
 	]);
+	
+	//rota de erro 403  
+	Route::get('acesso-negado', 'Auth\AutenticarController@getAcessoNegado');
 });
  
 /*
@@ -23,7 +27,7 @@ Route::group(['middleware' => 'web'], function () {
  |
  */
 
-Route::group(['middleware' => ['web','auth'] ], function () { 
+Route::group(['middleware' => ['web'] ], function () { 
 	//Home
 	Route::controller('home', 'HomeController', [
 			'getIndex' => 'home.index',
@@ -32,9 +36,14 @@ Route::group(['middleware' => ['web','auth'] ], function () {
 	Route::group(['prefix' => 'cadastro'], function () { 
 		//Paciente
 		Route::resource('paciente', 'PacienteController');
-	});
-	
+	});  
+	//Agenda
+	Route::resource('agenda', 'AgendaController');
+	Route::post('agenda/create', 'AgendaController@create');	// create aceita apenas get
+	Route::post('agenda/detalhes', 'AgendaController@showDetalhes'); // exibe o painel com as ções da consulta
+	Route::post('agenda/desmarcarConsulta', 'AgendaController@desmarcarConsulta'); // desmarca a consulta
 });
+ 
  
 /*
 |--------------------------------------------------------------------------
@@ -51,17 +60,6 @@ Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function
 	Route::resource('aluno', 'AlunoController');
 	//Professor
 	Route::resource('professor', 'ProfessorController');  
-}); 
-
-/*
- * Consulta
- */ 
-Route::group(['middleware' => ['web','auth'] ], function () { 
-	//Agenda
-	Route::resource('agenda', 'AgendaController');
-	Route::post('agenda/create', 'AgendaController@create');	// create aceita apenas get
-	Route::post('agenda/detalhes', 'AgendaController@showDetalhes'); // exibe o painel com as ções da consulta
-	Route::post('agenda/desmarcarConsulta', 'AgendaController@desmarcarConsulta'); // desmarca a consulta
 }); 
 
 /*

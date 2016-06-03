@@ -39,5 +39,5 @@ class Aluno extends Model {
 	 */
 	public function usuario() {
 		return $this->belongsTo( 'App\Models\Usuario')->withTrashed();
-	}
+	} 
 }

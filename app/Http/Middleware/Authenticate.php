@@ -20,8 +20,18 @@ class Authenticate
     	
         if (!Session::has ( 'usuario' )) {
         	return redirect('login');
+        }else{
+        	$usuario = session('usuario'); 
+        	$perfil = $usuario[0]['perfil'];
+        	/**
+        	 * Variáveis da sessão
+        	 * Perfil: 1 - professor | 2 - aluno
+        	 */
+        	if ($perfil == 2){
+        		return redirect('acesso-negado');
+        	}
+        	return $next($request);
         }
 
-        return $next($request);
     }
 }
