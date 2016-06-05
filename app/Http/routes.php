@@ -42,6 +42,10 @@ Route::group(['middleware' => ['web'] ], function () {
 	Route::post('agenda/create', 'AgendaController@create');	// create aceita apenas get
 	Route::post('agenda/detalhes', 'AgendaController@showDetalhes'); // exibe o painel com as ções da consulta
 	Route::post('agenda/desmarcarConsulta', 'AgendaController@desmarcarConsulta'); // desmarca a consulta
+	//Consulta 
+	Route::get('consulta/iniciar/{id}', 'ConsultaController@init');	 
+	Route::post('consulta/anamnese/update/{id}', ['uses' => 'ConsultaController@update', 'as' => 'consulta.anamnese.update']);	
+	Route::post('consulta/anamnese/store', ['uses' => 'ConsultaController@store', 'as' => 'consulta.anamnese.store']);	
 });
  
  

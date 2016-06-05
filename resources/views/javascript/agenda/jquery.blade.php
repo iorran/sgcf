@@ -130,32 +130,34 @@ function verificarHorario(date,exibirMsg){
 	}
 }
 //Marcar consulta
-function marcarConsulta(start, end, resourceObj){  
-	swal({   
-		html: true,
-		title: "Deseja marcar uma consulta?",   
-		text:  "Aluno: " + resourceObj.title +"<br>Início: " + start.format("DD/MM/YYYY") + " às " + start.format("HH:mm:ss") + "<br>Término: " +  end.format("DD/MM/YYYY") + " às " + end.format("HH:mm:ss"),   
-		type: "info",   
-		showCancelButton: true,   
-		confirmButtonColor: "#00a65a",   
-		confirmButtonText: "Sim",   
-		cancelButtonText: "Não",   
-		closeOnConfirm: true,   
-		closeOnCancel: true 
-	}, function(isConfirm){   
-		if (isConfirm) {   
-			$.redirect(
-				"{!! route('agenda.create') !!}", 
-				{ 
-					events_start: start.format(), 
-					events_end: end.format(), 
-					aluno_id: resourceObj.id, 
-					aluno_nome: resourceObj.title, 
-					_token: '{!! csrf_token() !!}'
-				}
-			);  
-		} 
-	});
+function marcarConsulta(start, end, resourceObj){   
+	if( {!! Session('usuario.0.perfil') !!}  == 1){ // Somente professor marca as consultas
+		swal({   
+			html: true,
+			title: "Deseja marcar uma consulta?",   
+			text:  "Aluno: " + resourceObj.title +"<br>Início: " + start.format("DD/MM/YYYY") + " às " + start.format("HH:mm:ss") + "<br>Término: " +  end.format("DD/MM/YYYY") + " às " + end.format("HH:mm:ss"),   
+			type: "info",   
+			showCancelButton: true,   
+			confirmButtonColor: "#00a65a",   
+			confirmButtonText: "Sim",   
+			cancelButtonText: "Não",   
+			closeOnConfirm: true,   
+			closeOnCancel: true 
+		}, function(isConfirm){   
+			if (isConfirm) {   
+				$.redirect(
+					"{!! route('agenda.create') !!}", 
+					{ 
+						events_start: start.format(), 
+						events_end: end.format(), 
+						aluno_id: resourceObj.id, 
+						aluno_nome: resourceObj.title, 
+						_token: '{!! csrf_token() !!}'
+					}
+				);  
+			} 
+		});
+	}
 }
 //Gerenciar a consulta 
 function gerenciarConsulta(param,param2){

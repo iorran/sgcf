@@ -32,6 +32,9 @@
 								<form action="{{ route('cadastro.aluno.destroy', $aluno->id) }}" method="post">
 									<input type="hidden" name="_method" value="DELETE">
 									{!! csrf_field() !!}
+									<a href="{{ route('cadastro.aluno.edit', $aluno->id) }}" class="btn btn-primary">
+										<i class="fa fa-fw fa-edit"></i>
+									</a> 
 									<button type="submit" class="btn btn-warning">
 										<i class="fa fa-fw fa-undo"></i>
 									</button>

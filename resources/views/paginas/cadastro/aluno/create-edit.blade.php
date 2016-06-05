@@ -87,7 +87,7 @@
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="cadastrarAluno"></label>
 					<div class="col-md-4">
-						<button id="cadastrarAluno" name="cadastrarAluno"
+						<button type="submit" id="cadastrarAluno" name="cadastrarAluno"
 							class="btn btn-success">Salvar</button>
 						<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
 					</div>

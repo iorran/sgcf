@@ -81,17 +81,21 @@
 						<label class="col-md-0 control-label"></label>
 						<div class="col-md-4">  
 							@if( $editavel === 'true')
-							<a class="btn btn-app">
-	                    		<i class="fa fa-check"></i> Iniciar consulta
-	                  		</a> 
-							<button type="button" class="btn btn-app" desmarcar-consulta="true" data-id="{!! $agendamento->id !!}">
-	                    		<i class="fa fa-close"></i> Desmarcar consulta
-							</button> 
+								@if(  $agendamento->iniciada == 0 )
+									<a class="btn btn-app" href="{!! url('consulta/iniciar/'.$agendamento->id) !!}">
+			                    		<i class="fa fa-check"></i> Iniciar consulta
+			                  		</a>  
+			                  		@if(  Session('usuario.0.perfil') == 1 )
+										<button type="button" class="btn btn-app" desmarcar-consulta="true" data-id="{!! $agendamento->id !!}">
+				                    		<i class="fa fa-close"></i> Desmarcar consulta
+										</button>  
+			                  		@endif
+		                  		@endif
 							<form id="formDesmarcarConsulta{!! $agendamento->id !!}" action="{!! route('agenda.destroy', $agendamento->id ) !!}" method="post">
 								<input type="hidden" name="_method" value="DELETE">
 								{!! csrf_field() !!}
 							</form> 
-	                  		@endif
+	                  		@endif 
 							<a class="btn btn-app" href="{!! URL::previous() !!}" >
 	                    		<i class="fa fa-undo"></i> Voltar
 	                  		</a> 

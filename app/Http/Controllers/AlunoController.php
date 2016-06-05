@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AlunoRequest;
+use App\Models\Agendamento;
 use App\Models\Aluno;
 use App\Models\Usuario;
 use DB;
@@ -10,7 +11,6 @@ use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Log;
 use Response;
-use App\Models\Agendamento;
 
 class AlunoController extends Controller {
 	/**
@@ -73,7 +73,7 @@ class AlunoController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		$data ['aluno'] = Aluno::findOrFail ( $id );
+		$data ['aluno'] =  Aluno::withTrashed ()->findOrFail ( $id );
 		$data ['page_title'] = 'Visualizar aluno';
 		return view ( 'paginas.cadastro.aluno.show' )->with ( $data );
 	}

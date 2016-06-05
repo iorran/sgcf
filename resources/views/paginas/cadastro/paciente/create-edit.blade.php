@@ -155,9 +155,9 @@
 			                  	</div><!-- /.tab-pane -->
 								<!-- Button -->
 								<div class="form-group">
-									<label class="col-md-4 control-label" for="cadastrarAluno"></label>
+									<label class="col-md-4 control-label" for="cadastrarPaciente"></label>
 									<div class="col-md-4">
-										<button id="cadastrarAluno" name="cadastrarAluno"
+										<button type="submit" id="cadastrarPaciente" name="cadastrarPaciente"
 											class="btn btn-success">Salvar</button>
 										<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
 									</div>

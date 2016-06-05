@@ -30,6 +30,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<link href="{{ asset('/bower_components/fullcalendar/dist/fullcalendar.print.css')}}" rel='stylesheet' media='print' />
 	<link href="{{ asset('/bower_components/fullcalendar/dist/jquery-ui-custom/custom-theme/jquery-ui.min.css')}}" rel='stylesheet' />
 	<link href="{{ asset('/bower_components/fullcalendar-scheduler/dist/scheduler.min.css')}}" rel='stylesheet' />
+	<!-- Wysihtml5 --> 
+	<link href="{{ asset('/bower_components/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}" rel='stylesheet' />
+	
 	 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -88,6 +91,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('/bower_components/admin-lte/plugins/fastclick/fastclick.min.js')}}"></script>
 <!-- Redirect -->
 <script src="{{asset('/bower_components/jquery.redirect/jquery.redirect.js')}}"></script>
+<!-- Wysihtml5 --> 
+<script src="{{asset('/bower_components/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script> 
 @yield('additionalsJavascript')
 </body>
 </html>

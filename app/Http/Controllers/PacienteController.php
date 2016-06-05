@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PacienteRequest;
+use App\Models\Agendamento;
 use App\Models\Endereco;
 use App\Models\Paciente;
 use DB;
@@ -79,7 +80,7 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		$data ['paciente'] = Paciente::findOrFail ( $id );
+		$data ['paciente'] = Paciente::withTrashed ()->findOrFail ( $id );
 		$data ['page_title'] = 'Visualizar paciente';
 		return view ( 'paginas.cadastro.paciente.show' )->with ( $data );
 	}
@@ -147,26 +148,41 @@ class PacienteController extends Controller {
 	 */
 	public function destroy($id) {
 		try {
-			DB::beginTransaction ();
-			$paciente = Paciente::withTrashed ()->find ( $id );
-			
-			if ($paciente->trashed ()) {
-				$paciente->restore ();
-				$paciente->endereco->restore ();
-				alert ()->success ( '', config ( 'constants.RECOVERED' ) )->autoclose ( 2000 );
-			} else {
-				$paciente->endereco->delete ();
-				$paciente->delete ();
-				alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+			if($this->isConsultaMarcada($id) <= 0){ 
+				DB::beginTransaction ();
+				$paciente = Paciente::withTrashed ()->find ( $id );
+				
+				if ($paciente->trashed ()) {
+					$paciente->restore ();
+					$paciente->endereco->restore ();
+					alert ()->success ( '', config ( 'constants.RECOVERED' ) )->autoclose ( 2000 );
+				} else {
+					$paciente->endereco->delete ();
+					$paciente->delete ();
+					alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+				}
+				
+				DB::commit ();
+			}else{
+				alert ()->info ( 'Este paciente possui consultas marcadas, não será possível desativar.', 'Atenção' )->persistent ( 'Fechar' );
 			}
-			
-			DB::commit ();
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			DB::rollback ();
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
 		return redirect ( 'cadastro/paciente' );
+	}
+ 
+	/**
+	 * Verificar se o aluno possui alguma consulta marcada
+	 *
+	 * @return boolean
+	 */
+	public function isConsultaMarcada($id) {
+		//$agendamento = Aluno::findOrFail($id)->agendamento()->get();
+		$agendamento = Agendamento::where('paciente_id','=',$id)->where('iniciada','=','0')->get();
+		return count($agendamento);
 	}
 	
 	/**

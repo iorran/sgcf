@@ -71,7 +71,7 @@ class ProfessorController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) { 
-		$data['professor'] = Professor::findOrFail ( $id );
+		$data['professor'] = Professor::withTrashed ()->findOrFail ( $id );
 		$data['page_title'] = 'Visualizar professor';
 		return view ( 'paginas.cadastro.professor.show')->with($data); 
 	}
