@@ -7,16 +7,29 @@
 		</div>
 		<!-- form start --> 
 		
-		@if(isset($anamnese->id))
-			<form class="form-horizontal" action="{{ url('consulta.anamnese.update', $anamnese->id) }}" method="post">
-				<input type="hidden" name="_method" value="PUT">
-		@else
-			<form class="form-horizontal" action="{{route('consulta.anamnese.store')}}" method="post">
-		@endif
-		
+		 
+		<form class="form-horizontal" action="{{route('consulta.anamnese.store')}}" method="post">
+		  
 			<fieldset>
 				<input type="hidden" name="agendamento_id" id="agendamento_id" value="{!! $agendamento_id !!}">
 				<input type="hidden" name="paciente_id" id="paciente_id" value="{!! $paciente_id !!}">
+		  		  
+				<!-- Text input-->
+				<div class="form-group @if($errors->has('area_funcional')) {!! 'has-error' !!} @endif">
+					<label class="col-md-4 control-label" for="area_funcional">Área Funcional</label>
+					<div class="col-md-4"> 
+						<select required id="area_funcional" name="area_funcional" class="form-control select2"  style="width: 100%;">
+							<option value="">Selecione a área funcional</option>
+							@forelse($areas_funcionais as $area_key => $area_value) 
+							<option value="{!!  $area_key !!}" @if(isset($anamnese->area_funcional)) @if($anamnese->area_funcional == $area_key) selected @endif @endif>
+								{!!  $area_value !!}
+							</option>
+							@empty 
+							<option value="">Problemas ao carregar as áreas funcionais.</option>
+							@endforelse
+						</select>  
+					</div>
+				</div>
 				
 				<!-- Text input-->
 				<div class="form-group @if($errors->has('QP')) {!! 'has-error' !!} @endif">

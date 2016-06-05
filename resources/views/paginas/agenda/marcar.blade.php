@@ -48,7 +48,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="paciente_id">Paciente</label>
 						<div class="col-md-4">
-							<select id="paciente_id" name="paciente_id" class="form-control">
+							<select id="paciente_id" name="paciente_id" class="form-control select2">
 								@forelse($pacientes as $paciente)
 								<option value="{!!  $paciente->id !!}">{!!  $paciente->nome !!}</option>
 								@empty 

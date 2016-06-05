@@ -45,7 +45,7 @@ Route::group(['middleware' => ['web'] ], function () {
 	//Consulta 
 	Route::get('consulta/iniciar/{id}', 'ConsultaController@init');	 
 	Route::post('consulta/anamnese/update/{id}', ['uses' => 'ConsultaController@update', 'as' => 'consulta.anamnese.update']);	
-	Route::post('consulta/anamnese/store', ['uses' => 'ConsultaController@store', 'as' => 'consulta.anamnese.store']);	
+	Route::post('consulta/anamnese/store', ['uses' => 'ConsultaController@storeAnamnese', 'as' => 'consulta.anamnese.store']);	
 });
  
  

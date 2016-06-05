@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Agendamento;
 use App\Models\Anamnese;
-use Log;
 use DB;
-use Illuminate\Hashing\HashServiceProvider;
+use Illuminate\Http\Request;
+use Log;
 
 class ConsultaController extends Controller {
 	/**
@@ -16,9 +15,10 @@ class ConsultaController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function init($id) {
-		$agendamento = Agendamento::findOrFail ( $id ); 
-		$anamnese = $this->possuiAnamnese ($agendamento->paciente_id );  
+		$agendamento = Agendamento::findOrFail ( $id );
+		$anamnese = $this->possuiAnamnese ( $agendamento->paciente_id );
 		$data ['anamnese'] = $anamnese;
+		$data ['areas_funcionais'] = config ( 'enum.area_funcional' );
 		$data ['agendamento_id'] = $id;
 		$data ['paciente_id'] = $agendamento->paciente_id;
 		$data ['page_title'] = 'Anamnese';
@@ -32,7 +32,7 @@ class ConsultaController extends Controller {
 	 */
 	public function possuiAnamnese($paciente_id) {
 		try {
-			$anamnese = Anamnese::where ( 'paciente_id', '=', $paciente_id )->first (); 
+			$anamnese = Anamnese::where ( 'paciente_id', '=', $paciente_id )->orderBy ( 'created_at', 'desc' )->first ();
 			return $anamnese;
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
@@ -47,22 +47,24 @@ class ConsultaController extends Controller {
 	 * @param \Illuminate\Http\Request $request        	
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request) { 
-		$this->iniciarConsulta($request->get ( "agendamento_id" ));
+	public function storeAnamnese(Request $request) {
+		$this->iniciarConsulta ( $request->get ( "agendamento_id" ) );
 		try {
 			DB::beginTransaction ();
 			
-			$anamnese = new Anamnese(); 
-			$anamnese->QP = $request->get ( "QP" ); 
-			$anamnese->HDA = $request->get ( "HDA" ); 
-			$anamnese->HPP = $request->get ( "HPP" ); 
-			$anamnese->HFAM = $request->get ( "HFAM" ); 
-			$anamnese->AVDS = $request->get ( "AVDS" ); 
-			$anamnese->medicamentos = $request->get ( "medicamentos" ); 
-			$anamnese->ex_complementares = $request->get ( "ex_complementares" ); 
-			$anamnese->agendamento_id = $request->get ( "agendamento_id" ); 
-			$anamnese->paciente_id = $request->get ( "paciente_id" ); 
-			$anamnese->save (); 
+			$anamnese = new Anamnese (); 
+			$anamnese->area_funcional = $request->get ( "area_funcional" );
+			$anamnese->QP = $request->get ( "QP" );
+			$anamnese->HDA = $request->get ( "HDA" );
+			$anamnese->HPP = $request->get ( "HPP" );
+			$anamnese->HS = $request->get ( "HS" );
+			$anamnese->HFAM = $request->get ( "HFAM" );
+			$anamnese->AVDS = $request->get ( "AVDS" );
+			$anamnese->medicamentos = $request->get ( "medicamentos" );
+			$anamnese->ex_complementares = $request->get ( "ex_complementares" );
+			$anamnese->agendamento_id = $request->get ( "agendamento_id" );
+			$anamnese->paciente_id = $request->get ( "paciente_id" );
+			$anamnese->save ();
 			
 			DB::commit ();
 			
