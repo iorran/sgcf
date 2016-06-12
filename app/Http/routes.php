@@ -27,7 +27,7 @@ Route::group(['middleware' => 'web'], function () {
  |
  */
 
-Route::group(['middleware' => ['web'] ], function () { 
+Route::group(['middleware' => ['web','basic'] ], function () { 
 	//Home
 	Route::controller('home', 'HomeController', [
 			'getIndex' => 'home.index',
@@ -40,12 +40,15 @@ Route::group(['middleware' => ['web'] ], function () {
 	//Agenda
 	Route::resource('agenda', 'AgendaController');
 	Route::post('agenda/create', 'AgendaController@create');	// create aceita apenas get
-	Route::post('agenda/detalhes', 'AgendaController@showDetalhes'); // exibe o painel com as ções da consulta
+	Route::post('agenda/detalhes', 'AgendaController@showDetalhes'); // exibe o painel com as ações da consulta
 	Route::post('agenda/desmarcarConsulta', 'AgendaController@desmarcarConsulta'); // desmarca a consulta
 	//Consulta 
-	Route::get('consulta/iniciar/{id}', 'ConsultaController@init');	 
-	Route::post('consulta/anamnese/update/{id}', ['uses' => 'ConsultaController@update', 'as' => 'consulta.anamnese.update']);	
-	Route::post('consulta/anamnese/store', ['uses' => 'ConsultaController@storeAnamnese', 'as' => 'consulta.anamnese.store']);	
+	Route::get('consulta/iniciar/{id}', 'ConsultaController@init');	  	
+	Route::post('consulta/anamnese/store', ['uses' => 'ConsultaController@storeAnamnese', 'as' => 'consulta.anamnese.store']); 
+	//Areas
+	Route::post('consulta/area/respiratoria', ['uses' => 'ConsultaController@storeAreaRespiratoria', 'as' => 'consulta.area.respiratoria.store']);
+	Route::post('consulta/area/traumato', ['uses' => 'ConsultaController@storeAreaTraumato', 'as' => 'consulta.area.traumato.store']);
+	
 });
  
  

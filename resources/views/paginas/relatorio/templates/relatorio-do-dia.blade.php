@@ -14,6 +14,7 @@
 	<thead>
 		<tr>
 			<th>Paciente</th>
+			<th>Telefone</th>
 			<th>Aluno</th>
 			<th>Inicio</th>
 			<th>Término</th>
@@ -23,6 +24,7 @@
 		@forelse($consultas as $consulta)
 		<tr align="center"> 
 			<td>{!! $consulta->paciente->nome !!}</td> 
+			<td>{!! $consulta->paciente->telefone !!}</td> 
 			<td>{!! $consulta->aluno->usuario->nome !!}</td> 
 			<td>{!! $consulta->hora_start !!}</td> 
 			<td>{!! $consulta->hora_end !!}</td> 

@@ -180,7 +180,7 @@ class PacienteController extends Controller {
 	 * @return boolean
 	 */
 	public function isConsultaMarcada($id) {
-		//$agendamento = Aluno::findOrFail($id)->agendamento()->get();
+		//$agendamento = Agendamento::where('paciente_id','=',$id)->where('iniciada','=','0')->where('data_consulta','>=',date('Y-m-d'))->where('hora_start','>=', date('H:i'))->get();
 		$agendamento = Agendamento::where('paciente_id','=',$id)->where('iniciada','=','0')->get();
 		return count($agendamento);
 	}

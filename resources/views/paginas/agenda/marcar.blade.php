@@ -50,7 +50,7 @@
 						<div class="col-md-4">
 							<select id="paciente_id" name="paciente_id" class="form-control select2">
 								@forelse($pacientes as $paciente)
-								<option value="{!!  $paciente->id !!}">{!!  $paciente->nome !!}</option>
+								<option value="{!!  $paciente->id !!}">{!!  $paciente->nome . " - " .$paciente->cpf !!}</option>
 								@empty 
 								<option value="">Nenhum paciente cadastrado.</option>
 								@endforelse

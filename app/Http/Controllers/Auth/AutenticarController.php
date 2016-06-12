@@ -42,12 +42,9 @@ class AutenticarController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function postAutenticar(AutenticarRequest $request) {
-		try {
-			//Ao relogar limpo todos os cookies antigos
-			Session::flush ();
-			
-			$professor = Professor::where ( 'login', '=', $request->get ( 'identificacao' ) )->first (); 
-			if ($professor != null) {
+		try {  
+			$professor = Professor::where ( 'login', '=', $request->get ( 'identificacao' ) )->first ();
+			if ($professor != null || ! isset ( $professor->usuario->senha ) || ! isset ( $professor )) {
 				if (Crypt::decrypt ( $professor->usuario->senha ) == $request->get ( 'senha' )) {
 					$sessao ['nome'] = $professor->usuario->nome;
 					$sessao ['email'] = $professor->usuario->email;
@@ -55,9 +52,9 @@ class AutenticarController extends Controller {
 					$this->makeSession ( $sessao );
 					return redirect ()->route ( 'home.index' );
 				}
-			} else {  
-				$aluno = Aluno::where ( 'matricula', '=', $request->get ( 'identificacao' ) )->first (); 
-				if ($aluno != null) {
+			} else {
+				$aluno = Aluno::where ( 'matricula', '=', $request->get ( 'identificacao' ) )->first ();
+				if ($aluno != null || ! isset ( $aluno->usuario->senha ) || ! isset ( $aluno )) {
 					if (Crypt::decrypt ( $aluno->usuario->senha ) == $request->get ( 'senha' )) {
 						$sessao ['nome'] = $aluno->usuario->nome;
 						$sessao ['email'] = $aluno->usuario->email;
@@ -69,9 +66,9 @@ class AutenticarController extends Controller {
 			}
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
-		}
+		} 
 		// retorna para tela de login com erro de autenticação
-		return redirect ()->back ()->withErrors ( [ 
+		return view ( 'login' )->withErrors ( [ 
 				config ( 'constants.AUTH_FAIL' ) 
 		] );
 	}
@@ -160,23 +157,20 @@ class AutenticarController extends Controller {
 	 */
 	public function postRecuperar(Request $request) {
 		try {
-			$user = Usuario::where ( 'email', '=', $request->get ( 'email' ) )->get (); 
-			//dd ( Crypt::decrypt ( $user[0]->senha ) ); 
-		 	
-			$data = array( 
-				'email' => $user[0]->email, 
-				'nome' => $user[0]->nome,
-				'senha' => Crypt::decrypt ( $user[0]->senha )
+			$user = Usuario::where ( 'email', '=', $request->get ( 'email' ) )->get ();
+			// dd ( Crypt::decrypt ( $user[0]->senha ) );
+			
+			$data = array (
+					'email' => $user [0]->email,
+					'nome' => $user [0]->nome,
+					'senha' => Crypt::decrypt ( $user [0]->senha ) 
 			);
 			
-			Mail::send( 'mail', $data, function( $message ) use ($data)
-			{
-				$message->to( $data['email'] )
-					->from( env('MAIL_USERNAME') , "SGCF" )
-					->subject( 'Welcome!' );
-			}); 
-		
-		    return "Your email has been sent successfully";
+			Mail::send ( 'mail', $data, function ($message) use($data) {
+				$message->to ( $data ['email'] )->from ( env ( 'MAIL_USERNAME' ), "SGCF" )->subject ( 'Welcome!' );
+			} );
+			
+			return "Your email has been sent successfully";
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 		}
@@ -188,7 +182,7 @@ class AutenticarController extends Controller {
 	 * @return response
 	 */
 	public function getAcessoNegado() {
-		$params = array();
+		$params = array ();
 		return view ( 'errors.403', $params );
 	}
 	

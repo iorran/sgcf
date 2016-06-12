@@ -62,7 +62,7 @@ body {
 .container .text-muted {
 	margin: 20px 0;
 }
-</style>
+</style> 
 </head>
 <body class="skin-green fixed">
 

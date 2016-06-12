@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Anamnese extends Model {
+class AreaTraumato extends Model {
 	/**
 	 * The table associated with the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'anamneses';	
+	protected $table = 'area_traumatos';	
 	
 	/**
-	 * Retorna o agendamento(consulta) associada a anamnese
+	 * Retorna o agendamento(consulta) associada a area_respiratoria
 	 *
 	 * @var Agendamento
 	 */

@@ -9,9 +9,10 @@
 			<legend>Bem vindo, {!! Session('usuario.0.nome') !!}</legend> 
 		</div>
 		<!-- /.box-header -->
-		<div class="box-body">
+		<div class="box-body" align="center">
 			 
 			 <!-- HTML AQUI -->
+			 <img alt="Logo" src="{!! asset('images/LOGO_Fisioterapia.jpg') !!}" width="350" height="350"> 
 			 
 		</div>
 		<!-- /.box-body -->
