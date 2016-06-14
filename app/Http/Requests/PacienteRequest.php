@@ -22,8 +22,8 @@ class PacienteRequest extends Request {
 	 */
 	public function rules() {
 		if ($this->segment ( 3 ) != "") {
-			$paciente = Paciente::findOrFail ( $this->segment ( 3 ) );
-		}
+			$paciente = Paciente::find ( $this->segment ( 3 ) );
+		} 
 		switch ($this->method ()) {
 			case 'GET' :
 			case 'DELETE' :
@@ -34,10 +34,10 @@ class PacienteRequest extends Request {
 				{ 
 					return [
 							'nome' => 'required',
-							'telefone' => 'between:10,11',
-							'nascimento'        => 'date_format:Y-m-d',
-							'cep' => 'size:8',
-							'cpf' => 'cpf',
+							'telefone' => 'required|between:10,11',
+							'nascimento'        => 'required|date_format:Y-m-d',
+							'cep' => 'required|size:8',
+							'cpf' => 'required|cpf|unique:pacientes',
 					];
 				}
 			case 'PUT' :
@@ -45,10 +45,10 @@ class PacienteRequest extends Request {
 				{
 					return [ 
 							'nome' => 'required', 
-							'telefone' => 'between:10,11',
-							'nascimento'        => 'date_format:Y-m-d',
-							'cep' => 'size:8',
-							'cpf' => 'cpf',
+							'telefone' => 'required|between:10,11',
+							'nascimento'        => 'required|date_format:Y-m-d',
+							'cep' => 'required|size:8',
+							'cpf' => 'required|cpf|unique:pacientes,cpf,' . $paciente->id,
 					];
 				}
 			default :

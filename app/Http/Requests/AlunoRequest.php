@@ -45,9 +45,9 @@ class AlunoRequest extends Request {
 				{
 					return [ 
 							'nome' => 'required|string',
-							'matricula' => 'required|string|size:12|unique:alunos,id,' . $aluno->id,
+							'matricula' => 'required|string|size:12|unique:alunos,matricula,' . $aluno->id,
 							'telefone' => 'between:10,11',
-							'email' => 'required|email|unique:usuarios,id,' . $aluno->usuario->id 
+							'email' => 'required|email|unique:usuarios,email,' . $aluno->usuario->id 
 					];
 				}
 			default :

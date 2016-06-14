@@ -26,4 +26,17 @@
 	$('button[remover-paciente=true]').on('click', function() {
 		removerPaciente($(this).attr("data-id"));
 	});
-	</script>
+
+	@if($errors->has('cep'))
+		$("#aba_2").addClass('active');
+		$("#tab_2").addClass('active');
+		$("#tab_1").removeClass('active');
+		$("#aba_1").removeClass('active');
+	@else
+		$("#aba_1").addClass('active');
+		$("#tab_1").addClass('active');
+		$("#tab_2").removeClass('active');
+		$("#aba_2").removeClass('active');
+	@endif
+	
+</script>

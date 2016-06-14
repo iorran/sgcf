@@ -31,12 +31,7 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 	//Home
 	Route::controller('home', 'HomeController', [
 			'getIndex' => 'home.index',
-	]); 
-	//Cadastros
-	Route::group(['prefix' => 'cadastro'], function () { 
-		//Paciente
-		Route::resource('paciente', 'PacienteController');
-	});  
+	]);  
 	//Agenda
 	Route::resource('agenda', 'AgendaController');
 	Route::post('agenda/create', 'AgendaController@create');	// create aceita apenas get
@@ -67,6 +62,8 @@ Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function
 	Route::resource('aluno', 'AlunoController');
 	//Professor
 	Route::resource('professor', 'ProfessorController');  
+	//Paciente
+	Route::resource('paciente', 'PacienteController');
 }); 
 
 /*
