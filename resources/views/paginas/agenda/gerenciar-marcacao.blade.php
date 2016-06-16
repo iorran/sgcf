@@ -73,34 +73,44 @@
 									class="form-control input-md" value="{{ $agendamento->paciente->cpf }}"> 
 							</div>
 						</div> 
-					</div><!-- /.tab-pane --> 
-				</div>  
-				
-					<!-- Button -->
-					<div class="form-group">
+					</div><!-- /.tab-pane -->
+					
+					<!-- Button --> 
+					<div class="form-group"> 
 						<label class="col-md-0 control-label"></label>
-						<div class="col-md-4">  
+						<div class="col-md-12">  
 							@if( $editavel === 'true')
-								@if(  $agendamento->iniciada == 0 )
+								@if(  $agendamento->iniciada == 0 ) <!-- Só inicia a consulta que estiver no status inicial -->
 									<a class="btn btn-app" href="{!! url('consulta/iniciar/'.$agendamento->id) !!}">
 			                    		<i class="fa fa-check"></i> Iniciar consulta
 			                  		</a>  
 			                  		@if(  Session('usuario.0.perfil') == 1 )
-										<button type="button" class="btn btn-app" desmarcar-consulta="true" data-id="{!! $agendamento->id !!}">
+										<a class="btn btn-app" desmarcar-consulta="true" data-id="{!! $agendamento->id !!}">
 				                    		<i class="fa fa-close"></i> Desmarcar consulta
-										</button>  
+										</a>  
 			                  		@endif
 		                  		@endif
-							<form id="formDesmarcarConsulta{!! $agendamento->id !!}" action="{!! route('agenda.destroy', $agendamento->id ) !!}" method="post">
-								<input type="hidden" name="_method" value="DELETE">
-								{!! csrf_field() !!}
-							</form> 
 	                  		@endif 
+	                  		<!-- Tratamento -->
+	                  		<a class="btn btn-app" iniciar_tratamento="true" data-id="{!! $agendamento->id !!}">
+	                    		<i class="fa fa-heartbeat" aria-hidden="true"></i> Tratamento
+							</a>  
+	                  		<!-- Diagnostico -->
+	                  		<a class="btn btn-app" iniciar_diagnostico="true" data-id="{!! $agendamento->id !!}">
+	                    		<i class="fa fa-stethoscope" aria-hidden="true"></i> Diagnóstico
+							</a>  
+	                  		<!-- Voltar -->
 							<a class="btn btn-app" href="{!! URL::previous() !!}" >
 	                    		<i class="fa fa-undo"></i> Voltar
 	                  		</a> 
+	                  		<!-- forms --> 
+							<form id="formDesmarcarConsulta{!! $agendamento->id !!}" action="{!! route('agenda.destroy', $agendamento->id ) !!}" method="post">
+								<input type="hidden" name="_method" value="DELETE">
+								{!! csrf_field() !!}
+							</form>  
 						</div>
-					</div>   
+					</div>  
+				</div>   
 			</div>
 		</fieldset>   
 	</form>  

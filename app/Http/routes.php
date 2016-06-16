@@ -35,7 +35,8 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 	//Agenda
 	Route::resource('agenda', 'AgendaController');
 	Route::post('agenda/create', 'AgendaController@create');	// create aceita apenas get
-	Route::post('agenda/detalhes', 'AgendaController@showDetalhes'); // exibe o painel com as ações da consulta
+	Route::post('agenda/detalhes', 'AgendaController@showDetalhes'); // exibe o painel com as ações da consulta 
+	Route::get('agenda/detalhes/{id}', 'AgendaController@showDetalhes'); // exibe o painel com as ações da consulta 
 	Route::post('agenda/desmarcarConsulta', 'AgendaController@desmarcarConsulta'); // desmarca a consulta
 	//Consulta 
 	Route::get('consulta/iniciar/{id}', 'ConsultaController@init');	  	
@@ -43,7 +44,14 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 	//Areas
 	Route::post('consulta/area/respiratoria', ['uses' => 'ConsultaController@storeAreaRespiratoria', 'as' => 'consulta.area.respiratoria.store']);
 	Route::post('consulta/area/traumato', ['uses' => 'ConsultaController@storeAreaTraumato', 'as' => 'consulta.area.traumato.store']);
+	//Tratamento
+	Route::post('tratamento/iniciar', ['uses' => 'TratamentoController@iniciar', 'as' => 'tratamento.iniciar']);
+	Route::post('tratamento/store', ['uses' => 'TratamentoController@store', 'as' => 'tratamento.store']);
+	Route::put('tratamento/update/{id}', ['uses' => 'TratamentoController@update', 'as' => 'tratamento.update']);
+	Route::get('consulta/detalhes/{id}', 'TratamentoController@showDetalhes'); // exibe o painel com as ações da consulta 
 	
+	//Diagnostico
+	Route::post('diagnostico/iniciar', ['uses' => 'TratamentoController@iniciar', 'as' => 'diagnostico.iniciar']);
 });
  
  

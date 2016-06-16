@@ -213,8 +213,19 @@ function desmarcarConsulta(id) {
 	}); 
 }
 
-$('button[desmarcar-consulta="true"]').on('click', function() { 
+$('a[desmarcar-consulta="true"]').on('click', function() { 
 	desmarcarConsulta($(this).attr('data-id')); 
+});
+
+//Iniciar Tratamento  
+$('a[iniciar_tratamento="true"]').on('click', function() {
+	$.redirect( 
+		"{!! route('tratamento.iniciar') !!}", 
+		{  
+			id : $(this).attr('data-id'),  
+			_token: '{!! csrf_token() !!}'
+		}
+	);  
 });
 
 // readjust sizing after font load
