@@ -41,17 +41,24 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 	//Consulta 
 	Route::get('consulta/iniciar/{id}', 'ConsultaController@init');	  	
 	Route::post('consulta/anamnese/store', ['uses' => 'ConsultaController@storeAnamnese', 'as' => 'consulta.anamnese.store']); 
+	Route::put('consulta/anamnese/update/{id}', ['uses' => 'ConsultaController@updateAnamnese', 'as' => 'consulta.anamnese.update']); 
+	Route::get('consulta/iniciada/{id}', ['uses' => 'ConsultaController@iniciarConsulta', 'as' => 'consulta.iniciada']);	  	
 	//Areas
-	Route::post('consulta/area/respiratoria', ['uses' => 'ConsultaController@storeAreaRespiratoria', 'as' => 'consulta.area.respiratoria.store']);
-	Route::post('consulta/area/traumato', ['uses' => 'ConsultaController@storeAreaTraumato', 'as' => 'consulta.area.traumato.store']);
+		//Respiratoria
+		Route::post('consulta/area/respiratoria', ['uses' => 'RespiratoriaController@storeAreaRespiratoria', 'as' => 'consulta.area.respiratoria.store']);
+		Route::put('consulta/area/respiratoria/{id}', ['uses' => 'RespiratoriaController@updateAreaRespiratoria', 'as' => 'consulta.area.respiratoria.update']);
+		//Traumato
+		Route::post('consulta/area/traumato', ['uses' => 'TraumatoController@storeAreaTraumato', 'as' => 'consulta.area.traumato.store']);
+		Route::put('consulta/area/traumato/{id}', ['uses' => 'TraumatoController@updateAreaTraumato', 'as' => 'consulta.area.traumato.update']);
 	//Tratamento
 	Route::post('tratamento/iniciar', ['uses' => 'TratamentoController@iniciar', 'as' => 'tratamento.iniciar']);
 	Route::post('tratamento/store', ['uses' => 'TratamentoController@store', 'as' => 'tratamento.store']);
 	Route::put('tratamento/update/{id}', ['uses' => 'TratamentoController@update', 'as' => 'tratamento.update']);
-	Route::get('consulta/detalhes/{id}', 'TratamentoController@showDetalhes'); // exibe o painel com as ações da consulta 
-	
+	Route::get('consulta/detalhes/{id}', 'TratamentoController@showDetalhes'); // exibe o painel com as ações da consulta  
 	//Diagnostico
-	Route::post('diagnostico/iniciar', ['uses' => 'TratamentoController@iniciar', 'as' => 'diagnostico.iniciar']);
+	Route::post('diagnostico/iniciar', ['uses' => 'DiagnosticoController@iniciar', 'as' => 'diagnostico.iniciar']);
+	Route::post('diagnostico/store', ['uses' => 'DiagnosticoController@store', 'as' => 'diagnostico.store']);
+	Route::put('diagnostico/update/{id}', ['uses' => 'DiagnosticoController@update', 'as' => 'diagnostico.update']);
 });
  
  

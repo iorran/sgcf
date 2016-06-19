@@ -43,8 +43,8 @@ class AutenticarController extends Controller {
 	 */
 	public function postAutenticar(AutenticarRequest $request) {
 		try {  
-			$professor = Professor::where ( 'login', '=', $request->get ( 'identificacao' ) )->first ();
-			if ($professor != null || ! isset ( $professor->usuario->senha ) || ! isset ( $professor )) {
+			$professor = Professor::where ( 'login', '=', $request->get ( 'identificacao' ) )->first ();  
+			if ($professor != null && isset ( $professor->usuario->senha ) && isset ( $professor )) {  
 				if (Crypt::decrypt ( $professor->usuario->senha ) == $request->get ( 'senha' )) {
 					$sessao ['nome'] = $professor->usuario->nome;
 					$sessao ['email'] = $professor->usuario->email;
@@ -54,7 +54,7 @@ class AutenticarController extends Controller {
 				}
 			} else {
 				$aluno = Aluno::where ( 'matricula', '=', $request->get ( 'identificacao' ) )->first ();
-				if ($aluno != null || ! isset ( $aluno->usuario->senha ) || ! isset ( $aluno )) {
+				if ($aluno != null && isset ( $aluno->usuario->senha ) && isset ( $aluno )) {
 					if (Crypt::decrypt ( $aluno->usuario->senha ) == $request->get ( 'senha' )) {
 						$sessao ['nome'] = $aluno->usuario->nome;
 						$sessao ['email'] = $aluno->usuario->email;

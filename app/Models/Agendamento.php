@@ -8,7 +8,10 @@ class Agendamento extends Model {
 	/**
 	 * 
 	 * O campo iniciada na tabela agendamentos aceita dois valores
-	 * 0 - Não iniciada | 1 - Iniciada
+	 * 0 - Não iniciada (Opções: Iniciar | Desmarcar)
+	 * 1 - Iniciada (Opções: Diagnostico)
+	 * 2 - Diagnosticada  (Opções: Tratamento)
+	 * 3 - Tratada (Opções: Finalizar)
 	 * 
 	 */ 
 	
@@ -25,7 +28,7 @@ class Agendamento extends Model {
 	 * @var Agendamento
 	 */
 	public function aluno() {
-		return $this->belongsTo( 'App\Models\Aluno');
+		return $this->belongsTo( 'App\Models\Aluno')->withTrashed();
 	}
 	
 	/**
@@ -34,6 +37,6 @@ class Agendamento extends Model {
 	 * @var Agendamento
 	 */
 	public function paciente() {
-		return $this->belongsTo( 'App\Models\Paciente');
+		return $this->belongsTo( 'App\Models\Paciente')->withTrashed();
 	}
 }

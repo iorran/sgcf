@@ -52,7 +52,7 @@ class TratamentoController extends Controller {
 			DB::rollback ();
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
-		return redirect ( 'consulta/detalhes/'.$tratamento->agendamento_id );
+		return $this->finalizarTratamento($tratamento->agendamento_id );
 	}
 	
 	/**
@@ -78,7 +78,27 @@ class TratamentoController extends Controller {
 			DB::rollback ();
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
-		return redirect ( 'consulta/detalhes/'.$tratamento->agendamento_id );
+		return $this->finalizarTratamento($tratamento->agendamento_id );
+	}
+	
+	/**
+	 * Finalizar Tratamento
+	 *
+	 * @return int
+	 */
+	public function finalizarTratamento($id) {
+		try {
+			$agendamento = Agendamento::findOrFail ( $id );
+			DB::beginTransaction ();
+			$agendamento->iniciada = "3";
+			$agendamento->save ();
+			DB::commit ();
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			DB::rollback ();
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		} 
+		return redirect ( 'consulta/detalhes/'.$agendamento->id );
 	}
 	
 	/**
@@ -94,7 +114,7 @@ class TratamentoController extends Controller {
 		try {
 			$data ['agendamento'] = Agendamento::findOrFail ( $id );
 			$data ['page_title'] = 'Gerenciar consulta';
-			$data ['editavel'] = false;
+			$data ['editavel'] = true;
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );

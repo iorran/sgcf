@@ -22,11 +22,11 @@ $(function() { // dom ready
 		weekends: false, // escondo finais de semana
 		hiddenDays: [5], // escondo a sexta feira
 		businessHours: { //horario de funcionamento para os dias da semana
-		    start: '09:00',  
+		    start: '08:00',  
 		    end: '17:00', 
 		    dow: [ 1, 2, 3, 4 ] 
 		},
-		minTime: '09:00:00',
+		minTime: '08:00:00',
 		maxTime: '17:00:00', 
 		//Cabeçalho
 		header: {
@@ -57,7 +57,7 @@ $(function() { // dom ready
 	            color: 'green',    // an option!
 	            cache: true,
 	            error: function() {
-	            	swal("Problemas para carregar as consultas", "Tente novamente");
+	            	//swal("Problemas para carregar as consultas", "Tente novamente");
 	            },
 	        } 
 	    ],
@@ -221,6 +221,17 @@ $('a[desmarcar-consulta="true"]').on('click', function() {
 $('a[iniciar_tratamento="true"]').on('click', function() {
 	$.redirect( 
 		"{!! route('tratamento.iniciar') !!}", 
+		{  
+			id : $(this).attr('data-id'),  
+			_token: '{!! csrf_token() !!}'
+		}
+	);  
+});
+
+//Iniciar Diagnostico  
+$('a[iniciar_diagnostico="true"]').on('click', function() {
+	$.redirect( 
+		"{!! route('diagnostico.iniciar') !!}", 
 		{  
 			id : $(this).attr('data-id'),  
 			_token: '{!! csrf_token() !!}'

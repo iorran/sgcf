@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Anamnese extends Model {
+class Diagnostico extends Model {
 	/**
 	 * The table associated with the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'anamneses';	
+	protected $table = 'diagnosticos';	
 	
 	/**
-	 * Retorna o agendamento(consulta) associada a anamnese
+	 * Retorna o agendamento(consulta) associada ao diagnostico
 	 *
 	 * @var Agendamento
 	 */

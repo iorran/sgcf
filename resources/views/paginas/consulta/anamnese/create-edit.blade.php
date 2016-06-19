@@ -5,11 +5,13 @@
 	<div class="box box-default"> 
 		<div class="box-header"> 
 		</div>
-		<!-- form start --> 
-		
-		 
-		<form class="form-horizontal" action="{{route('consulta.anamnese.store')}}" method="post">
-		  
+		<!-- form start -->  
+		@if( $iniciada != 0 ) 
+		<form class="form-horizontal" action="{{route('consulta.anamnese.update', $anamnese->id ) }}" method="post"> 
+			<input type="hidden" name="_method" value="PUT">
+		@else 
+		<form class="form-horizontal" action="{{route('consulta.anamnese.store')}}" method="post"> 
+		@endif 
 			<fieldset>
 				<input type="hidden" name="agendamento_id" id="agendamento_id" value="{!! $agendamento_id !!}">
 				<input type="hidden" name="paciente_id" id="paciente_id" value="{!! $paciente_id !!}">
@@ -126,7 +128,7 @@
 					<div class="col-md-4">
 						<button type="submit" id="cadastrarAnamnese" name="cadastrarAnamnese"
 							class="btn btn-success">Salvar</button>
-						<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
+						<a href="{!! url('consulta/detalhes/'.$agendamento_id) !!}" class="btn btn-default">Voltar</a>
 					</div>
 				</div>
 				
