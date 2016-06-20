@@ -49,7 +49,10 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 		Route::put('consulta/area/respiratoria/{id}', ['uses' => 'RespiratoriaController@updateAreaRespiratoria', 'as' => 'consulta.area.respiratoria.update']);
 		//Traumato
 		Route::post('consulta/area/traumato', ['uses' => 'TraumatoController@storeAreaTraumato', 'as' => 'consulta.area.traumato.store']);
-		Route::put('consulta/area/traumato/{id}', ['uses' => 'TraumatoController@updateAreaTraumato', 'as' => 'consulta.area.traumato.update']);
+		Route::put('consulta/area/traumato/{id}', ['uses' => 'TraumatoController@updateAreaTraumato', 'as' => 'consulta.area.traumato.update']);//Traumato
+		//Neuro
+		Route::post('consulta/area/neuro', ['uses' => 'NeuroController@storeNeuro', 'as' => 'consulta.area.neuro.store']);
+		Route::put('consulta/area/neuro/{id}', ['uses' => 'NeuroController@updateNeuro', 'as' => 'consulta.area.neuro.update']);
 	//Tratamento
 	Route::post('tratamento/iniciar', ['uses' => 'TratamentoController@iniciar', 'as' => 'tratamento.iniciar']);
 	Route::post('tratamento/store', ['uses' => 'TratamentoController@store', 'as' => 'tratamento.store']);

@@ -6,6 +6,7 @@ use App\Models\Agendamento;
 use App\Models\Anamnese;
 use App\Models\AreaRespiratoria;
 use App\Models\AreaTraumato;
+use App\Models\AreaNeuro;
 use DB;
 use Illuminate\Http\Request;
 use Log;
@@ -123,10 +124,31 @@ class ConsultaController extends Controller {
 		$data ['paciente_id'] = $request->get ( "paciente_id" );
 		$data ['agendamento_id'] = $request->get ( "agendamento_id" );
 		
-		// pesquisar area da consulta
+		/* 
+		 * DB::table NÃO RESGATA AS RELAÇÕES 1 TO 1
+		 * pesquisar area da consulta
 		$tabela = 'area_' . $pagina [$request->get ( "area_funcional" )] . 's';
 		$data ['area'] = DB::table ( $tabela )->where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
-		
+		*/ 
+		switch ($request->get ( "area_funcional" )) {
+		    case 0: 
+		    	$data ['area'] = AreaTraumato::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
+		        break; 
+		    case 1: 
+		    	$data ['area'] = AreaRespiratoria::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
+		        break; 
+		    case 2: 
+		    	$data ['area'] = AreaNeuro::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
+		        break; 
+		    case 3: 
+		    	$data ['area'] = AreaTraumato::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
+		        break; 
+		    case 4: 
+		    	$data ['area'] = AreaTraumato::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
+		        break; 
+		    default:
+		    	$data ['area'] = null;
+		}
 		return view ( 'paginas.consulta.area.' . $pagina [$request->get ( "area_funcional" )] )->with ( $data );
 	}
 	
