@@ -53,6 +53,9 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 		//Neuro
 		Route::post('consulta/area/neuro', ['uses' => 'NeuroController@storeNeuro', 'as' => 'consulta.area.neuro.store']);
 		Route::put('consulta/area/neuro/{id}', ['uses' => 'NeuroController@updateNeuro', 'as' => 'consulta.area.neuro.update']);
+		//Cardio
+		Route::post('consulta/area/cardio', ['uses' => 'CardioController@storeCardio', 'as' => 'consulta.area.cardio.store']);
+		Route::put('consulta/area/cardio/{id}', ['uses' => 'CardioController@updateCardio', 'as' => 'consulta.area.cardio.update']);
 	//Tratamento
 	Route::post('tratamento/iniciar', ['uses' => 'TratamentoController@iniciar', 'as' => 'tratamento.iniciar']);
 	Route::post('tratamento/store', ['uses' => 'TratamentoController@store', 'as' => 'tratamento.store']);

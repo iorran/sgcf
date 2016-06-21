@@ -19,7 +19,7 @@ class ConsultaController extends Controller {
 	 */
 	public function init($id) {
 		$agendamento = Agendamento::findOrFail ( $id );
-		$anamnese = $this->possuiAnamnese ( $agendamento->paciente_id );
+		$anamnese = $this->possuiAnamnese ( $agendamento->paciente_id,$id );
 		$data ['anamnese'] = $anamnese;
 		$data ['areas_funcionais'] = config ( 'enum.area_funcional' );
 		$data ['agendamento_id'] = $id;
@@ -34,9 +34,12 @@ class ConsultaController extends Controller {
 	 *
 	 * @return int
 	 */
-	public function possuiAnamnese($paciente_id) {
-		try {
-			$anamnese = Anamnese::where ( 'paciente_id', '=', $paciente_id )->orderBy ( 'created_at', 'desc' )->first ();
+	public function possuiAnamnese($paciente_id,$id) {
+		try { 
+			//Verifica se essa consulta ja foi criada uma anamnese ( caso o aluno tenha salvo a anamnese mas nao salvou a area.)
+			$anamnese = Anamnese::where ( 'paciente_id', '=', $paciente_id )->where ( 'agendamento_id', '=', $id )->orderBy ( 'created_at', 'desc' )->first ();
+			if($anamnese == null)
+				$anamnese = Anamnese::where ( 'paciente_id', '=', $paciente_id )->orderBy ( 'created_at', 'desc' )->first ();
 			return $anamnese;
 		} catch ( \Exception $e ) {
 			Log::error ( $e );

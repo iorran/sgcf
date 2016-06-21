@@ -19,6 +19,6 @@ class NeuroCoordenacao extends Model
 	 * @var manobras
 	 */
 	public function neuro() {
-		return $this->belongsTo ( 'App\Models\NeuroSensibilidade' );
+		return $this->belongsTo ( 'App\Models\AreaNeuro' );
 	} 
 }

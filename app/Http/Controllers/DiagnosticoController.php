@@ -21,7 +21,7 @@ class DiagnosticoController extends Controller {
 		try {
 			$agendamento = Agendamento::findOrFail ( $request->get ( 'id' ) );
 			$diagnostico = Diagnostico::where ( 'agendamento_id', '=', $agendamento->id )->orderBy ( 'created_at', 'desc' )->first ();
-			$data ['page_title'] = 'Diagnostico';
+			$data ['page_title'] = 'Diagnóstico';
 			$data ['agendamento'] = $agendamento;
 			$data ['diagnostico'] = $diagnostico;
 		} catch ( \Exception $e ) {

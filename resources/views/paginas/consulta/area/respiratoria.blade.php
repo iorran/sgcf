@@ -368,7 +368,7 @@
 						<label class="col-md-4 control-label" for="cadastrarAnamnese"></label>
 						<div class="col-md-4">
 							<button type="submit" class="btn btn-success">Salvar</button>
-							<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
+							<a href="{!! url('consulta/detalhes/'.$agendamento_id) !!}" class="btn btn-default">Voltar</a>
 						</div>
 					</div>
 			

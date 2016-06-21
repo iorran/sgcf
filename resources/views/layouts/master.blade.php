@@ -16,6 +16,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Select2 -->
     <link href="{{ asset('/bower_components/admin-lte/plugins/select2/select2.min.css')}}" rel='stylesheet'>
+    <!-- iCheck -->
+    <link href="{{ asset('/bower_components/admin-lte/plugins/iCheck/all.css')}}" rel='stylesheet'>
     <!-- Sweet Alert -->
 	<link rel="stylesheet" type="text/css" href="{{asset('node_modules/sweetalert/dist/sweetalert.css')}}">   
 	<!-- Sweet Alert -->
@@ -100,6 +102,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script type="text/javascript">
 	//Initialize Select2 Elements
 	$(".select2").select2();
+</script>
+<!-- iCheck 1.0.1 -->
+<script src="{{ asset('/bower_components/admin-lte/plugins/iCheck/icheck.min.js') }}"></script>
+<script type="text/javascript">
+//iCheck for checkbox and radio inputs
+$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+	checkboxClass: 'icheckbox_minimal-green',
+    radioClass: 'iradio_minimal-green'
+});
 </script>
 @yield('additionalsJavascript')
 </body>

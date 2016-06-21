@@ -5,8 +5,8 @@
 	<div class="box box-default"> 
 		<div class="box-header"> 
 		</div>
-		<!-- form start -->  
-		@if( $iniciada != 0 ) 
+		<!-- form start -->   
+		@if( isset($anamnese) && $anamnese->agendamento_id == $agendamento_id ) 
 		<form class="form-horizontal" action="{{route('consulta.anamnese.update', $anamnese->id ) }}" method="post"> 
 			<input type="hidden" name="_method" value="PUT">
 		@else 
@@ -16,7 +16,7 @@
 				<input type="hidden" name="agendamento_id" id="agendamento_id" value="{!! $agendamento_id !!}">
 				<input type="hidden" name="paciente_id" id="paciente_id" value="{!! $paciente_id !!}">
 		  		  
-				<!-- Text input-->
+				<!-- Select input-->
 				<div class="form-group @if($errors->has('area_funcional')) {!! 'has-error' !!} @endif">
 					<label class="col-md-4 control-label" for="area_funcional">Área Funcional</label>
 					<div class="col-md-4"> 
