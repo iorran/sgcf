@@ -53,6 +53,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Sidebar -->
     @include('layouts/sidebar')
+    
+    
+    	@include('sweet::alert') 
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

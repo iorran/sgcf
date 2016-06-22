@@ -106,10 +106,10 @@
 						</div>	   
       					<!-- Text input-->
 						<div class="form-group @if($errors->has('local')) {!! 'has-error' !!} @endif">
-							<label class="col-md-4 control-label" for="local">Face</label>
+							<label class="col-md-4 control-label" for="local">Local</label>
 							<div class="col-md-4">
 								<input id="local" name="local" type="text"
-									placeholder="Face" class="form-control input-md"
+									placeholder="Local" class="form-control input-md"
 									value="{{ old('local', isset($area->exame->local) ? $area->exame->local : null) }}">
 									@if($errors->has('local')) {!! $errors->first('local', '<span class="help-block">:message</span>') !!} @endif
 							</div>

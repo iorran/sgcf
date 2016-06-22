@@ -103,6 +103,16 @@
 										</div>
 									</div>
 									<!-- Text input-->
+									<div class="form-group @if($errors->has('complemento')) {!! 'has-error' !!} @endif"> 
+										<label class="col-md-4 control-label" for="complemento">Complemento</label>
+										<div class="col-md-4">
+											<input disabled id="complemento" name="complemento" type="text"
+												placeholder="Complemento" class="form-control input-md"
+												value="{{ old('complemento',  isset($paciente->endereco->complemento) ? $paciente->endereco->complemento : null) }}">
+												@if($errors->has('complemento')) {!! $errors->first('complemento', '<span class="help-block">:message</span>') !!} @endif
+										</div>
+									</div>
+									<!-- Text input-->
 									<div class="form-group @if($errors->has('numero')) {!! 'has-error' !!} @endif">
 										<label class="col-md-4 control-label" for="numero">Número</label>
 										<div class="col-md-4">

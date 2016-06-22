@@ -44,6 +44,7 @@ class PacienteController extends Controller {
 			
 			$endereco = new Endereco ();
 			$endereco->logradouro = $request->get ( "logradouro" );
+			$endereco->complemento = $request->get ( "complemento" );
 			$endereco->numero = $request->get ( "numero" );
 			$endereco->bairro = $request->get ( "bairro" );
 			$endereco->cep = $request->get ( "cep" );
@@ -119,6 +120,7 @@ class PacienteController extends Controller {
 			
 			$endereco = $paciente->endereco;
 			$endereco->logradouro = $request->get ( "logradouro" );
+			$endereco->complemento = $request->get ( "complemento" );
 			$endereco->numero = $request->get ( "numero" );
 			$endereco->bairro = $request->get ( "bairro" );
 			$endereco->cep = $request->get ( "cep" );

@@ -15,7 +15,7 @@
 					<div class="form-group">  
 						<label class="col-md-4 control-label" for="data">Data</label>
 						<div class="col-md-4">
-							<input required="required" id="data" name="data" type="date" max="{{date('Y-m-d')}}"
+							<input required="required" id="data" name="data" type="date"
 								placeholder="dd/mm/aaaa" class="form-control input-md"
 								value="{{ date('Y-m-d') }}">
 								@if($errors->has('data')) {!! $errors->first('data', '<span class="help-block">:message</span>') !!} @endif

@@ -195,7 +195,7 @@ function gerenciarConsulta(param,param2){
 function desmarcarConsulta(id) {
 	swal({   
 		title: "Deseja realmente desmarcar ?",
-	    text: "Você poderá remarca-la.",         
+	    text: "Você poderá remarcá-la.",         
 	    type: "warning",   
 	    showCancelButton: true,   
 	    confirmButtonColor: "#d9534f",

@@ -21,7 +21,7 @@ class NeuroController extends Controller {
 	 *        	\App\Http\Requests\Request
 	 *        	
 	 */
-	public function storeNeuro(Request $request) {
+	public function storeNeuro(Request $request) { 
 		try {
 			DB::beginTransaction ();
 			
@@ -56,7 +56,7 @@ class NeuroController extends Controller {
 			$manobra->bracos_estend = $request->get ( 'bracos_estend' );
 			$manobra->barre = $request->get ( 'barre' );
 			$manobra->mingazzini = $request->get ( 'mingazzini' );
-			$sensibilidade->Manobra()->save ( $manobra ); 
+			$sensibilidade->Manobras()->save ( $manobra ); 
 			
 			$coordenacao = new NeuroCoordenacao ();
 			$coordenacao->index_index = $request->get ( 'index_index' );
