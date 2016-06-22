@@ -6,8 +6,13 @@
 	<div class="box box-default">
 		@include('sweet::alert')
 		<div class="box-header">
-			<a href="{{ url('relatorio/consultas-do-dia/exportar') }}"
-				class="btn btn-success"><i class="fa fa-fw fa-plus"></i> Exportar</a>
+			<form  action="{{ route('gerar.relatorio.consultas_do_dia.exportar') }}" method="post">  
+				<fieldset>
+					<input type="hidden" id="data" name="data" value="{{ $data }}">
+					<button type="submit" class="btn btn-success"><i class="fa fa-fw fa-plus"></i> Exportar</button> 
+					{!! csrf_field() !!}
+				</fieldset>
+			</form> 
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body"> 

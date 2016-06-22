@@ -91,8 +91,9 @@ Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function
  * Relatório
  */
 Route::group(['middleware' => ['web','auth'] ], function () { 
-	Route::get('relatorio/consultas-do-dia', 'RelatorioController@index'); //relatório de consultas no dia
-	Route::get('relatorio/consultas-do-dia/exportar', 'RelatorioController@exportar'); //exportar o relatorio em pdf
+	Route::get('relatorio/consultas-do-dia', 'RelatorioColsutasDiaController@index'); //relatório de consultas no dia
+	Route::post('relatorio/gerar/consultas-do-dia/', ['uses' => 'RelatorioColsutasDiaController@gerarRelatorio', 'as' => 'gerar.relatorio.consultas_do_dia']); //relatório de consultas no dia
+	Route::post('relatorio/consultas-do-dia/exportar', ['uses' => 'RelatorioColsutasDiaController@exportar', 'as' => 'gerar.relatorio.consultas_do_dia.exportar']); //exportar o relatorio em pdf
 }); 
 
 /*
