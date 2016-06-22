@@ -21,7 +21,7 @@
 					<label class="col-md-4 control-label" for="matricula">Matrícula</label>
 					<div class="col-md-4">
 						<input id="matricula" name="matricula" type="number"
-							placeholder="Somente números" class="form-control input-md"
+							placeholder="Somente números(12 caracteres)" class="form-control input-md"
 							value="{{ old('matricula',  isset($aluno->matricula) ? $aluno->matricula : null) }}">
 							@if($errors->has('matricula')) {!! $errors->first('matricula', '<span class="help-block">:message</span>') !!} @endif
 					</div>

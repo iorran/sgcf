@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Agendamento;
 use App\Models\Anamnese;
+use App\Models\AreaCardio; 
+use App\Models\AreaNeuro;
 use App\Models\AreaRespiratoria;
 use App\Models\AreaTraumato;
-use App\Models\AreaNeuro;
 use DB;
 use Illuminate\Http\Request;
 use Log;
@@ -147,7 +148,7 @@ class ConsultaController extends Controller {
 		    	$data ['area'] = AreaTraumato::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
 		        break; 
 		    case 4: 
-		    	$data ['area'] = AreaTraumato::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
+		    	$data ['area'] = AreaCardio::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
 		        break; 
 		    default:
 		    	$data ['area'] = null;

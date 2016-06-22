@@ -36,7 +36,7 @@ class PacienteRequest extends Request {
 							'nome' => 'required',
 							'telefone' => 'required|between:10,11',
 							'nascimento'        => 'required|date_format:Y-m-d',
-							'cep' => 'required|size:8',
+							'cep' => 'size:8',
 							'cpf' => 'required|cpf|unique:pacientes',
 					];
 				}
@@ -47,7 +47,7 @@ class PacienteRequest extends Request {
 							'nome' => 'required', 
 							'telefone' => 'required|between:10,11',
 							'nascimento'        => 'required|date_format:Y-m-d',
-							'cep' => 'required|size:8',
+							'cep' => 'size:8',
 							'cpf' => 'required|cpf|unique:pacientes,cpf,' . $paciente->id,
 					];
 				}

@@ -13,12 +13,12 @@
 	                			<li><a href="{{route('cadastro.paciente.index')}}"><i class="fa fa-circle-o"></i> Pacientes </a></li>
 	                			<li><a href="{{route('cadastro.professor.index')}}"><i class="fa fa-circle-o"></i> Professores </a></li>
 	              			</ul>
-            			</li> 
-            			<li>
-            				<a href="{{ url('agenda')}}">
-            					<i class="fa fa-calendar"></i> <span>Agenda</span> 
-            				</a> 
-			            </li> 
+            			</li>  
+              			<li class="treeview">
+                			<a href=" {{ url('agenda') }}">
+	                			<i class="fa fa-calendar"></i> <span>Agenda</span>  
+	              			</a>
+                		</li> 
             			<li class="treeview">
               				<a href="#">
 	                			<i class="fa fa-file-pdf-o"></i> <span>Relatórios</span> <i class="fa fa-angle-left pull-right"></i>

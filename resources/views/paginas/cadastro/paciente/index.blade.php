@@ -34,21 +34,21 @@
 								<form action="{{ route('cadastro.paciente.destroy', $paciente->id ) }}" method="post">
 									<input type="hidden" name="_method" value="DELETE">
 									{!! csrf_field() !!}
-									<a href="{{ route('cadastro.paciente.show', $paciente->id) }}" class="btn btn-info"> 
+									<a href="{{ route('cadastro.paciente.show', $paciente->id) }}" class="btn btn-info" title="{!! config ( 'constants.bt_v' ) !!}"> 
 										<i class="fa fa-fw fa-eye"></i>
 									</a>
-									<button type="submit" class="btn btn-warning">
+									<button type="submit" class="btn btn-warning" title="{!! config ( 'constants.bt_a' ) !!}">
 										<i class="fa fa-fw fa-undo"></i>
 									</button>
 								</form>
 							@else 
-								<a href="{{ route('cadastro.paciente.edit', $paciente->id) }}" class="btn btn-primary"> 
-									<i class="fa fa-fw fa-edit"></i>
-								</a> 
-								<a href="{{ route('cadastro.paciente.show', $paciente->id) }}" class="btn btn-info"> 
+								<a href="{{ route('cadastro.paciente.show', $paciente->id) }}" class="btn btn-info" title="{!! config ( 'constants.bt_v' ) !!}"> 
 									<i class="fa fa-fw fa-eye"></i>
 								</a>
-								<button type="button" class="btn btn-danger" remover-paciente="true" data-id="{{ $paciente->id }}">
+								<a href="{{ route('cadastro.paciente.edit', $paciente->id) }}" class="btn btn-primary" title="{!! config ( 'constants.bt_e' ) !!}"> 
+									<i class="fa fa-fw fa-edit"></i>
+								</a> 
+								<button type="button" class="btn btn-danger" remover-paciente="true" data-id="{{ $paciente->id }}" title="{!! config ( 'constants.bt_d' ) !!}">
 									<i class="fa fa-fw fa-remove"></i>
 								</button>
 								<form id="formRemoverPaciente{{ $paciente->id }}"

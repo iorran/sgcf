@@ -24,7 +24,7 @@ class AgendaController extends Controller {
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
 		return view ( 'paginas.agenda.index' )->with ( $data );
-	}
+	} 
 	
 	/**
 	 * Exibe a tela para confirmar a marcação da consulta
@@ -199,12 +199,18 @@ class AgendaController extends Controller {
 			$agendamentos = Agendamento::get ();
 			$response = null; 
 			foreach ( $agendamentos as $agendamento ) {
+				$cor = '#00a65a';
+				if ($agendamento->iniciada != 0 && $agendamento->iniciada != 4)
+					$cor = '#BFC600';
+				if ($agendamento->iniciada == 4)
+					$cor = '#018BC6';
 				$response [] = [ 
 						'id' => $agendamento->id,
 						'resourceId' => $agendamento->aluno->id,
 						'title' => $agendamento->paciente->nome,
 						'start' => $agendamento->events_start,
-						'end' => $agendamento->events_end 
+						'end' => $agendamento->events_end, 
+						'color' => $cor
 				]; 
 			}
 		} catch ( Exception $e ) {

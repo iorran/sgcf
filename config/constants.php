@@ -17,4 +17,14 @@ return [
 	 */
 	'DESMARCAR' => 'Consulta desmarcada com sucesso',
 		
+	/**
+	 * Tooltip
+	 * Botoes
+	 */
+	'bt_v' => 'Visualizar registro.',
+	'bt_e' => 'Editar registro.',
+	'bt_a' => 'Ativar registro.',
+	'bt_d' => 'Desativar registro.'
+		
+		
 ];

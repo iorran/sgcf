@@ -12,6 +12,7 @@ class Agendamento extends Model {
 	 * 1 - Iniciada (Opções: Diagnostico)
 	 * 2 - Diagnosticada  (Opções: Tratamento)
 	 * 3 - Tratada (Opções: Finalizar)
+	 * 4 - Finalizada (Opções: ??)
 	 * 
 	 */ 
 	

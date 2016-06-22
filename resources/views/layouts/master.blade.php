@@ -110,8 +110,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
 	checkboxClass: 'icheckbox_minimal-green',
     radioClass: 'iradio_minimal-green'
-});
-</script>
+}); 
+//datePicker 
+    $( "#datepicker" ).datepicker(); 
+  </script>
 @yield('additionalsJavascript')
 </body>
 </html>

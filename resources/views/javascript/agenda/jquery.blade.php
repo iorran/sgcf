@@ -33,7 +33,8 @@ $(function() { // dom ready
 			left: 'today prev,next',
 			center: 'title',
 			right: 'timelineDay,agendaWeek,month'
-		},
+		},  
+		titleFormat: 'dddd, D [de] MMMM [de] YYYY',
 		defaultView: 'timelineDay', 
 		views: {
 			timelineDay: {
@@ -60,7 +61,7 @@ $(function() { // dom ready
 	            	//swal("Problemas para carregar as consultas", "Tente novamente");
 	            },
 	        } 
-	    ],
+	    ], 
 		/*
 			Eventos
 		*/
@@ -73,7 +74,7 @@ $(function() { // dom ready
 	        gerenciarConsulta(calEvent,editavel); 
 	    },
 	    dayClick: function (date, jsEvent, view, resourceObj) {
-		    //Eventos apenas na timelineday
+		    //Eventos apenas na timelineday 
 	        if( view.name == 'timelineDay'){ 
 			    //recupero todos os eventos
 		        var events = $('#calendar').fullCalendar('clientEvents'); 
@@ -98,7 +99,10 @@ $(function() { // dom ready
 						marcarConsulta( moment(date.format()), moment(date.format()).add(1, 'h'), resourceObj);
 					}
  				}
-	        }//end if
+	        }else{
+	            $('#calendar').fullCalendar('changeView', 'timelineDay');
+	            $('#calendar').fullCalendar('gotoDate', date);
+			}
 	    }
 	});  	
 });    
@@ -237,7 +241,7 @@ $('a[iniciar_diagnostico="true"]').on('click', function() {
 			_token: '{!! csrf_token() !!}'
 		}
 	);  
-});
+}); 
 
 // readjust sizing after font load
 $(window).on('load', function() {

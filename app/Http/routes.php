@@ -33,7 +33,7 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 			'getIndex' => 'home.index',
 	]);  
 	//Agenda
-	Route::resource('agenda', 'AgendaController');
+	Route::resource('agenda', 'AgendaController'); 
 	Route::post('agenda/create', 'AgendaController@create');	// create aceita apenas get
 	Route::post('agenda/detalhes', 'AgendaController@showDetalhes'); // exibe o painel com as ações da consulta 
 	Route::get('agenda/detalhes/{id}', 'AgendaController@showDetalhes'); // exibe o painel com as ações da consulta 

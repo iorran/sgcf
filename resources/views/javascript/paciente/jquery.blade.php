@@ -27,6 +27,15 @@
 		removerPaciente($(this).attr("data-id"));
 	});
 
+	
+	$('#control_aba_1').on('click', function() { 
+		$("#tab_1").removeClass('active');
+		$("#aba_1").removeClass('active');
+		$("#aba_2").addClass('active');
+		$("#tab_2").addClass('active');
+	});
+
+	//usava quando cep era obrigatorio
 	@if($errors->has('cep'))
 		$("#aba_2").addClass('active');
 		$("#tab_2").addClass('active');

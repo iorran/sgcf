@@ -2,6 +2,7 @@
 
 <!-- Main content -->
 <section class="content"> 
+		@include('sweet::alert')
 	<!-- form start -->  
 	<form class="form-horizontal">
 		<fieldset>  

@@ -89,6 +89,14 @@
 												@if($errors->has('naturalidade')) {!! $errors->first('naturalidade', '<span class="help-block">:message</span>') !!} @endif
 										</div>
 									</div>  
+									
+									<!-- Button -->
+									<div class="form-group">
+										<label class="col-md-4 control-label"></label>
+										<div class="col-md-4">
+											<a class="btn btn-success" id="control_aba_1">Próxima</a>
+										</div>
+									</div>  
 			                  	</div><!-- /.tab-pane -->
 			                  	
 			                  	<div class="tab-pane" id="tab_2">  
@@ -99,7 +107,17 @@
 											<input id="logradouro" name="logradouro" type="text"
 												placeholder="Logradouro" class="form-control input-md"
 												value="{{ old('logradouro',  isset($paciente->endereco->logradouro) ? $paciente->endereco->logradouro : null) }}">
-												@if($errors->has('Logradouro')) {!! $errors->first('Logradouro', '<span class="help-block">:message</span>') !!} @endif
+												@if($errors->has('logradouro')) {!! $errors->first('logradouro', '<span class="help-block">:message</span>') !!} @endif
+										</div>
+									</div>
+									<!-- Text input-->
+									<div class="form-group @if($errors->has('complemento')) {!! 'has-error' !!} @endif"> 
+										<label class="col-md-4 control-label" for="complemento">Complemento</label>
+										<div class="col-md-4">
+											<input id="complemento" name="complemento" type="text"
+												placeholder="Complemento" class="form-control input-md"
+												value="{{ old('complemento',  isset($paciente->endereco->complemento) ? $paciente->endereco->complemento : null) }}">
+												@if($errors->has('complemento')) {!! $errors->first('complemento', '<span class="help-block">:message</span>') !!} @endif
 										</div>
 									</div>
 									<!-- Text input-->
@@ -151,17 +169,17 @@
 												value="{{ old('estado',  isset($paciente->endereco->estado) ? $paciente->endereco->estado : null) }}">
 												@if($errors->has('estado')) {!! $errors->first('estado', '<span class="help-block">:message</span>') !!} @endif
 										</div>
-									</div> 
+									</div>  
+									<!-- Button -->
+									<div class="form-group">
+										<label class="col-md-4 control-label" for="cadastrarPaciente"></label>
+										<div class="col-md-4">
+											<button type="submit" id="cadastrarPaciente" name="cadastrarPaciente"
+												class="btn btn-success">Salvar</button>
+											<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
+										</div>
+									</div>  
 			                  	</div><!-- /.tab-pane -->
-								<!-- Button -->
-								<div class="form-group">
-									<label class="col-md-4 control-label" for="cadastrarPaciente"></label>
-									<div class="col-md-4">
-										<button type="submit" id="cadastrarPaciente" name="cadastrarPaciente"
-											class="btn btn-success">Salvar</button>
-										<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
-									</div>
-								</div>  
 	                		</div><!-- /.tab-content -->
 	              		</div>  
 					</fieldset>  
