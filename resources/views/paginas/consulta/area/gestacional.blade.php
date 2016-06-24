@@ -2,7 +2,7 @@
 
 <!-- Main content -->
 <section class="content">
-	<!-- form start --> 
+	<!-- form start -->  
 	@if(isset($area))  
 	<form class="form-horizontal" action="{{route('consulta.area.gestacional.update', $area->id ) }}" method="post"> 
 		<input type="hidden" name="_method" value="PUT">
@@ -218,10 +218,10 @@
 								<select id="has" name="has" class="form-control select2"  style="width: 100%;">
 									<option value="">Selecione uma opção</option> 
 									<option value="0" @if(isset($area->cardiovascular->has)) @if($area->cardiovascular->has == 0) selected @endif @endif>
-										Grande para idade gestacional
+										Não
 									</option> 
 									<option value="1" @if(isset($area->cardiovascular->has)) @if($area->cardiovascular->has == 1) selected @endif @endif>
-										Pequeno para idade gestacional
+										Sim
 									</option> 
 								</select>   
 							</div>
@@ -233,10 +233,10 @@
 								<select id="haig" name="haig" class="form-control select2"  style="width: 100%;">
 									<option value="">Selecione uma opção</option> 
 									<option value="0" @if(isset($area->cardiovascular->haig)) @if($area->cardiovascular->haig == 0) selected @endif @endif>
-										Grande para idade gestacional
+										Não
 									</option> 
 									<option value="1" @if(isset($area->cardiovascular->haig)) @if($area->cardiovascular->haig == 1) selected @endif @endif>
-										Pequeno para idade gestacional
+										Sim
 									</option> 
 								</select>   
 							</div>
@@ -248,10 +248,10 @@
 								<select id="problemas" name="problemas" class="form-control select2"  style="width: 100%;">
 									<option value="">Selecione uma opção</option> 
 									<option value="0" @if(isset($area->cardiovascular->problemas)) @if($area->cardiovascular->problemas == 0) selected @endif @endif>
-										Grande para idade gestacional
+										Não
 									</option> 
 									<option value="1" @if(isset($area->cardiovascular->problemas)) @if($area->cardiovascular->problemas == 1) selected @endif @endif>
-										Pequeno para idade gestacional
+										Sim
 									</option> 
 								</select>   
 							</div>
@@ -407,29 +407,784 @@
 							</div>
 						</div> 
 						<!-- Text Area-->
-						<div class="form-group @if($errors->has('obs')) {!! 'has-error' !!} @endif">
-							<label class="col-md-4 control-label" for="obs">Observações</label>
+						<div class="form-group @if($errors->has('cardiovascular_obs')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="cardiovascular_obs">Observações</label>
 							<div class="col-md-6">
-								<textarea class="textarea form-control input-md" placeholder="Observações" id="obs" name="obs">
-									{{ old('obs',  isset($area->obs) ? $area->obs : null) }}
+								<textarea class="textarea form-control input-md" placeholder="Observações" id="cardiovascular_obs" name="cardiovascular_obs">
+									{{ old('cardiovascular_obs',  isset($area->cardiovascular->cardiovascular_obs) ? $area->cardiovascular->cardiovascular_obs : null) }}
 								</textarea>
-								@if($errors->has('obs')) {!! $errors->first('obs', '<span class="help-block">:message</span>') !!} @endif						
+								@if($errors->has('cardiovascular_obs')) {!! $errors->first('cardiovascular_obs', '<span class="help-block">:message</span>') !!} @endif						
 				        	</div>
 						</div> 
 					</div>  
       				<div class="tab-pane" id="tab_4"> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('infeccao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="infeccao">Infecção Urinária</label>
+							<div class="col-md-4"> 
+								<select id="infeccao" name="infeccao" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->genito->infeccao)) @if($area->genito->infeccao == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->genito->infeccao)) @if($area->genito->infeccao == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('perda')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="perda">Perda Urinária</label>
+							<div class="col-md-4"> 
+								<select id="perda" name="perda" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->genito->perda)) @if($area->genito->perda == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->genito->perda)) @if($area->genito->perda == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('disuria')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="disuria">Disuria</label>
+							<div class="col-md-4"> 
+								<select id="disuria" name="disuria" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->genito->disuria)) @if($area->genito->disuria == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->genito->disuria)) @if($area->genito->disuria == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('sensacao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="sensacao">Sensação de Esvaziamento Incompleto</label>
+							<div class="col-md-4"> 
+								<select id="sensacao" name="sensacao" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->genito->sensacao)) @if($area->genito->sensacao == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->genito->sensacao)) @if($area->genito->sensacao == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('pelvica')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="pelvica">Dor Pélvica</label>
+							<div class="col-md-4"> 
+								<select id="pelvica" name="pelvica" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->genito->pelvica)) @if($area->genito->pelvica == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->genito->pelvica)) @if($area->genito->pelvica == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('abdominal')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="abdominal">Dor Abdominal</label>
+							<div class="col-md-4"> 
+								<select id="abdominal" name="abdominal" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->genito->abdominal)) @if($area->genito->abdominal == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->genito->abdominal)) @if($area->genito->abdominal == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('vaginal')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="vaginal">Sangramento Vaginal</label>
+							<div class="col-md-4"> 
+								<select id="vaginal" name="vaginal" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->genito->vaginal)) @if($area->genito->vaginal == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->genito->vaginal)) @if($area->genito->vaginal == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div>  
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('costa')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="costa">Dor nas Costas</label>
+							<div class="col-md-4"> 
+								<select id="costa" name="costa" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->genito->costa)) @if($area->genito->costa == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->genito->costa)) @if($area->genito->costa == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+						<!-- Text Area-->
+						<div class="form-group @if($errors->has('genito_obs')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="genito_obs">Observações</label>
+							<div class="col-md-6">
+								<textarea class="textarea form-control input-md" placeholder="Observações" id="genito_obs" name="genito_obs">
+									{{ old('genito_obs',  isset($area->genito->genito_obs) ? $area->genito->genito_obs : null) }}
+								</textarea>
+								@if($errors->has('genito_obs')) {!! $errors->first('genito_obs', '<span class="help-block">:message</span>') !!} @endif						
+				        	</div>
+						</div> 
 					</div> 
       				<div class="tab-pane" id="tab_5"> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('constipacao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="constipacao">Constipação</label>
+							<div class="col-md-4"> 
+								<select id="constipacao" name="constipacao" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->digestivo->constipacao)) @if($area->digestivo->constipacao == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->digestivo->constipacao)) @if($area->digestivo->constipacao == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('alteracao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="alteracao">Alteração de consistência das fezes</label>
+							<div class="col-md-4"> 
+								<select id="alteracao" name="alteracao" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->digestivo->alteracao)) @if($area->digestivo->alteracao == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->digestivo->alteracao)) @if($area->digestivo->alteracao == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('esforco')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="esforco">Esforço para evacuar</label>
+							<div class="col-md-4"> 
+								<select id="esforco" name="esforco" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->digestivo->esforco)) @if($area->digestivo->esforco == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->digestivo->esforco)) @if($area->digestivo->esforco == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('manobra')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="manobra">Manobras Perineais</label>
+							<div class="col-md-4"> 
+								<select id="manobra" name="manobra" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->digestivo->manobra)) @if($area->digestivo->manobra == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->digestivo->manobra)) @if($area->digestivo->manobra == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('digestivo_sensacao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="digestivo_sensacao">Sensação de Esvaziamento Incompleto</label>
+							<div class="col-md-4"> 
+								<select id="digestivo_sensacao" name="digestivo_sensacao" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->digestivo->sensacao)) @if($area->digestivo->sensacao == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->digestivo->sensacao)) @if($area->digestivo->sensacao == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('fecais')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="fecais">Perdas Fecais</label>
+							<div class="col-md-4"> 
+								<select id="fecais" name="fecais" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->digestivo->fecais)) @if($area->digestivo->fecais == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->digestivo->fecais)) @if($area->digestivo->fecais == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('flatos')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="flatos">Perda de Flatos</label>
+							<div class="col-md-4"> 
+								<select id="flatos" name="flatos" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->digestivo->flatos)) @if($area->digestivo->flatos == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->digestivo->flatos)) @if($area->digestivo->flatos == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+						<!-- Text Area-->
+						<div class="form-group @if($errors->has('digestivo_obs')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="digestivo_obs">Observações</label>
+							<div class="col-md-6">
+								<textarea class="textarea form-control input-md" placeholder="Observações" id="digestivo_obs" name="digestivo_obs">
+									{{ old('digestivo_obs',  isset($area->digestivo->digestivo_obs) ? $area->digestivo->digestivo_obs : null) }}
+								</textarea>
+								@if($errors->has('digestivo_obs')) {!! $errors->first('digestivo_obs', '<span class="help-block">:message</span>') !!} @endif						
+				        	</div>
+						</div> 
 					</div> 
       				<div class="tab-pane" id="tab_6"> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('fratura')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="fratura">Fraturas</label>
+							<div class="col-md-4"> 
+								<select id="fratura" name="fratura" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->musculo->fratura)) @if($area->musculo->fratura == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->musculo->fratura)) @if($area->musculo->fratura == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('parestesia')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="parestesia">Parestesia de MMSS</label>
+							<div class="col-md-4"> 
+								<select id="parestesia" name="parestesia" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->musculo->parestesia)) @if($area->musculo->parestesia == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->musculo->parestesia)) @if($area->musculo->parestesia == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+						<!-- Text Area-->
+						<div class="form-group @if($errors->has('musculos_outros')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="musculos_outros">Outros</label>
+							<div class="col-md-6">
+								<textarea class="textarea form-control input-md" placeholder="Observações" id="musculos_outros" name="musculos_outros">
+									{{ old('musculos_outros',  isset($area->musculo->musculos_outros) ? $area->musculo->musculos_outros : null) }}
+								</textarea>
+								@if($errors->has('musculos_outros')) {!! $errors->first('musculos_outros', '<span class="help-block">:message</span>') !!} @endif						
+				        	</div>
+						</div>
+						<!-- texto -->
+						<div class="form-group @if($errors->has('musculos_outros')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="musculos_outros">DOR: OLD CARD</label>
+							<div class="col-md-6">
+								<ul>
+									<li><b>O</b>-Início</li>
+									<li><b>L</b>-Localização</li>
+									<li><b>D</b>-Duração</li>
+									<li><b>C</b>-Carater</li>
+									<li><b>A</b>-Fatores Agravantes</li>
+									<li><b>R</b>-Fatores Atenuantes</li>
+									<li><b>D</b>-Tratamentos Aplicados</li>
+								</ul>
+							</div>
+						</div> 
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('emocional')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="emocional">Estado Emocional</label>
+							<div class="col-md-4">
+								<input id="emocional" name="emocional" type="text"
+									placeholder="Estado Emocional" class="form-control input-md"
+									value="{{ old('emocional', isset($area->musculo->emocional) ? $area->musculo->emocional : null) }}">
+									@if($errors->has('emocional')) {!! $errors->first('emocional', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('hf')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="hf">HF</label>
+							<div class="col-md-4">
+								<input id="hf" name="hf" type="text"
+									placeholder="HF" class="form-control input-md"
+									value="{{ old('hf', isset($area->musculo->hf) ? $area->musculo->hf : null) }}">
+									@if($errors->has('hf')) {!! $errors->first('hf', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
 					</div> 
       				<div class="tab-pane" id="tab_7"> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('lipotimia')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="lipotimia">Lipotimia</label>
+							<div class="col-md-4"> 
+								<select id="lipotimia" name="lipotimia" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->nervoso->lipotimia)) @if($area->nervoso->lipotimia == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->nervoso->lipotimia)) @if($area->nervoso->lipotimia == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('virtigem')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="virtigem">Virtigem</label>
+							<div class="col-md-4"> 
+								<select id="virtigem" name="virtigem" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->nervoso->virtigem)) @if($area->nervoso->virtigem == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->nervoso->virtigem)) @if($area->nervoso->virtigem == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('convulcao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="convulcao">Convulção</label>
+							<div class="col-md-4"> 
+								<select id="convulcao" name="convulcao" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->nervoso->convulcao)) @if($area->nervoso->convulcao == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->nervoso->convulcao)) @if($area->nervoso->convulcao == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('parentesca')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="parentesca">Parentesca</label>
+							<div class="col-md-4"> 
+								<select id="parentesca" name="parentesca" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->nervoso->parentesca)) @if($area->nervoso->parentesca == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->nervoso->parentesca)) @if($area->nervoso->parentesca == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
 					</div> 
       				<div class="tab-pane" id="tab_8"> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('alergia')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="alergia">Alergia</label>
+							<div class="col-md-4"> 
+								<select id="alergia" name="alergia" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->tegumentar->alergia)) @if($area->tegumentar->alergia == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->tegumentar->alergia)) @if($area->tegumentar->alergia == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('pele')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="pele">Doença de Pele</label>
+							<div class="col-md-4"> 
+								<select id="pele" name="pele" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->tegumentar->pele)) @if($area->tegumentar->pele == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->tegumentar->pele)) @if($area->tegumentar->pele == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+						<!-- Text Area-->
+						<div class="form-group @if($errors->has('tegumentar_obs')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="tegumentar_obs">Observações</label>
+							<div class="col-md-6">
+								<textarea class="textarea form-control input-md" placeholder="Observações" id="tegumentar_obs" name="tegumentar_obs">
+									{{ old('tegumentar_obs',  isset($area->tegumentar->tegumentar_obs) ? $area->tegumentar->tegumentar_obs : null) }}
+								</textarea>
+								@if($errors->has('tegumentar_obs')) {!! $errors->first('tegumentar_obs', '<span class="help-block">:message</span>') !!} @endif						
+				        	</div>
+						</div> 
 					</div> 
-      				<div class="tab-pane" id="tab_9"> 
+      				<div class="tab-pane" id="tab_9">   
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('pa')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="pa">PA</label>
+							<div class="col-md-4">
+								<input id="pa" name="pa" type="text"
+									placeholder="PA" class="form-control input-md"
+									value="{{ old('pa', isset($area->fisico->pa) ? $area->fisico->pa : null) }}">
+									@if($errors->has('pa')) {!! $errors->first('pa', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	 
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('fc')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="fc">FC</label>
+							<div class="col-md-4">
+								<input id="fc" name="fc" type="text"
+									placeholder="FC" class="form-control input-md"
+									value="{{ old('fc', isset($area->fisico->fc) ? $area->fisico->fc : null) }}">
+									@if($errors->has('fc')) {!! $errors->first('fc', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('fr')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="fr">FR</label>
+							<div class="col-md-4">
+								<input id="fr" name="fr" type="text"
+									placeholder="FR" class="form-control input-md"
+									value="{{ old('fr', isset($area->fisico->fr) ? $area->fisico->fr : null) }}">
+									@if($errors->has('fr')) {!! $errors->first('fr', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('peso_antes')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="peso_antes">Peso Antes da Gestação</label>
+							<div class="col-md-4">
+								<input id="peso_antes" name="peso_antes" type="text"
+									placeholder="Peso Antes da Gestação" class="form-control input-md"
+									value="{{ old('peso_antes', isset($area->fisico->peso_antes) ? $area->fisico->peso_antes : null) }}">
+									@if($errors->has('peso_antes')) {!! $errors->first('peso_antes', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	 
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('peso_atual')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="peso_atual">Peso Atual</label>
+							<div class="col-md-4">
+								<input id="peso_atual" name="peso_atual" type="text"
+									placeholder="Peso Atual" class="form-control input-md"
+									value="{{ old('peso_atual', isset($area->fisico->peso_atual) ? $area->fisico->peso_atual : null) }}">
+									@if($errors->has('peso_atual')) {!! $errors->first('peso_atual', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	 
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('ganho')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="ganho">Ganho Ponteral</label>
+							<div class="col-md-4">
+								<input id="ganho" name="ganho" type="text"
+									placeholder="Ganho Ponteral" class="form-control input-md"
+									value="{{ old('ganho', isset($area->fisico->ganho) ? $area->fisico->ganho : null) }}">
+									@if($errors->has('ganho')) {!! $errors->first('ganho', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('estatura')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="estatura">Estatura</label>
+							<div class="col-md-4">
+								<input id="estatura" name="estatura" type="text"
+									placeholder="Estatura" class="form-control input-md"
+									value="{{ old('estatura', isset($area->fisico->estatura) ? $area->fisico->estatura : null) }}">
+									@if($errors->has('estatura')) {!! $errors->first('estatura', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	 
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('vista_anterior')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="vista_anterior">Vista Anterior</label>
+							<div class="col-md-4">
+								<input id="vista_anterior" name="vista_anterior" type="text"
+									placeholder="Vista Anterior" class="form-control input-md"
+									value="{{ old('vista_anterior', isset($area->fisico->vista_anterior) ? $area->fisico->vista_anterior : null) }}">
+									@if($errors->has('vista_anterior')) {!! $errors->first('vista_anterior', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('vista_lateral')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="vista_lateral">Vista Lateral</label>
+							<div class="col-md-4">
+								<input id="vista_lateral" name="vista_lateral" type="text"
+									placeholder="Vista Lateral" class="form-control input-md"
+									value="{{ old('vista_lateral', isset($area->fisico->vista_lateral) ? $area->fisico->vista_lateral : null) }}">
+									@if($errors->has('vista_lateral')) {!! $errors->first('vista_lateral', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('vista_posterior')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="vista_posterior">Vista Posterior</label>
+							<div class="col-md-4">
+								<input id="vista_posterior" name="vista_posterior" type="text"
+									placeholder="Vista Posterior" class="form-control input-md"
+									value="{{ old('vista_posterior', isset($area->fisico->vista_posterior) ? $area->fisico->vista_posterior : null) }}">
+									@if($errors->has('vista_posterior')) {!! $errors->first('vista_posterior', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	 
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('estatico')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="estatico">Exame Estático Sentada</label>
+							<div class="col-md-4">
+								<input id="estatico" name="estatico" type="text"
+									placeholder="PA" class="form-control input-md"
+									value="{{ old('estatico', isset($area->fisico->estatico) ? $area->fisico->estatico : null) }}">
+									@if($errors->has('estatico')) {!! $errors->first('estatico', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	 
+      					<!-- Divisor -->
+						<div class="form-group">
+							<label class="col-md-4 control-label"><h4>Mamas</h4></label>
+							<div class="col-md-4"></div>
+						</div>	 
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('simetria')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="simetria">Simetria</label>
+							<div class="col-md-4">
+								<input id="simetria" name="simetria" type="text"
+									placeholder="Simetria" class="form-control input-md"
+									value="{{ old('simetria', isset($area->fisico->simetria) ? $area->fisico->simetria : null) }}">
+									@if($errors->has('simetria')) {!! $errors->first('simetria', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('mamilar')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="mamilar">Condição Mamilar</label>
+							<div class="col-md-4">
+								<input id="mamilar" name="mamilar" type="text"
+									placeholder="Condição Mamilar" class="form-control input-md"
+									value="{{ old('mamilar', isset($area->fisico->mamilar) ? $area->fisico->mamilar : null) }}">
+									@if($errors->has('mamilar')) {!! $errors->first('mamilar', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('sensibilidade_mamilar')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="sensibilidade_mamilar">Sensibilidade do Tecido Mamilar</label>
+							<div class="col-md-4">
+								<input id="sensibilidade_mamilar" name="sensibilidade_mamilar" type="text"
+									placeholder="Sensibilidade do Tecido Mamilar" class="form-control input-md"
+									value="{{ old('sensibilidade_mamilar', isset($area->fisico->sensibilidade_mamilar) ? $area->fisico->sensibilidade_mamilar : null) }}">
+									@if($errors->has('sensibilidade_mamilar')) {!! $errors->first('sensibilidade_mamilar', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('secrecao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="secrecao">Tipo de Secreção Mamilar</label>
+							<div class="col-md-4">
+								<input id="secrecao" name="secrecao" type="text"
+									placeholder="Tipo de Secreção Mamilar" class="form-control input-md"
+									value="{{ old('secrecao', isset($area->fisico->secrecao) ? $area->fisico->secrecao : null) }}">
+									@if($errors->has('secrecao')) {!! $errors->first('secrecao', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Divisor -->
+						<div class="form-group">
+							<label class="col-md-4 control-label"><h4>Exame DD</h4></label>
+							<div class="col-md-4"></div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('diastase')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="diastase">Distase do Músculo reto Abdominal</label>
+							<div class="col-md-4">
+								<input id="diastase" name="diastase" type="text"
+									placeholder="Distase do Músculo reto Abdominal" class="form-control input-md"
+									value="{{ old('diastase', isset($area->fisico->diastase) ? $area->fisico->diastase : null) }}">
+									@if($errors->has('diastase')) {!! $errors->first('diastase', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Divisor -->
+						<div class="form-group">
+							<label class="col-md-4 control-label"><h4>Exame Dinâmico</h4></label>
+							<div class="col-md-4"></div>
+						</div>	 
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('flexao_anterior')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="flexao_anterior">Flexão Anterior</label>
+							<div class="col-md-4">
+								<input id="flexao_anterior" name="flexao_anterior" type="text"
+									placeholder="Flexão Anterior" class="form-control input-md"
+									value="{{ old('flexao_anterior', isset($area->fisico->flexao_anterior) ? $area->fisico->flexao_anterior : null) }}">
+									@if($errors->has('flexao_anterior')) {!! $errors->first('flexao_anterior', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('flexao_lateral')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="flexao_lateral">Flexão Lateral</label>
+							<div class="col-md-4">
+								<input id="flexao_lateral" name="flexao_lateral" type="text"
+									placeholder="Flexão Lateral" class="form-control input-md"
+									value="{{ old('flexao_lateral', isset($area->fisico->flexao_lateral) ? $area->fisico->flexao_lateral : null) }}">
+									@if($errors->has('flexao_lateral')) {!! $errors->first('flexao_lateral', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('extensao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="extensao">Extensão</label>
+							<div class="col-md-4">
+								<input id="extensao" name="extensao" type="text"
+									placeholder="Extensão" class="form-control input-md"
+									value="{{ old('extensao', isset($area->fisico->extensao) ? $area->fisico->extensao : null) }}">
+									@if($errors->has('extensao')) {!! $errors->first('extensao', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('rotacao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="rotacao">Rotação</label>
+							<div class="col-md-4">
+								<input id="rotacao" name="rotacao" type="text"
+									placeholder="Rotação" class="form-control input-md"
+									value="{{ old('rotacao', isset($area->fisico->rotacao) ? $area->fisico->rotacao : null) }}">
+									@if($errors->has('rotacao')) {!! $errors->first('rotacao', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('av_neuro')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="av_neuro">Avaliação Neurológica</label>
+							<div class="col-md-4">
+								<input id="av_neuro" name="av_neuro" type="text"
+									placeholder="Avaliação Neurológica" class="form-control input-md"
+									value="{{ old('av_neuro', isset($area->fisico->av_neuro) ? $area->fisico->av_neuro : null) }}">
+									@if($errors->has('av_neuro')) {!! $errors->first('av_neuro', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('av_muscular')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="av_muscular">Avaliação Muscular</label>
+							<div class="col-md-4">
+								<input id="av_muscular" name="av_muscular" type="text"
+									placeholder="Avaliação Muscular" class="form-control input-md"
+									value="{{ old('av_muscular', isset($area->fisico->av_muscular) ? $area->fisico->av_muscular : null) }}">
+									@if($errors->has('av_muscular')) {!! $errors->first('av_muscular', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('palpacao')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="palpacao">Palpação</label>
+							<div class="col-md-4">
+								<input id="palpacao" name="palpacao" type="text"
+									placeholder="Palpação" class="form-control input-md"
+									value="{{ old('palpacao', isset($area->fisico->palpacao) ? $area->fisico->palpacao : null) }}">
+									@if($errors->has('palpacao')) {!! $errors->first('palpacao', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('av_func')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="av_func">Avaliação Funcional</label>
+							<div class="col-md-4">
+								<input id="av_func" name="av_func" type="text"
+									placeholder="Avaliação Funcional" class="form-control input-md"
+									value="{{ old('av_func', isset($area->fisico->av_func) ? $area->fisico->av_func : null) }}">
+									@if($errors->has('av_func')) {!! $errors->first('av_func', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	 
 					</div> 
-      				<div class="tab-pane" id="tab_10"> 
+      				<div class="tab-pane" id="tab_10">
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('tredelemburg')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="tredelemburg">Tredelemburg</label>
+							<div class="col-md-4"> 
+								<select id="tredelemburg" name="tredelemburg" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->especial->tredelemburg)) @if($area->especial->tredelemburg == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->especial->tredelemburg)) @if($area->especial->tredelemburg == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('lasegue')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="lasegue">Lasegue</label>
+							<div class="col-md-4"> 
+								<select id="lasegue" name="lasegue" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->especial->lasegue)) @if($area->especial->lasegue == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->especial->lasegue)) @if($area->especial->lasegue == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('phalen')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="phalen">Phalen</label>
+							<div class="col-md-4"> 
+								<select id="phalen" name="phalen" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->especial->phalen)) @if($area->especial->phalen == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->especial->phalen)) @if($area->especial->phalen == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div> 
+      					<!-- Select input-->
+						<div class="form-group @if($errors->has('piriforme')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="piriforme">Teste de Piriforme</label>
+							<div class="col-md-4"> 
+								<select id="piriforme" name="piriforme" class="form-control select2"  style="width: 100%;">
+									<option value="">Selecione uma opção</option> 
+									<option value="0" @if(isset($area->especial->piriforme)) @if($area->especial->piriforme == 0) selected @endif @endif>
+										Não
+									</option> 
+									<option value="1" @if(isset($area->especial->piriforme)) @if($area->especial->piriforme == 1) selected @endif @endif>
+										Sim
+									</option> 
+								</select>   
+							</div>
+						</div>  
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('mmss')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="mmss">MMSS</label>
+							<div class="col-md-4">
+								<input id="mmss" name="mmss" type="text"
+									placeholder="MMSS" class="form-control input-md"
+									value="{{ old('mmss', isset($area->especial->mmss) ? $area->especial->mmss : null) }}">
+									@if($errors->has('mmss')) {!! $errors->first('mmss', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
+      					<!-- Text input-->
+						<div class="form-group @if($errors->has('mmii')) {!! 'has-error' !!} @endif">
+							<label class="col-md-4 control-label" for="mmii">MMII</label>
+							<div class="col-md-4">
+								<input id="mmii" name="mmii" type="text"
+									placeholder="MMII" class="form-control input-md"
+									value="{{ old('mmii', isset($area->especial->mmii) ? $area->especial->mmii : null) }}">
+									@if($errors->has('mmii')) {!! $errors->first('MMSS', '<span class="help-block">:message</span>') !!} @endif
+							</div>
+						</div>	
 					</div> 
 					<!-- Button -->
 					<div class="form-group">

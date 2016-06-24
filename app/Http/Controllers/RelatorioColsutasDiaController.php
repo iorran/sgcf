@@ -7,18 +7,14 @@ use Log;
 use PDF;
 use Illuminate\Http\Request;
 
-class RelatorioColsutasDiaController extends Controller {
-	/**
-	 * Armazena as consultas feitas
-	 */
-	private $dataSource;
+class RelatorioColsutasDiaController extends Controller { 
 	
 	/**
 	 * Exibe a tela para selecionar a data
 	 */
 	public function index() {
 		try {
-			$data ['page_title'] = 'Consultas marcadas no dia';
+			$data ['page_title'] = 'Relatório da Agenda';
 			// recupera as consultas ordenadas pela hora de incio da consulta
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
@@ -32,7 +28,7 @@ class RelatorioColsutasDiaController extends Controller {
 	 */
 	public function gerarRelatorio(Request $request) {
 		try {
-			$data ['page_title'] = 'Consultas marcadas no dia';
+			$data ['page_title'] = 'Relatório da Agenda';
 			// recupera as consultas ordenadas pela hora de incio da consulta
 			$data ['data'] = $request->get('data');
 			$data ['consultas'] = $this->consultasDoDia ( $request->get('data') );
@@ -64,7 +60,7 @@ class RelatorioColsutasDiaController extends Controller {
 	public function exportar(Request $request) {
 		$parameterr = array ();
 		
-		$parameter ['page_title'] = 'Consultas marcadas no dia';
+		$parameter ['page_title'] = 'Relatório da Agenda';
 		// recupera as consultas ordenadas pela hora de incio da consulta
 		$parameter ['consultas'] = $this->consultasDoDia ( $request->get('data'));
 		

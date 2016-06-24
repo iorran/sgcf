@@ -1,6 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\AreaGestacional;
+use App\Models\GestacionalCardiovascular;
+use App\Models\GestacionalDigestivo;
+use App\Models\GestacionalEspecial;
+use App\Models\GestacionalFisico;
+use App\Models\GestacionalGenitourinario;
+use App\Models\GestacionalMusculo;
+use App\Models\GestacionalNervoso;
+use App\Models\GestacionalTegumentar;
 
 use DB;
 use Illuminate\Http\Request;
@@ -14,67 +23,130 @@ class GestacionalController extends Controller {
 	 *        	\App\Http\Requests\Request
 	 *        	
 	 */
-	public function storeGestacional(Request $request) { 
-		dd($request);
+	public function storeGestacional(Request $request) {  
 		try {
 			DB::beginTransaction ();
 			
-			$area = new AreaCardio ();
+			$area = new AreaGestacional ();
 			$area->paciente_id = $request->get ( 'paciente_id' );
 			$area->agendamento_id = $request->get ( 'agendamento_id' );
-			$area->pa = $request->get ( 'pa' );
-			$area->pa2 = $request->get ( 'pa2' );
-			$area->fcr = $request->get ( 'fcr' );
-			$area->fcr2 = $request->get ( 'fcr2' );
-			$area->medicamentos = $request->get ( 'medicamentos' );
+			$area->dum = $request->get('dum');	
+			$area->dpp = $request->get('dpp'); 	  
+			$area->objetivo = $request->get('objetivo');
+
+			$area->planejamento = $request->get('planejamento');
+			$area->tto = $request->get('tto');
+			$area->hasg = $request->get('hasg');
+			$area->dmg = $request->get('dmg');			
+			$area->eclampsia = $request->get('eclampsia');
+			$area->parto = $request->get('parto');
+			$area->ruptura = $request->get('ruptura');
+			$area->placenta = $request->get('placenta');
+			$area->incompetencia = $request->get('incompetencia');
+			$area->recem = $request->get('recem');
 			$area->save (); 
 			
-			$exame = new CardioExame ();
-			$exame->colesterol_total = $request->get ( 'hdl' ) + $request->get('ldl');
-			$exame->hdl = $request->get ( 'hdl' );
-			$exame->ldl = $request->get('ldl');
-			$exame->triglicerideos = $request->get('triglicerideos');
-			$exame->glicose = $request->get('glicose');
-			$exame->imc  = $request->get('imc');
-			$area->Exame ()->save ( $exame ); 
+			$cardiovascular = new GestacionalCardiovascular ();
+			$cardiovascular->has = $request->get('has');
+			$cardiovascular->haig = $request->get('haig');
+			$cardiovascular->problemas = $request->get('problemas');
+			$cardiovascular->icc = $request->get('icc');
+			$cardiovascular->varizes = $request->get('varizes');
+			$cardiovascular->hemorroida = $request->get('hemorroida');
+			$cardiovascular->tvp = $request->get('tvp');
+			$cardiovascular->anemia = $request->get('anemia');
+			$cardiovascular->mal = $request->get('mal');
+			$cardiovascular->flebite = $request->get('flebite');
+			$cardiovascular->taquicardia = $request->get('taquicardia');
+			$cardiovascular->postural = $request->get('postural');
+			$cardiovascular->supino = $request->get('supino');
+			$cardiovascular->cardiovascular_obs = $request->get('cardiovascular_obs');
+			$area->Cardiovascular ()->save ( $cardiovascular ); 
+
+			$digestivo = new GestacionalDigestivo();
+			$digestivo->constipacao = $request->get('constipacao');
+			$digestivo->alteracao = $request->get('alteracao');
+			$digestivo->esforco = $request->get('esforco');
+			$digestivo->manobra = $request->get('manobra');
+			$digestivo->sensacao = $request->get('sensacao');
+			$digestivo->fecais = $request->get('fecais');
+			$digestivo->flatos = $request->get('flatos'); 
+			$digestivo->digestivo_obs = $request->get('digestivo_obs');
+			$area->Digestivo ()->save ( $digestivo );
 			
-			$fator = new CardioFator ();
-			$fator->historia = $request->get('historia');
-			$fator->fumo = $request->get('fumo');
-			$fator->hipertensao = $request->get('hipertensao');
-			$fator->hipercolesterolemia = $request->get('hipercolesterolemia');
-			$fator->glicose_jejum = $request->get('glicose_jejum');
-			$fator->obesidade = $request->get('obesidade');
-			$fator->estilo = $request->get('estilo');
-			$fator->colesterol = $request->get('colesterol');
-			$area->Fator ()->save ( $fator ); 
+			$especial = new GestacionalEspecial();
+			$especial->tredelemburg = $request->get('tredelemburg'); 
+			$especial->lasegue = $request->get('lasegue'); 
+			$especial->phalen = $request->get('phalen'); 
+			$especial->piriforme = $request->get('piriforme'); 
+			$especial->mmss = $request->get('mmss'); 
+			$especial->mmii = $request->get('mmii'); 
+			$area->Especial ()->save ( $especial );
 			
-			$sitoma = new CardioSintoma ();
-			$sitoma->p1 = $request->get('p1');
-			$sitoma->p2 = $request->get('p2');
-			$sitoma->p3 = $request->get('p3');
-			$sitoma->p4 = $request->get('p4');
-			$sitoma->p5 = $request->get('p5');
-			$sitoma->p6 = $request->get('p6');
-			$sitoma->p7 = $request->get('p7');
-			$sitoma->p8 = $request->get('p8');
-			$sitoma->p9 = $request->get('p9');
-			$sitoma->tipo_risco = $request->get('tipo_risco');
-			$area->Sintoma ()->save ( $sitoma ); 
+			$fisico = new GestacionalFisico();
+			$fisico->pa = $request->get('pa');
+			$fisico->fc = $request->get('fc');
+			$fisico->fr = $request->get('fr');
+			$fisico->peso_antes = $request->get('peso_antes');
+			$fisico->peso_atual = $request->get('peso_atual');
+			$fisico->ganho = $request->get('ganho');
+			$fisico->estatura = $request->get('estatura');
+			$fisico->vista_anterior = $request->get('vista_anterior');
+			$fisico->vista_lateral = $request->get('vista_lateral');
+			$fisico->vista_posterior = $request->get('vista_posterior');
+			$fisico->estatico = $request->get('estatico');
 			
-			$aptidao = new CardioAptidao ();
-			$aptidao->teste_articular = $request->get('teste_articular');
-			$aptidao->teste_muscular = $request->get('teste_muscular');
-			$aptidao->analise_da_marcha = $request->get('analise_da_marcha');
-			$aptidao->analise_ventilatoria = $request->get('analise_ventilatoria');
-			$aptidao->fr = $request->get('fr');
-			$aptidao->temp_auxiliar = $request->get('temp_auxiliar');
-			$aptidao->sao2 = $request->get('sao2');
-			$aptidao->ausculta_pulmonar = $request->get('ausculta_pulmonar');
-			$aptidao->dor_toracica = $request->get('dor_toracica');
-			$area->Aptidao ()->save ( $aptidao ); 
+			$fisico->simetria = $request->get('simetria');
+			$fisico->mamilar = $request->get('mamilar');
+			$fisico->sensibilidade_mamilar = $request->get('sensibilidade_mamilar');
+			$fisico->secrecao = $request->get('secrecao');
 			
-			DB::commit ();
+			$fisico->diastase = $request->get('diastase');
+			
+			$fisico->flexao_anterior = $request->get('flexao_anterior');
+			$fisico->flexao_lateral = $request->get('flexao_lateral');
+			$fisico->extensao = $request->get('extensao');
+			$fisico->rotacao = $request->get('rotacao');
+			$fisico->av_neuro = $request->get('av_neuro');
+			$fisico->av_muscular = $request->get('av_muscular');
+			$fisico->palpacao = $request->get('palpacao');
+			$fisico->av_func = $request->get('av_func');
+			$area->Fisico ()->save ( $fisico );
+			
+			$musculo = new GestacionalMusculo();
+			$musculo->fratura = $request->get('fratura');
+			$musculo->parestesia = $request->get('parestesia');
+			$musculo->musculos_outros = $request->get('musculos_outros');
+			$musculo->emocional = $request->get('emocional');
+			$musculo->hf = $request->get('hf');
+			$area->Musculo ()->save ( $musculo );
+			
+			$genito = new GestacionalGenitourinario();
+			$genito->infeccao = $request->get('infeccao');
+			$genito->perda = $request->get('perda');
+			$genito->disuria = $request->get('disuria');
+			$genito->sensacao = $request->get('sensacao');
+			$genito->pelvica = $request->get('pelvica');
+			$genito->abdominal = $request->get('abdominal');
+			$genito->vaginal = $request->get('vaginal');
+			$genito->costa = $request->get('costa');
+			$genito->genito_obs = $request->get('genito_obs'); 
+			$area->Genito ()->save ( $genito );
+			
+			$nervoso = new GestacionalNervoso();
+			$nervoso->lipotimia = $request->get('lipotimia');
+			$nervoso->virtigem = $request->get('virtigem');
+			$nervoso->convulcao = $request->get('convulcao');
+			$nervoso->parentesca = $request->get('parentesca');
+			$area->Nervoso ()->save ( $nervoso );
+			
+			$tegumentar = new GestacionalTegumentar();
+			$tegumentar->alergia = $request->get('alergia');
+			$tegumentar->pele = $request->get('pele');
+			$tegumentar->tegumentar_obs = $request->get('tegumentar_obs');  
+			$area->Tegumentar ()->save ( $tegumentar );
+			 
+			DB::commit (); 
 			alert ()->success ( '', config ( 'constants.SAVED' ) )->autoclose ( 2000 );
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
@@ -90,64 +162,124 @@ class GestacionalController extends Controller {
 	 * @param int $id        	
 	 * @return \Illuminate\Http\Response
 	 */
-	public function updateGestacional(Request $request, $id) {
-		dd($request);
+	public function updateGestacional(Request $request, $id) { 
 		try {
 			DB::beginTransaction ();
 			
-			$area = AreaCardio::findOrFail ( $id );   
-			
+			$area = AreaGestacional::findOrFail ( $id );    
 			$area->paciente_id = $request->get ( 'paciente_id' );
 			$area->agendamento_id = $request->get ( 'agendamento_id' );
-			$area->pa = $request->get ( 'pa' );
-			$area->pa2 = $request->get ( 'pa2' );
-			$area->fcr = $request->get ( 'fcr' );
-			$area->fcr2 = $request->get ( 'fcr2' );
-			$area->medicamentos = $request->get ( 'medicamentos' ); 
-			 
-			$exame = $area->exame;
-			$exame->colesterol_total = $request->get ( 'hdl' ) + $request->get('ldl');
-			$exame->hdl = $request->get ( 'hdl' );
-			$exame->ldl = $request->get('ldl');
-			$exame->triglicerideos = $request->get('triglicerideos');
-			$exame->glicose = $request->get('glicose');
-			$exame->imc  = $request->get('imc');
+			$area->dum = $request->get('dum');	
+			$area->dpp = $request->get('dpp'); 	  
+			$area->objetivo = $request->get('objetivo');
+
+			$area->planejamento = $request->get('planejamento');
+			$area->tto = $request->get('tto');
+			$area->hasg = $request->get('hasg');
+			$area->dmg = $request->get('dmg');			
+			$area->eclampsia = $request->get('eclampsia');
+			$area->parto = $request->get('parto');
+			$area->ruptura = $request->get('ruptura');
+			$area->placenta = $request->get('placenta');
+			$area->incompetencia = $request->get('incompetencia');
+			$area->recem = $request->get('recem');
+			$area->save (); 
 			
-			$fator = $area->fator;
-			$fator->historia = $request->get('historia');
-			$fator->fumo = $request->get('fumo');
-			$fator->hipertensao = $request->get('hipertensao');
-			$fator->hipercolesterolemia = $request->get('hipercolesterolemia');
-			$fator->glicose_jejum = $request->get('glicose_jejum');
-			$fator->obesidade = $request->get('obesidade');
-			$fator->estilo = $request->get('estilo');
-			$fator->colesterol = $request->get('colesterol'); 
+			$cardiovascular = $area->cardiovascular;
+			$cardiovascular->has = $request->get('has');
+			$cardiovascular->haig = $request->get('haig');
+			$cardiovascular->problemas = $request->get('problemas');
+			$cardiovascular->icc = $request->get('icc');
+			$cardiovascular->varizes = $request->get('varizes');
+			$cardiovascular->hemorroida = $request->get('hemorroida');
+			$cardiovascular->tvp = $request->get('tvp');
+			$cardiovascular->anemia = $request->get('anemia');
+			$cardiovascular->mal = $request->get('mal');
+			$cardiovascular->flebite = $request->get('flebite');
+			$cardiovascular->taquicardia = $request->get('taquicardia');
+			$cardiovascular->postural = $request->get('postural');
+			$cardiovascular->supino = $request->get('supino');
+			$cardiovascular->cardiovascular_obs = $request->get('cardiovascular_obs'); 
+
+			$digestivo = $area->digestivo;
+			$digestivo->constipacao = $request->get('constipacao');
+			$digestivo->alteracao = $request->get('alteracao');
+			$digestivo->esforco = $request->get('esforco');
+			$digestivo->manobra = $request->get('manobra');
+			$digestivo->sensacao = $request->get('sensacao');
+			$digestivo->fecais = $request->get('fecais');
+			$digestivo->flatos = $request->get('flatos'); 
+			$digestivo->digestivo_obs = $request->get('digestivo_obs'); 
 			
-			$sitoma = $area->sintoma;
-			$sitoma->p1 = $request->get('p1');
-			$sitoma->p2 = $request->get('p2');
-			$sitoma->p3 = $request->get('p3');
-			$sitoma->p4 = $request->get('p4');
-			$sitoma->p5 = $request->get('p5');
-			$sitoma->p6 = $request->get('p6');
-			$sitoma->p7 = $request->get('p7');
-			$sitoma->p8 = $request->get('p8');
-			$sitoma->p9 = $request->get('p9');
-			$sitoma->tipo_risco = $request->get('tipo_risco');
 			
-			$aptidao = $area->aptidao;
-			$aptidao->teste_articular = $request->get('teste_articular');
-			$aptidao->teste_muscular = $request->get('teste_muscular');
-			$aptidao->analise_da_marcha = $request->get('analise_da_marcha');
-			$aptidao->analise_ventilatoria = $request->get('analise_ventilatoria');
-			$aptidao->fr = $request->get('fr');
-			$aptidao->temp_auxiliar = $request->get('temp_auxiliar');
-			$aptidao->sao2 = $request->get('sao2');
-			$aptidao->ausculta_pulmonar = $request->get('ausculta_pulmonar');
-			$aptidao->dor_toracica = $request->get('dor_toracica'); 
+			$especial = $area->especial;
+			$especial->tredelemburg = $request->get('tredelemburg'); 
+			$especial->lasegue = $request->get('lasegue'); 
+			$especial->phalen = $request->get('phalen'); 
+			$especial->piriforme = $request->get('piriforme'); 
+			$especial->mmss = $request->get('mmss'); 
+			$especial->mmii = $request->get('mmii');  
+
+			$fisico = $area->fisico;
+			$fisico->pa = $request->get('pa');
+			$fisico->fc = $request->get('fc');
+			$fisico->fr = $request->get('fr');
+			$fisico->peso_antes = $request->get('peso_antes');
+			$fisico->peso_atual = $request->get('peso_atual');
+			$fisico->ganho = $request->get('ganho');
+			$fisico->estatura = $request->get('estatura');
+			$fisico->vista_anterior = $request->get('vista_anterior');
+			$fisico->vista_lateral = $request->get('vista_lateral');
+			$fisico->vista_posterior = $request->get('vista_posterior');
+			$fisico->estatico = $request->get('estatico');
+			
+			$fisico->simetria = $request->get('simetria');
+			$fisico->mamilar = $request->get('mamilar');
+			$fisico->sensibilidade_mamilar = $request->get('sensibilidade_mamilar');
+			$fisico->secrecao = $request->get('secrecao');
+			
+			$fisico->diastase = $request->get('diastase');
+			
+			$fisico->flexao_anterior = $request->get('flexao_anterior');
+			$fisico->flexao_lateral = $request->get('flexao_lateral');
+			$fisico->extensao = $request->get('extensao');
+			$fisico->rotacao = $request->get('rotacao');
+			$fisico->av_neuro = $request->get('av_neuro');
+			$fisico->av_muscular = $request->get('av_muscular');
+			$fisico->palpacao = $request->get('palpacao');
+			$fisico->av_func = $request->get('av_func'); 
+
+			$musculo = $area->musculo;
+			$musculo->fratura = $request->get('fratura');
+			$musculo->parestesia = $request->get('parestesia');
+			$musculo->musculos_outros = $request->get('musculos_outros');
+			$musculo->emocional = $request->get('emocional');
+			$musculo->hf = $request->get('hf'); 
+			
+			$genito = $area->genito;
+			$genito->infeccao = $request->get('infeccao');
+			$genito->perda = $request->get('perda');
+			$genito->disuria = $request->get('disuria');
+			$genito->sensacao = $request->get('sensacao');
+			$genito->pelvica = $request->get('pelvica');
+			$genito->abdominal = $request->get('abdominal');
+			$genito->vaginal = $request->get('vaginal');
+			$genito->costa = $request->get('costa');
+			$genito->genito_obs = $request->get('genito_obs');  
+
+			$nervoso = $area->nervoso;
+			$nervoso->lipotimia = $request->get('lipotimia');
+			$nervoso->virtigem = $request->get('virtigem');
+			$nervoso->convulcao = $request->get('convulcao');
+			$nervoso->parentesca = $request->get('parentesca'); 
+
+			$tegumentar = $area->tegumentar;
+			$tegumentar->alergia = $request->get('alergia');
+			$tegumentar->pele = $request->get('pele');
+			$tegumentar->tegumentar_obs = $request->get('tegumentar_obs');   
 			
 			$area->push ();
-			
+			 
 			DB::commit (); 
 			alert ()->success ( '', config ( 'constants.UPDATED' ) )->autoclose ( 2000 );
 		} catch ( \Exception $e ) {

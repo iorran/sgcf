@@ -221,17 +221,6 @@ $('a[desmarcar-consulta="true"]').on('click', function() {
 	desmarcarConsulta($(this).attr('data-id')); 
 });
 
-//Iniciar Tratamento  
-$('a[iniciar_tratamento="true"]').on('click', function() {
-	$.redirect( 
-		"{!! route('tratamento.iniciar') !!}", 
-		{  
-			id : $(this).attr('data-id'),  
-			_token: '{!! csrf_token() !!}'
-		}
-	);  
-});
-
 //Iniciar Diagnostico  
 $('a[iniciar_diagnostico="true"]').on('click', function() {
 	$.redirect( 
@@ -243,6 +232,56 @@ $('a[iniciar_diagnostico="true"]').on('click', function() {
 	);  
 }); 
 
+//Iniciar Tratamento  
+$('a[iniciar_tratamento="true"]').on('click', function() {
+	$.redirect( 
+		"{!! route('tratamento.iniciar') !!}", 
+		{  
+			id : $(this).attr('data-id'),  
+			_token: '{!! csrf_token() !!}'
+		}
+	);  
+});
+
+//Finalizar Consulta  
+$('a[finalizar_consulta="true"]').on('click', function() { 
+	var id = $(this).attr('data-id');
+	swal({   
+		title: "Deseja realmente finalizar ?",
+	    text: "Não será possível alterar as informações",         
+	    type: "warning",   
+	    showCancelButton: true,   
+	    confirmButtonColor: "#d9534f",
+	    confirmButtonText: "Confirmar", 
+	    cancelButtonText: "Cancelar", 
+	    closeOnConfirm: false,
+	    showLoaderOnConfirm: true
+	}, 
+	function(isConfirm){     
+		if(isConfirm){  
+		 	$.redirect( 
+		 		"{!! route('consulta.finalizar') !!}", 
+		 		{  
+		 			id : id,  
+		 			_token: '{!! csrf_token() !!}'
+		 		}
+		 	); 
+		} 
+	}); 
+});
+ 
+//Visualizar Consulta  
+$('a[visualizar_consulta="true"]').on('click', function() { 
+	var id = $(this).attr('data-id'); 
+ 	$.redirect( 
+ 		"{!! route('visualizar.consulta') !!}", 
+ 		{  
+ 			id : id,  
+ 			_token: '{!! csrf_token() !!}'
+ 		}
+ 	);  
+});
+ 
 // readjust sizing after font load
 $(window).on('load', function() {
 	$('#calendar').fullCalendar('render');

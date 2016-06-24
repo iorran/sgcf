@@ -14,5 +14,5 @@ return [
 				'neuro', 
 				'gestacional',
 				'cardio',
-		] 
+		]  
 ];

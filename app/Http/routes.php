@@ -68,6 +68,10 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 	Route::post('diagnostico/iniciar', ['uses' => 'DiagnosticoController@iniciar', 'as' => 'diagnostico.iniciar']);
 	Route::post('diagnostico/store', ['uses' => 'DiagnosticoController@store', 'as' => 'diagnostico.store']);
 	Route::put('diagnostico/update/{id}', ['uses' => 'DiagnosticoController@update', 'as' => 'diagnostico.update']);
+	//Finalizar
+	Route::post('consulta/finalizar', ['uses' => 'ConsultaController@finalizarConsulta', 'as' => 'consulta.finalizar']);	  	
+	//Visualizar
+	Route::post('consulta/visualizar', ['uses' => 'RelatorioConsultaController@index', 'as' => 'visualizar.consulta']);
 });
  
  

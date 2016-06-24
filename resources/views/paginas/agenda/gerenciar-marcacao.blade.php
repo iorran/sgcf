@@ -99,6 +99,8 @@
 										</a>  
 			                  		@endif
 		                  		@endif
+	                  		@endif 
+	                  		@if(  $agendamento->iniciada != 4 )
 		                  		@if(  $agendamento->iniciada >= 1 )
 		                  			<!-- Editar Consulta -->
 		                  			<a class="btn btn-app" href="{!! url('consulta/iniciar/'.$agendamento->id) !!}">
@@ -121,7 +123,13 @@
 			                    		<i class="fa fa-times" aria-hidden="true"></i> Finalizar
 									</a>  
 		                  		@endif
-	                  		@endif 
+		                  	@else
+		                  		<!-- Relatorio -->
+		                  		<a class="btn btn-app" visualizar_consulta="true" data-id="{!! $agendamento->id !!}">
+		                    		<i class="fa fa-external-link" aria-hidden="true"></i> Visualizar Consulta
+								</a>  
+	                  		@endif
+		                  	
 	                  		<!-- Voltar -->
 							<a class="btn btn-app" href="{!! url('agenda') !!}" >
 	                    		<i class="fa fa-undo"></i> Voltar

@@ -14,8 +14,8 @@ class CreateGestacionalCardiovascularsTable extends Migration
     {
         Schema::create('gestacional_cardiovasculars', function (Blueprint $table) {
             $table->increments('id');
-			$table->integer ( 'gestacional_cardiovascular_id', false, true );
-			$table->foreign ( 'gestacional_cardiovascular_id' )->references ( 'id' )->on ( 'gestacional_cardiovasculars' );
+			$table->integer ( 'area_gestacional_id', false, true );
+			$table->foreign ( 'area_gestacional_id' )->references ( 'id' )->on ( 'area_gestacionals' );
 
 			$table->string('has');
 			$table->string('haig');
@@ -30,7 +30,7 @@ class CreateGestacionalCardiovascularsTable extends Migration
 			$table->string('taquicardia');
 			$table->string('postural');
 			$table->string('supino');
-			$table->longText ( 'obs'); 
+			$table->longText ( 'cardiovascular_obs'); 
 			
             $table->timestamps();
         });

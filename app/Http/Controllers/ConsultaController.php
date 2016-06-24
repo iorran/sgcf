@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Agendamento;
 use App\Models\Anamnese;
-use App\Models\AreaCardio; 
+use App\Models\AreaCardio;
+use App\Models\AreaGestacional;
 use App\Models\AreaNeuro;
 use App\Models\AreaRespiratoria;
 use App\Models\AreaTraumato;
@@ -145,7 +146,7 @@ class ConsultaController extends Controller {
 		    	$data ['area'] = AreaNeuro::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
 		        break; 
 		    case 3: 
-		    	$data ['area'] = AreaTraumato::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
+		    	$data ['area'] = AreaGestacional::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
 		        break; 
 		    case 4: 
 		    	$data ['area'] = AreaCardio::where ( 'agendamento_id', '=', $request->get ( "agendamento_id" ) )->first ();
@@ -166,6 +167,26 @@ class ConsultaController extends Controller {
 			$agendamento = Agendamento::findOrFail ( $id );
 			DB::beginTransaction ();
 			$agendamento->iniciada = "1";
+			$agendamento->save ();
+			DB::commit ();
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			DB::rollback ();
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		}
+		return redirect ( 'consulta/detalhes/' . $agendamento->id );
+	}
+	
+	/**
+	 * Finalizar a consulta
+	 *
+	 * @return int
+	 */
+	public function finalizarConsulta(Request $request) { 
+		try {  
+			$agendamento = Agendamento::findOrFail ( $request->get("id") );
+			DB::beginTransaction ();
+			$agendamento->iniciada = "4";
 			$agendamento->save ();
 			DB::commit ();
 		} catch ( \Exception $e ) {
