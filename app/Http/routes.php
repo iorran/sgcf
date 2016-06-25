@@ -70,8 +70,9 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 	Route::put('diagnostico/update/{id}', ['uses' => 'DiagnosticoController@update', 'as' => 'diagnostico.update']);
 	//Finalizar
 	Route::post('consulta/finalizar', ['uses' => 'ConsultaController@finalizarConsulta', 'as' => 'consulta.finalizar']);	  	
-	//Visualizar
+	//Relatório
 	Route::post('consulta/visualizar', ['uses' => 'RelatorioConsultaController@index', 'as' => 'visualizar.consulta']);
+	Route::post('relatorio/consulta/exportar', ['uses' => 'RelatorioConsultaController@exportar', 'as' => 'exportar.relatorio.consulta']); //exportar o relatorio em pdf
 });
  
  
@@ -98,6 +99,7 @@ Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function
  * Relatório
  */
 Route::group(['middleware' => ['web','auth'] ], function () { 
+	//consultas Dia
 	Route::get('relatorio/consultas-do-dia', 'RelatorioColsutasDiaController@index'); //relatório de consultas no dia
 	Route::post('relatorio/gerar/consultas-do-dia/', ['uses' => 'RelatorioColsutasDiaController@gerarRelatorio', 'as' => 'gerar.relatorio.consultas_do_dia']); //relatório de consultas no dia
 	Route::post('relatorio/consultas-do-dia/exportar', ['uses' => 'RelatorioColsutasDiaController@exportar', 'as' => 'gerar.relatorio.consultas_do_dia.exportar']); //exportar o relatorio em pdf

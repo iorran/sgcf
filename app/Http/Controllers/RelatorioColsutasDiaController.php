@@ -64,6 +64,9 @@ class RelatorioColsutasDiaController extends Controller {
 		// recupera as consultas ordenadas pela hora de incio da consulta
 		$parameter ['consultas'] = $this->consultasDoDia ( $request->get('data'));
 		
+		$data = explode('-',  $request->get('data')); 
+		$parameter ['data'] = $data[2]."/".$data[1]."/".$data[0];
+		
 		$pdf = PDF::loadView ( 'paginas.relatorio.templates.relatorio-do-dia', $parameter );
 		return $pdf->download ( 'relatorio-de-consultas-' . date ( 'Y-m-d' ) . '.pdf' ); // this code is used for the name pdf
 	}

@@ -1,12 +1,21 @@
+<!DOCTYPE html>
  
+<html>
+<head>
+    <meta charset="UTF-8"> 
+</head>
+<body>
 <table width="100%"> 
 	<tbody> 
 		<tr align="left">
 			<td><h3>Relatório de consultas</h3></td>  
 		</tr> 
 		<tr align="left"> 
-			<td> Data da consulta: {!! date('d/m/y') !!}</td>
+			<td> Data da consulta: {!! $data !!}</td>
 		</tr> 
+		<tr align="left"> 
+			<td> Exportado: {!! date('d/m/Y') !!}</td>
+		</tr>  
 	</tbody> 
 </table>
 <br>
@@ -37,4 +46,5 @@
 
 	</tbody> 
 </table>
-  
+  </body>
+</html>

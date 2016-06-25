@@ -14,5 +14,15 @@ return [
 				'neuro', 
 				'gestacional',
 				'cardio',
-		]  
+		],
+		'SimNao' =>[
+				'Não',
+				'Sim'
+		],
+		'risco' =>[
+				'Baixo Risco',
+				'Risco Moderado',
+				'Alto Risco'
+		]
+					
 ];
