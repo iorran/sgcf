@@ -18,7 +18,7 @@
 		<div class="box-body">  
 			<table class="table table-bordered" width="100%" border="1">
 				<tr> 
-					<td colspan="2"><h4>Dados</h4></td> 
+					<td colspan="2" align="center"><h4>Dados</h4></td> 
 				</tr>
 				<tr>
 					<th width="30%">Data da Consulta</th>
@@ -37,7 +37,7 @@
 					<td width="70%">{!! $agendamento->paciente->nome !!}</td>
 				</tr>  
 				<tr> 
-					<td colspan="2"><h4>Anamnese</h4></td> 
+					<td colspan="2" align="center"><h4>Anamnese</h4></td> 
 				</tr>
 				<tr>
 					<th width="30%">QP</th>
@@ -72,7 +72,7 @@
 					<td width="70%">{!! $anamnese->ex_complementares !!}</td>
 				</tr> 
 				<tr>  
-					<td colspan="2"><h4>{!! $nome_area !!}</h4></td> 
+					<td colspan="2" align="center"><h4>{!! $nome_area !!}</h4></td> 
 				</tr>
 				<tr>
 					<th width="30%">Análise Postural</th>
@@ -103,7 +103,7 @@
 					<td width="70%">{!! $area->ex_complementares !!}</td>
 				</tr>  	   
 				<tr>  
-					<td colspan="2"><h4>Testes Específicos</h4></td>  
+					<td colspan="2" align="center"><h4>Testes Específicos</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">Manovacuamento</th>
@@ -118,14 +118,14 @@
 					<td width="70%">{!! $area->peak_flow !!}</td>
 				</tr>    	 
 				<tr>  
-					<td colspan="2"><h4>Avaliação Motora</h4></td>  
+					<td colspan="2" align="center"><h4>Avaliação Motora</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">Palpitação Trofismo Tonus</th>
 					<td width="70%">{!! $area->palpitacao !!}</td>
 				</tr>    	 
 				<tr>  
-					<td colspan="2"><h4>Avaliação Muscular</h4></td>  
+					<td colspan="2" align="center"><h4>Avaliação Muscular</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">Diafragma</th>
@@ -156,7 +156,7 @@
 					<td width="70%">{!! $area->intercostais !!}</td>
 				</tr>           
 				<tr>  
-					<td colspan="2"><h4>Avaliação Respiratória</h4></td>  
+					<td colspan="2" align="center"><h4>Avaliação Respiratória</h4></td>  
 				</tr>       
 				<tr>
 					<th width="30%">Ritmo Respiratório</th>
@@ -187,7 +187,7 @@
 					<td width="70%">{!! $area->ausculta !!}</td>
 				</tr>             
 				<tr>  
-					<td colspan="2"><h4>Sinais Vitais</h4></td>  
+					<td colspan="2" align="center"><h4>Sinais Vitais</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">PA</th>
@@ -218,14 +218,14 @@
 					<td width="70%">{!! $area->inspecao !!}</td>
 				</tr>          
 				<tr>  
-					<td colspan="2"><h4>Diagnóstico</h4></td>  
+					<td colspan="2" align="center"><h4>Diagnóstico</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">Diagnóstico</th>
 					<td width="70%">{!! $diagnostico->diagnostico !!}</td>
 				</tr>  
 				<tr>  
-					<td colspan="2"><h4>Tratamento</h4></td>  
+					<td colspan="2" align="center"><h4>Tratamento</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">Status</th>

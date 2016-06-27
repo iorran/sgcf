@@ -38,6 +38,7 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 	Route::post('agenda/detalhes', 'AgendaController@showDetalhes'); // exibe o painel com as ações da consulta 
 	Route::get('agenda/detalhes/{id}', 'AgendaController@showDetalhes'); // exibe o painel com as ações da consulta 
 	Route::post('agenda/desmarcarConsulta', 'AgendaController@desmarcarConsulta'); // desmarca a consulta
+	Route::post('agenda/cancelarConsulta', ['uses' => 'AgendaController@cancelarConsulta', 'as' => 'consulta.ausencia']); // desmarca a consulta
 	//Consulta 
 	Route::get('consulta/iniciar/{id}', 'ConsultaController@init');	  	
 	Route::post('consulta/anamnese/store', ['uses' => 'ConsultaController@storeAnamnese', 'as' => 'consulta.anamnese.store']); 
@@ -70,9 +71,23 @@ Route::group(['middleware' => ['web','basic'] ], function () {
 	Route::put('diagnostico/update/{id}', ['uses' => 'DiagnosticoController@update', 'as' => 'diagnostico.update']);
 	//Finalizar
 	Route::post('consulta/finalizar', ['uses' => 'ConsultaController@finalizarConsulta', 'as' => 'consulta.finalizar']);	  	
-	//Relatório
+	//Relatório Historico
 	Route::post('consulta/visualizar', ['uses' => 'RelatorioConsultaController@index', 'as' => 'visualizar.consulta']);
 	Route::post('relatorio/consulta/exportar', ['uses' => 'RelatorioConsultaController@exportar', 'as' => 'exportar.relatorio.consulta']); //exportar o relatorio em pdf
+	Route::get('relatorio/historico', ['uses' => 'RelatorioConsultaController@exibirFiltroHistorico', 'as' => 'relatorio.historico']); // exibe a tela com o filtro
+	Route::post('relatorio/historico', ['uses' => 'RelatorioConsultaController@gerarHistorico', 'as' => 'gerar.relatorio.historico']); // exibe a tela com o filtro
+	//consultas Dia
+	Route::get('relatorio/consultas-do-dia', 'RelatorioColsutasDiaController@index'); //relatório de consultas no dia
+	Route::post('relatorio/gerar/consultas-do-dia/', ['uses' => 'RelatorioColsutasDiaController@gerarRelatorio', 'as' => 'gerar.relatorio.consultas_do_dia']); //relatório de consultas no dia
+	Route::post('relatorio/consultas-do-dia/exportar', ['uses' => 'RelatorioColsutasDiaController@exportar', 'as' => 'gerar.relatorio.consultas_do_dia.exportar']); //exportar o relatorio em pdf
+	//Trocar Senha
+	Route::get('alterar-senha', ['uses' => 'Auth\AutenticarController@trocarSenha', 'as' => 'trocar.senha']); // Exibir a tela de alteração de senha
+	Route::put('senha-alterada/{id}', ['uses' => 'Auth\AutenticarController@updateSenha', 'as' => 'update.senha']); //exportar o relatorio em pdf
+	//Anexo
+	Route::post('anexo', ['uses' => 'HomeController@do_upload', 'as' => 'upload.anexo']); //upload de anexos
+	Route::post('anexado', ['uses' => 'HomeController@save_upload', 'as' => 'salvar.anexo']); //salva no banco o arquivo
+	Route::get('download/anexo/{anexo}', ['uses' => 'HomeController@download_anexo', 'as' => 'download.anexo']); //baixa o anexo
+	Route::get('remover/anexo/{anexo}/{agendamento_id}', ['uses' => 'HomeController@delete_anexo', 'as' => 'delete.anexo']); //baixa o anexo
 });
  
  
@@ -99,10 +114,11 @@ Route::group(['prefix' => 'cadastro', 'middleware' => ['web','auth'] ], function
  * Relatório
  */
 Route::group(['middleware' => ['web','auth'] ], function () { 
-	//consultas Dia
-	Route::get('relatorio/consultas-do-dia', 'RelatorioColsutasDiaController@index'); //relatório de consultas no dia
-	Route::post('relatorio/gerar/consultas-do-dia/', ['uses' => 'RelatorioColsutasDiaController@gerarRelatorio', 'as' => 'gerar.relatorio.consultas_do_dia']); //relatório de consultas no dia
-	Route::post('relatorio/consultas-do-dia/exportar', ['uses' => 'RelatorioColsutasDiaController@exportar', 'as' => 'gerar.relatorio.consultas_do_dia.exportar']); //exportar o relatorio em pdf
+	//totalizador 
+	Route::get('relatorio/somatorio', ['uses' => 'RelatorioSomatorioController@index', 'as' => 'relatorio.somatorio']); // exibe a tela com o filtro
+	Route::post('relatorio/somatorio/gerar', ['uses' => 'RelatorioSomatorioController@gerarSomatorio', 'as' => 'relatorio.gerar.somatorio']); // exibe a tela com o filtro
+	//Backup
+	Route::get('backup/system', ['uses' => 'HomeController@backup', 'as' => 'backup.system']);
 }); 
 
 /*

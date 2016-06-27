@@ -19,6 +19,10 @@
 				<tr align="center">
 					<td bgcolor="#018BC6" align="center"><font color="#FFF">Finalizada</font></td>  
 				</tr> 
+				<tr align="center">
+					<td bgcolor="#A52A2A" align="center"><font color="#FFF">Ausência</font></td>  
+				</tr> 
+				
 			</table>
 			 
 		</div>

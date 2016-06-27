@@ -616,10 +616,10 @@
 							<div class="col-md-4"> 
 								<select id="digestivo_sensacao" name="digestivo_sensacao" class="form-control select2"  style="width: 100%;">
 									<option value="">Selecione uma opção</option> 
-									<option value="0" @if(isset($area->digestivo->sensacao)) @if($area->digestivo->sensacao == 0) selected @endif @endif>
+									<option value="0" @if(isset($area->digestivo->digestivo_sensacao)) @if($area->digestivo->digestivo_sensacao == 0) selected @endif @endif>
 										Não
 									</option> 
-									<option value="1" @if(isset($area->digestivo->sensacao)) @if($area->digestivo->sensacao == 1) selected @endif @endif>
+									<option value="1" @if(isset($area->digestivo->digestivo_sensacao)) @if($area->digestivo->digestivo_sensacao == 1) selected @endif @endif>
 										Sim
 									</option> 
 								</select>   

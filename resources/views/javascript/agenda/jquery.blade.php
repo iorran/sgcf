@@ -9,7 +9,11 @@
 	src="{{ asset('/bower_components/fullcalendar/dist/lang/pt-br.js')}}"></script>
 <script
 	src="{{ asset('/bower_components/fullcalendar-scheduler/dist/scheduler.min.js')}}"></script>
-
+<!-- Plupload -->      
+<link href="{{ asset('/bower_components/plupload/jquery.plupload.queue.css') }}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{{ asset('/bower_components/plupload/plupload.full.min.js') }}" charset="UTF-8"></script>
+<script type="text/javascript" src="{{ asset('/bower_components/plupload/pt_BR.js') }}" charset="UTF-8"></script> 
+     	 
 <script>  
 $(function() { // dom ready 
 	$('#calendar').fullCalendar({ 
@@ -270,6 +274,17 @@ $('a[finalizar_consulta="true"]').on('click', function() {
 	}); 
 });
  
+// Ausencia do paciente
+$('a[cancelar-consulta="true"]').on('click', function() {
+	$.redirect( 
+		"{!! route('consulta.ausencia') !!}", 
+		{  
+			id : $(this).attr('data-id'),  
+			_token: '{!! csrf_token() !!}'
+		}
+	);  
+});
+
 //Visualizar Consulta  
 $('a[visualizar_consulta="true"]').on('click', function() { 
 	var id = $(this).attr('data-id'); 
@@ -281,7 +296,82 @@ $('a[visualizar_consulta="true"]').on('click', function() {
  		}
  	);  
 });
- 
+
+
+$('#enviarAnexo').hide();
+var uploader = new plupload.Uploader({ 
+    runtimes : 'html5,flash,silverlight,html4',
+    browse_button : 'pickfiles', // you can pass in id... 
+    url : '{!! route("upload.anexo") !!}',
+    multi_selection: false, 
+    chunk_size: '200kb',  
+    headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    filters : {
+        max_file_size : '10mb',
+        mime_types: [
+        	{title : "Doc files", extensions : "doc"},
+           	{title : "Docx files", extensions : "docx"},
+        	{title : "Pdf files", extensions : "pdf"}
+        ]
+    },
+
+    init: {
+        PostInit: function() {
+            document.getElementById('filelist').innerHTML = ''; 
+            document.getElementById('uploadfiles').onclick = function() {
+                uploader.start(); 
+                return false;
+            };
+        },   
+        
+        FilesAdded: function(up, files) { 
+            if (uploader.files.length == 2) {
+                uploader.removeFile(uploader.files[0]);
+            }  
+            plupload.each(files, function(file) { 
+                document.getElementById('file').innerHTML =  file.name + " ("+ plupload.formatSize(file.size) + ") " + "    <b id='teste'></b>";
+            });   
+            var regex = /(?:\.([^.]+))?$/;
+            for (var i = 0; i < uploader.files.length; i++) {
+              var ext = regex.exec(uploader.files[i].name)[1];
+			  $('#arquivo_old').attr('value', uploader.files[i].name);
+              uploader.files[i].name = (ext == undefined) ? '{!! str_random(40) !!}' : '{!! str_random(40) !!}'  + '.' + ext;
+              $('#arquivo').attr('value', uploader.files[i].name);
+            }
+            $('#enviarAnexo').show();
+        },
+
+        UploadProgress: function(up, file) {
+            document.getElementById('teste').innerHTML = file.percent + "%";
+        },
+        
+        Error: function(up, err) {
+            document.getElementById('filelist').innerHTML = "\nError #" + err.code + ": " + err.message;
+        },
+        
+        UploadComplete: function(up, file,files) {   
+        	$.redirect( 
+        	 		"{!! route('salvar.anexo') !!}", 
+        	 		{  
+        	 			arquivo : $('#arquivo').val(),  
+        	 			arquivo_old : $('#arquivo_old').val(),  
+        	 			paciente_id : $('#paciente_id').val(),  
+        	 			agendamento_id : $('#agendamento_id').val(),  
+        	 			_token: '{!! csrf_token() !!}'
+        	 		}
+        	 	);   
+//            	if (uploader.files.length == 1) {
+//                 $('#arquivo').attr('value', file.name); 
+//             }
+        } 
+        
+    }
+});
+
+uploader.init();  
+
 // readjust sizing after font load
 $(window).on('load', function() {
 	$('#calendar').fullCalendar('render');

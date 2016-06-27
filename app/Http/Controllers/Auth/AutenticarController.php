@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Log;
 use Mail;
+use DB;
 
 class AutenticarController extends Controller {
 	/**
@@ -23,6 +24,7 @@ class AutenticarController extends Controller {
 	private $sessao = array (
 			'nome' => NULL,
 			'email' => NULL,
+			'id' => NULL,
 			'perfil' => NULL 
 	);
 	
@@ -31,7 +33,7 @@ class AutenticarController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function getIndex() {
+	public function getIndex() {  
 		return view ( 'login' );
 	}
 	
@@ -48,6 +50,7 @@ class AutenticarController extends Controller {
 				if (Crypt::decrypt ( $professor->usuario->senha ) == $request->get ( 'senha' )) {
 					$sessao ['nome'] = $professor->usuario->nome;
 					$sessao ['email'] = $professor->usuario->email;
+					$sessao ['id'] = 1;
 					$sessao ['perfil'] = 1;
 					$this->makeSession ( $sessao );
 					return redirect ()->route ( 'home.index' );
@@ -58,6 +61,7 @@ class AutenticarController extends Controller {
 					if (Crypt::decrypt ( $aluno->usuario->senha ) == $request->get ( 'senha' )) {
 						$sessao ['nome'] = $aluno->usuario->nome;
 						$sessao ['email'] = $aluno->usuario->email;
+						$sessao ['id'] = 1;
 						$sessao ['perfil'] = 2;
 						$this->makeSession ( $sessao );
 						return redirect ()->route ( 'home.index' );
@@ -147,33 +151,104 @@ class AutenticarController extends Controller {
 			Log::error ( $e );
 		}
 	}
-	
+
 	/**
 	 * Recuperar senha
 	 *
-	 * @param Request $request        	
+	 * @param Request $request
 	 *
 	 * @return Email
 	 */
 	public function postRecuperar(Request $request) {
 		try {
-			$user = Usuario::where ( 'email', '=', $request->get ( 'email' ) )->get ();
-			// dd ( Crypt::decrypt ( $user[0]->senha ) );
-			
-			$data = array (
-					'email' => $user [0]->email,
-					'nome' => $user [0]->nome,
-					'senha' => Crypt::decrypt ( $user [0]->senha ) 
-			);
-			
-			Mail::send ( 'mail', $data, function ($message) use($data) {
-				$message->to ( $data ['email'] )->from ( env ( 'MAIL_USERNAME' ), "SGCF" )->subject ( 'Welcome!' );
-			} );
-			
-			return "Your email has been sent successfully";
+			$user = Usuario::where ( 'email', '=', $request->get ( 'email' ) )->get (); 
+
+			if ($user != null && isset ( $user->id ) && isset ( $user )) {
+				$data = array (
+						'email' => $user->email,
+						'nome' => $user->nome,
+						'senha' => Crypt::decrypt ( $user->senha )
+				);
+				
+				Mail::send('mail', $data, function($message) {
+					$message->to('iorranpt@gmail.com', 'Jon Doe')->subject('Welcome to the Laravel 4 Auth App!');
+				});
+			}
+			return view ( 'login' );;
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 		}
+	} 
+
+	/**
+	 * Trocar senha
+	 *
+	 * @param Request $request
+	 *
+	 */
+	public function trocarSenha() { 
+		try {
+			$data ['page_title'] = 'Alterar Senha'; 
+			$data['id'] = Session('usuario.0.id');
+			return view ( 'paginas.cadastro.senha.index' )->with ( $data );
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+		}
+	}
+	
+	/**
+	 * Salva a nova senha
+	 *
+	 * @param Request $request
+	 * 
+	 */
+	public function updateSenha(Request $request, $id) {
+		try {
+			
+			if($request->get('senha_confirmation') != $request->get('senha')){
+				// retorna para tela de login com erro de autenticação
+				return redirect()->back()->withErrors ( [
+						'senha' =>'Senha e confirmação de senha não correspondem'
+				] );
+			}else{ 
+				DB::beginTransaction ();
+					
+				$professor = Professor::where ( 'usuario_id', '=', $id )->first ();  
+				if ($professor != null && isset ( $professor->usuario->senha ) && isset ( $professor )) {  
+					if (Crypt::decrypt ( $professor->usuario->senha ) == $request->get ( 'senha_atual' )) {
+						$usuario = $professor->usuario;
+						$usuario->senha = Crypt::encrypt ( $request->get ( "senha" ) );
+						$professor->push ();
+						DB::commit ();
+					}else{ 
+						// retorna para tela de login com erro de autenticação
+						return redirect()->back()->withErrors ( [
+							'senha_atual' =>'Senha atual não confere'
+						] ); 
+					}
+				} else {
+					$aluno = Aluno::where ( 'usuario_id', '=', $id )->first ();  
+					if ($aluno != null && isset ( $aluno->usuario->senha ) && isset ( $aluno )) {
+						if (Crypt::decrypt ( $aluno->usuario->senha ) == $request->get ( 'senha' )) {
+							$usuario = $aluno->usuario;
+							$usuario->senha = Crypt::encrypt ( $request->get ( "senha" ) );
+							$aluno->push ();
+							DB::commit ();
+						}else{ 
+							// retorna para tela de login com erro de autenticação
+							return redirect()->back()->withErrors ( [
+								'senha' =>'Senha e confirmação de senha não correspondem'
+							] ); 
+						}
+					}
+				} 
+			}
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			DB::rollback ();
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		}
+		return $this->getLogout();
 	}
 	
 	/**

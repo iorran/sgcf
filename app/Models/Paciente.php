@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Anexo;
 
 class Paciente extends Model {
 	/**
@@ -44,5 +45,14 @@ class Paciente extends Model {
 	 */
 	public function endereco() {
 		return $this->belongsTo ( 'App\Models\Endereco' )->withTrashed();
+	}
+	
+	/**
+	 * Retorna os anexos
+	 *
+	 * @var Anexo
+	 */
+	public function anexos() {
+		return $this->hasMany( 'App\Models\Anexo' );
 	}
 }

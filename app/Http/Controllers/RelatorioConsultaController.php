@@ -9,11 +9,13 @@ use App\Models\AreaGestacional;
 use App\Models\AreaNeuro;
 use App\Models\AreaRespiratoria;
 use App\Models\AreaTraumato;
+use App\Models\Diagnostico;
+use App\Models\Paciente;
+use App\Models\Tratamento;
+use DB;
 use Illuminate\Http\Request;
 use Log;
 use PDF;
-use App\Models\Diagnostico;
-use App\Models\Tratamento;
 
 class RelatorioConsultaController extends Controller {
 	/**
@@ -40,6 +42,7 @@ class RelatorioConsultaController extends Controller {
 			$data ['nome_area'] = $area [$data ['anamnese']->area_funcional];
 			$data ['simNao'] = config ( 'enum.SimNao' );
 			$data ['risco'] = config ( 'enum.risco' );
+			$data ['recemNascido'] = config ( 'enum.recemNascido' );
 			$data ['area'] = $this->getArea ( $data ['anamnese'] );
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
@@ -148,9 +151,41 @@ class RelatorioConsultaController extends Controller {
 		$data ['nome_area'] = $area [$data ['anamnese']->area_funcional];
 		$data ['simNao'] = config ( 'enum.SimNao' );
 		$data ['risco'] = config ( 'enum.risco' );
+		$data ['recemNascido'] = config ( 'enum.recemNascido' );
 		$data ['area'] = $this->getArea ( $data ['anamnese'] );
 		
 		$pdf = PDF::loadView ( 'paginas.relatorio.templates.tpl_' . $pagina [$data ['anamnese']->area_funcional], $data );
 		return $pdf->download ( 'relatorio-da-consulta-' . date ( 'Y-m-d' ) . '.pdf' ); // this code is used for the name pdf
+	}
+	
+	/**
+	 * Acessado pelo menu na lateral
+	 */
+	
+	/**
+	 * Exibir a tela com filtro
+	 */
+	public function exibirFiltroHistorico() {
+		// Pacientes
+		$data ['page_title'] = 'Relatório de Histórico de Consultas';
+		$data ['pacientes'] = Paciente::orderBy ( 'nome', 'asc' )->get ();
+		return view ( 'paginas.relatorio.consulta.index' )->with ( $data );
+	}
+	
+	/**
+	 * Exibir a tela com histórico
+	 */
+	public function gerarHistorico(Request $request) {
+		$data ['agendamentos'] = null;
+		if ("" != $request->get ( 'paciente_id' ) && "" == $request->get ( 'data' ) && "" == $request->get ( 'hora' )){
+			$data ['agendamentos'] = Agendamento::where ( 'paciente_id', '=', $request->get ( 'paciente_id' ) )->where ( 'iniciada', '=', '4' )->get();
+		}
+		if ("" != $request->get ( 'paciente_id' ) && "" != $request->get ( 'data' ) && "" == $request->get ( 'hora' )){
+			$data ['agendamentos'] = Agendamento::where ( 'paciente_id', '=', $request->get ( 'paciente_id' ) )->where ( 'data_consulta', '=', $request->get ( 'data' ) )->where ( 'iniciada', '=', '4' )->get();
+		}
+		if ("" != $request->get ( 'paciente_id' ) && "" != $request->get ( 'data' ) && "" != $request->get ( 'hora' )){
+			$data ['agendamentos'] = Agendamento::where ( 'paciente_id', '=', $request->get ( 'paciente_id' ) )->where ( 'data_consulta', '=', $request->get ( 'data' ) )->where ( 'hora_start', '=', $request->get ( 'hora' ) )->where ( 'iniciada', '=', '4' )->get();
+		} 
+		return view ( 'paginas.relatorio.consulta.historico_list' )->with ( $data );
 	}
 }

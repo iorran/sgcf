@@ -21,7 +21,7 @@ class CreateGestacionalDigestivosTable extends Migration
 			$table->string ( 'alteracao' );
 			$table->string ( 'esforco' );
 			$table->string ( 'manobra' );
-			$table->string ( 'sensacao' );
+			$table->string ( 'digestivo_sensacao' );
 			$table->string ( 'fecais' );
 			$table->string ( 'flatos' ); 
 			$table->longText ( 'digestivo_obs' );

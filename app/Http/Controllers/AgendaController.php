@@ -108,6 +108,7 @@ class AgendaController extends Controller {
 			$data ['agendamento'] = Agendamento::findOrFail ( $request->get ( 'events_id' ) );
 			$data ['page_title'] = 'Gerenciar consulta';
 			$data ['editavel'] = $request->get ( 'editavel' );
+			$data['anexos'] = $data ['agendamento']->paciente->anexos; 
 			return view ( 'paginas.agenda.gerenciar-marcacao' )->with ( $data );
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
@@ -137,7 +138,29 @@ class AgendaController extends Controller {
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
 		return redirect ( 'agenda' );
+	} 
+
+	/**
+	 * Finalizar a consulta
+	 *
+	 * @return int
+	 */
+	public function cancelarConsulta(Request $request) {
+		try {
+			$agendamento = Agendamento::findOrFail ( $request->get("id") );
+			DB::beginTransaction ();
+			$agendamento->iniciada = "5";
+			$agendamento->save ();
+			DB::commit ();
+		} catch ( \Exception $e ) {
+			Log::error ( $e );
+			DB::rollback ();
+			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
+		}
+		return redirect ('agenda');
 	}
+	
+	
 	
 	/**
 	 * Display the specified resource.
@@ -200,10 +223,12 @@ class AgendaController extends Controller {
 			$response = null; 
 			foreach ( $agendamentos as $agendamento ) {
 				$cor = '#00a65a';
-				if ($agendamento->iniciada != 0 && $agendamento->iniciada != 4)
+				if ($agendamento->iniciada != 0 && $agendamento->iniciada != 4 && $agendamento->iniciada != 5)
 					$cor = '#BFC600';
 				if ($agendamento->iniciada == 4)
 					$cor = '#018BC6';
+				if ($agendamento->iniciada == 5)
+					$cor = '#A52A2A';
 				$response [] = [ 
 						'id' => $agendamento->id,
 						'resourceId' => $agendamento->aluno->id,

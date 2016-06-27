@@ -45,7 +45,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js'></script>
     <![endif]-->
 </head>
-<body class="skin-green sidebar-mini">
+<body class="skin-green sidebar-mini @if( Request::url() == url('agenda') ) sidebar-collapse @endif">
 <div class="wrapper">
 
     <!-- Header -->
@@ -54,8 +54,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Sidebar -->
     @include('layouts/sidebar')
     
-    
-    	@include('sweet::alert') 
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -113,10 +111,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
 	checkboxClass: 'icheckbox_minimal-green',
     radioClass: 'iradio_minimal-green'
-}); 
-//datePicker 
-    $( "#datepicker" ).datepicker(); 
-  </script>
+});  
+</script>
 @yield('additionalsJavascript')
 </body>
 </html>

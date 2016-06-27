@@ -1,3 +1,3 @@
-<h1>Oi, {!! $nome !!}!</h1>
+<h1>Hi, {{ $firstname }}!</h1>
  
-<p>Sua senha no sistema SGCF é: {!! $senha !!}</p>
+<p>We'd like to personally welcome you to the Laravel 4 Authentication Application. Thank you for registering!</p>

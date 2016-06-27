@@ -55,7 +55,7 @@
 								<input readonly type="text"
 									class="form-control input-md" value="{{ $agendamento->aluno->matricula }}"> 
 							</div>
-						</div> 
+						</div>   
 					</div><!-- /.tab-pane -->
 	            	<div class="tab-pane" id="tab_3"> 
 						<!-- Text input-->
@@ -82,13 +82,55 @@
 									class="form-control input-md" value="{{ $agendamento->paciente->telefone }}"> 
 							</div>
 						</div> 
+						@if(  $agendamento->iniciada < 4 )
+							<!-- Anexos --> 
+							<input type="hidden" name="paciente_id" id="paciente_id" value="{{ $agendamento->paciente->id }}">
+							<input type="hidden" name="agendamento_id" id="agendamento_id" value="{{ $agendamento->id }}">
+							<input type="hidden" name="arquivo" id="arquivo">
+							<input type="hidden" name="arquivo_old" id="arquivo_old">
+							<div class="form-group">
+								<label class="col-md-4 control-label">Incluir Anexos</label>
+								<div class="col-md-4">
+									<a id="pickfiles" class="btn btn-block btn-success">Adicionar Anexo</a>   
+								</div>  
+							</div>  
+							<div class="form-group" id="enviarAnexo">
+								<label class="col-md-4 control-label"></label> 
+								<div class="col-md-4">
+									<a id="uploadfiles" class="btn btn-default">Enviar Arquivos</a>   
+								</div>
+							</div>  
+							<div class="form-group">
+								<label class="col-md-4 control-label"></label> 
+								<label class="col-md-4">
+									<div id="filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
+									<div id="file" class="text-info">Nenhum arquivo adicionado.</div>
+								</label>
+							</div>   
+						@endif
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-4 control-label">Listagem de Anexos</label>
+							<div class="col-md-4">   
+								@forelse($anexos as $anexo) 
+								<div class="row">
+									<a class="btn btn-default" href="{!! route('download.anexo', $anexo->caminho) !!}"  title="Baixar anexo"><i class="fa fa-file" aria-hidden="true"></i>{!! $anexo->arquivo_old !!}</a>
+									
+									<a class="btn btn-danger" href="{!! route('delete.anexo', [$anexo->caminho, $anexo->agendamento_id]) !!}" title="Remover anexo"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								</div> 
+								<br>
+								@empty 
+									Nenhum item anexado para este paciente. 
+								@endforelse
+								</ul>
+							</div>
+						</div> 
 					</div><!-- /.tab-pane -->
 					
 					<!-- Button --> 
 					<div class="form-group"> 
 						<label class="col-md-0 control-label"></label>
-						<div class="col-md-12">  
-							@if( $editavel == 'true')
+						<div class="col-md-12" 
 								@if(  $agendamento->iniciada == 0 ) <!-- Só inicia a consulta que estiver no status inicial -->
 									<a class="btn btn-app" href="{!! url('consulta/iniciar/'.$agendamento->id) !!}">
 			                    		<i class="fa fa-check"></i> Iniciar consulta
@@ -98,8 +140,10 @@
 				                    		<i class="fa fa-close"></i> Desmarcar consulta
 										</a>  
 			                  		@endif
-		                  		@endif
-	                  		@endif 
+		                  		@endif 
+								<a class="btn btn-app" cancelar-consulta="true" data-id="{!! $agendamento->id !!}">
+		                    		<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Ausência do Paciente
+								</a>  
 	                  		@if(  $agendamento->iniciada != 4 )
 		                  		@if(  $agendamento->iniciada >= 1 )
 		                  			<!-- Editar Consulta -->

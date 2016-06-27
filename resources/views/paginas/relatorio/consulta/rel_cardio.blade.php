@@ -18,7 +18,7 @@
 		<div class="box-body">  
 			<table class="table table-bordered" width="100%" border="1">
 				<tr> 
-					<td colspan="2"><h4>Dados</h4></td> 
+					<td colspan="2" align="center"><h4>Dados</h4></td> 
 				</tr>
 				<tr>
 					<th width="30%">Data da Consulta</th>
@@ -37,7 +37,7 @@
 					<td width="70%">{!! $agendamento->paciente->nome !!}</td>
 				</tr>  
 				<tr> 
-					<td colspan="2"><h4>Anamnese</h4></td> 
+					<td colspan="2" align="center"><h4>Anamnese</h4></td> 
 				</tr>
 				<tr>
 					<th width="30%">QP</th>
@@ -72,10 +72,10 @@
 					<td width="70%">{!! $anamnese->ex_complementares !!}</td>
 				</tr> 
 				<tr>  
-					<td colspan="2"><h4>{!! $nome_area !!}</h4></td> 
+					<td colspan="2" align="center"><h4>{!! $nome_area !!}</h4></td> 
 				</tr>
 				<tr>  
-					<td colspan="2"><h5>> Informações Gerais</h5></td>  
+					<td colspan="2" align="center"><h5>> Informações Gerais</h5></td>  
 				</tr> 
 				<tr>
 					<th width="30%">1º Pressão Arterial</th>
@@ -98,7 +98,7 @@
 					<td width="70%">{!! $area->medicamentos !!}</td>
 				</tr>      
 				<tr>  
-					<td colspan="2"><h5>> Exames Laboratoriais</h5></td>  
+					<td colspan="2" align="center"><h5>> Exames Laboratoriais</h5></td>  
 				</tr> 
 				<tr>
 					<th width="30%">HDL</th>
@@ -121,7 +121,7 @@
 					<td width="70%">{!! $area->exame->imc !!}</td>
 				</tr>      
 				<tr>  
-					<td colspan="2"><h5>> Riscos Positivos</h5></td>  
+					<td colspan="2" align="center"><h5>> Riscos Positivos</h5></td>  
 				</tr> 
 				<tr>
 					<th width="30%">História Familiar</th>
@@ -148,14 +148,14 @@
 					<td width="70%">{!! $simNao[$area->fator->estilo]  !!}</td>
 				</tr>       
 				<tr>  
-					<td colspan="2"><h5>> Riscos Negativos</h5></td>  
+					<td colspan="2" align="center"><h5>> Riscos Negativos</h5></td>  
 				</tr>    
 				<tr>
 					<th width="30%">Colesterol HDL Sérico alto</th>
 					<td width="70%">{!! $simNao[$area->fator->colesterol]  !!}</td>
 				</tr>     
 				<tr>  
-					<td colspan="2"><h5>> Sinais e Sintomas</h5></td>  
+					<td colspan="2" align="center"><h5>> Sinais e Sintomas</h5></td>  
 				</tr>
 				<tr>
 					<th width="30%">Sente dor em aperto no peito após esforço ou mesmo ao repouso? Como alivia?</th>
@@ -198,7 +198,7 @@
 					<td width="70%">{!! $risco[$area->sintoma->tipo_risco]  !!}</td>
 				</tr>  
 				<tr>  
-					<td colspan="2"><h5>> Exame de Aptidão</h5></td>  
+					<td colspan="2" align="center"><h5>> Exame de Aptidão</h5></td>  
 				</tr>
 				<tr>
 					<th width="30%">Teste Articular</th>
@@ -237,14 +237,14 @@
 					<td width="70%">{!! $area->aptidao->dor_toracica !!}</td>
 				</tr>  
 				<tr>  
-					<td colspan="2"><h4>Diagnóstico</h4></td>  
+					<td colspan="2" align="center"><h4>Diagnóstico</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">Diagnóstico</th>
 					<td width="70%">{!! $diagnostico->diagnostico !!}</td>
 				</tr>  
 				<tr>  
-					<td colspan="2"><h4>Tratamento</h4></td>  
+					<td colspan="2" align="center"><h4>Tratamento</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">Status</th>

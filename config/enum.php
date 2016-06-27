@@ -16,13 +16,20 @@ return [
 				'cardio',
 		],
 		'SimNao' =>[
-				'Não',
-				'Sim'
+				0 => 'Não',
+				1 => 'Sim',
+				'' => '',
 		],
 		'risco' =>[
-				'Baixo Risco',
-				'Risco Moderado',
-				'Alto Risco'
+				0 => 'Baixo Risco',
+				1 => 'Risco Moderado',
+				2 => 'Alto Risco',
+				'' => ''
+		],
+		'recemNascido' => [
+				0 => 'Grande Para a Idade Gestacional',
+				1 => 'Pequeno Para a Idade Gestacional',
+				'' => ''
 		]
 					
 ];

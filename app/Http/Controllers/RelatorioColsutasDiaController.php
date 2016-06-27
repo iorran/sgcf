@@ -49,7 +49,7 @@ class RelatorioColsutasDiaController extends Controller {
 		try {
 			// recupera as consultas ordenadas pela hora de incio da consulta
 			// padrão da date ( 'Y-m-d' )
-			$consultas = Agendamento::where ( 'data_consulta', '=', $data )->orderBy ( 'hora_start', 'asc' )->get (); 
+			$consultas = Agendamento::where ( 'data_consulta', '=', $data )->orderBy ( 'hora_start', 'asc' )->orderBy ( 'aluno_id', 'asc' )->get (); 
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );

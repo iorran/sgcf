@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Log;
 use Response;
 use DB;
+use File; 
 
 class TratamentoController extends Controller {
 	
@@ -114,7 +115,8 @@ class TratamentoController extends Controller {
 		try {
 			$data ['agendamento'] = Agendamento::findOrFail ( $id );
 			$data ['page_title'] = 'Gerenciar consulta';
-			$data ['editavel'] = true;
+			$data ['editavel'] = true; 
+			$data['anexos'] = $data ['agendamento']->paciente->anexos; 
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );

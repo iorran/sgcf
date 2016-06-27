@@ -1,22 +1,11 @@
-@extends('layouts.master') @section('content') 
-<!-- Main content -->
-<section class="content">
-
-	<!-- Default box -->
-	<div class="box box-default">
-		@include('sweet::alert')
-		<div class="box-header">
-			<form  action="{{ route('exportar.relatorio.consulta') }}" method="post">  
-				<fieldset> 
-				<input type="hidden" name="agendamento_id" id="agendamento_id" value="{!! $anamnese->agendamento_id !!}">
-					<button type="submit" class="btn btn-success"><i class="fa fa-fw fa-plus"></i> Exportar</button> 
-					{!! csrf_field() !!}
-				</fieldset>
-			</form> 
-		</div>
-		<!-- /.box-header -->
-		<div class="box-body">  
-			<table class="table table-bordered" width="100%" border="1">
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <meta charset="UTF-8"> 
+</head>
+<body>
+<table  width="100%" border="1"  cellpadding="0" cellspacing="0">
 				<tr> 
 					<td colspan="2" align="center"><h4>Dados</h4></td> 
 				</tr>
@@ -394,16 +383,6 @@
 					<td width="70%">{!! $tratamento->evolucao !!}</td>
 				</tr> 
 			
-			</table>    
-		</div>
-		<!-- /.box-body -->
-	</div>
-	<!-- /.box -->
-
-</section>
-<!-- /.content -->
-
-@endsection 
-
-@section('additionalsJavascript') 
-@endsection
+			</table>   
+			 </body>
+			 </html>

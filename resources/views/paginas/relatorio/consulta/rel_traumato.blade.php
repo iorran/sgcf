@@ -18,7 +18,7 @@
 		<div class="box-body">  
 			<table class="table table-bordered" width="100%" border="1">
 				<tr> 
-					<td colspan="2"><h4>Dados</h4></td> 
+					<td colspan="2" align="center"><h4>Dados</h4></td> 
 				</tr>
 				<tr>
 					<th width="30%">Data da Consulta</th>
@@ -37,7 +37,7 @@
 					<td width="70%">{!! $agendamento->paciente->nome !!}</td>
 				</tr>  
 				<tr> 
-					<td colspan="2"><h4>Anamnese</h4></td> 
+					<td colspan="2" align="center"><h4>Anamnese</h4></td> 
 				</tr>
 				<tr>
 					<th width="30%">QP</th>
@@ -72,7 +72,7 @@
 					<td width="70%">{!! $anamnese->ex_complementares !!}</td>
 				</tr> 
 				<tr>  
-					<td colspan="2"><h4>{!! $nome_area !!}</h4></td> 
+					<td colspan="2" align="center"><h4>{!! $nome_area !!}</h4></td> 
 				</tr>
 				<tr>
 					<th width="30%">Análise Muscular</th>
@@ -127,14 +127,14 @@
 					<td width="70%">{!! $area->conduta_fisioterapeutica !!}</td>
 				</tr>  
 				<tr>  
-					<td colspan="2"><h4>Diagnóstico</h4></td>  
+					<td colspan="2" align="center"><h4>Diagnóstico</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">Diagnóstico</th>
 					<td width="70%">{!! $diagnostico->diagnostico !!}</td>
 				</tr>  
 				<tr>  
-					<td colspan="2"><h4>Tratamento</h4></td>  
+					<td colspan="2" align="center"><h4>Tratamento</h4></td>  
 				</tr> 
 				<tr>
 					<th width="30%">Status</th>
