@@ -8,7 +8,7 @@
 	function removerAluno(id) {
 		swal({   
 			title: "Confirmar exclusão ?",
-		    text: "Não será possível recuperar o aluno",         
+		    text: "O registro será desativado",         
 		    type: "warning",   
 		    showCancelButton: true,   
 		    confirmButtonColor: "#d9534f",

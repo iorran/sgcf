@@ -26,9 +26,10 @@ class ProfessorSeeder extends Seeder {
 		
 		/*
 		 * Cria varios professores usando a fabrica App/Database/factories/ModelFactory
-		 */
+		 
 		factory(App\Models\Usuario::class, 49)->create()->each(function($u) {
 			$u->professor()->save(factory(App\Models\Professor::class)->make());
 		});
+		*/
 	}
 }

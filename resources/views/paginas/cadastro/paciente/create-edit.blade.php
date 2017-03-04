@@ -13,8 +13,8 @@
 				
 						<div class="nav-tabs-custom">
 	                		<ul class="nav nav-tabs">
-	                  			<li class="active"><a href="#tab_1" data-toggle="tab">Informações Pessoais</a></li>
-	                  			<li><a href="#tab_2" data-toggle="tab">Endereço</a></li> 
+	                  			<li class="active" id="aba_1"><a href="#tab_1" data-toggle="tab">Informações Pessoais</a></li>
+	                  			<li id="aba_2"><a href="#tab_2" data-toggle="tab">Endereço</a></li> 
 	                		</ul>
 	                		<div class="tab-content">
 	                  			<div class="tab-pane active" id="tab_1">  
@@ -26,6 +26,16 @@
 												placeholder="Nome completo" class="form-control input-md" 
 												value="{{ old('nome',  isset($paciente->nome) ? $paciente->nome : null) }}">
 												@if($errors->has('nome')) {!! $errors->first('nome', '<span class="help-block">:message</span>') !!} @endif
+										</div>
+									</div>
+									<!-- Text input-->
+									<div class="form-group @if($errors->has('cpf')) {!! 'has-error' !!} @endif">
+										<label class="col-md-4 control-label" for="nome">CPF</label>
+										<div class="col-md-4">
+											<input id="cpf" name="cpf" type="number"
+												placeholder="Apenas dígitos" class="form-control input-md" 
+												value="{{ old('cpf',  isset($paciente->cpf) ? $paciente->cpf : null) }}">
+												@if($errors->has('cpf')) {!! $errors->first('cpf', '<span class="help-block">:message</span>') !!} @endif
 										</div>
 									</div>
 									<!-- Text input-->
@@ -53,7 +63,7 @@
 										<label class="col-md-4 control-label" for="nascimento">Data de
 											nascimento</label>
 										<div class="col-md-4">
-											<input id="nascimento" name="nascimento" type="date"
+											<input id="nascimento" name="nascimento" type="date" max="{{date('Y-m-d')}}"
 												placeholder="dd/mm/aaaa" class="form-control input-md"
 												value="{{ old('nascimento',  isset($paciente->nascimento) ? $paciente->nascimento : null) }}">
 												@if($errors->has('nascimento')) {!! $errors->first('nascimento', '<span class="help-block">:message</span>') !!} @endif
@@ -79,6 +89,14 @@
 												@if($errors->has('naturalidade')) {!! $errors->first('naturalidade', '<span class="help-block">:message</span>') !!} @endif
 										</div>
 									</div>  
+									
+									<!-- Button -->
+									<div class="form-group">
+										<label class="col-md-4 control-label"></label>
+										<div class="col-md-4">
+											<a class="btn btn-success" id="control_aba_1">Próxima</a>
+										</div>
+									</div>  
 			                  	</div><!-- /.tab-pane -->
 			                  	
 			                  	<div class="tab-pane" id="tab_2">  
@@ -89,7 +107,17 @@
 											<input id="logradouro" name="logradouro" type="text"
 												placeholder="Logradouro" class="form-control input-md"
 												value="{{ old('logradouro',  isset($paciente->endereco->logradouro) ? $paciente->endereco->logradouro : null) }}">
-												@if($errors->has('Logradouro')) {!! $errors->first('Logradouro', '<span class="help-block">:message</span>') !!} @endif
+												@if($errors->has('logradouro')) {!! $errors->first('logradouro', '<span class="help-block">:message</span>') !!} @endif
+										</div>
+									</div>
+									<!-- Text input-->
+									<div class="form-group @if($errors->has('complemento')) {!! 'has-error' !!} @endif"> 
+										<label class="col-md-4 control-label" for="complemento">Complemento</label>
+										<div class="col-md-4">
+											<input id="complemento" name="complemento" type="text"
+												placeholder="Complemento" class="form-control input-md"
+												value="{{ old('complemento',  isset($paciente->endereco->complemento) ? $paciente->endereco->complemento : null) }}">
+												@if($errors->has('complemento')) {!! $errors->first('complemento', '<span class="help-block">:message</span>') !!} @endif
 										</div>
 									</div>
 									<!-- Text input-->
@@ -141,17 +169,17 @@
 												value="{{ old('estado',  isset($paciente->endereco->estado) ? $paciente->endereco->estado : null) }}">
 												@if($errors->has('estado')) {!! $errors->first('estado', '<span class="help-block">:message</span>') !!} @endif
 										</div>
-									</div> 
+									</div>  
+									<!-- Button -->
+									<div class="form-group">
+										<label class="col-md-4 control-label" for="cadastrarPaciente"></label>
+										<div class="col-md-4">
+											<button type="submit" id="cadastrarPaciente" name="cadastrarPaciente"
+												class="btn btn-success">Salvar</button>
+											<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
+										</div>
+									</div>  
 			                  	</div><!-- /.tab-pane -->
-								<!-- Button -->
-								<div class="form-group">
-									<label class="col-md-4 control-label" for="cadastrarAluno"></label>
-									<div class="col-md-4">
-										<button id="cadastrarAluno" name="cadastrarAluno"
-											class="btn btn-success">Salvar</button>
-										<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
-									</div>
-								</div>  
 	                		</div><!-- /.tab-content -->
 	              		</div>  
 					</fieldset>  
@@ -161,4 +189,7 @@
 <!-- /.content -->
 
 
-@endsection @section('additionalsJavascript') @endsection
+@endsection 
+@section('additionalsJavascript') 
+	@include('javascript.paciente.jquery')
+@endsection

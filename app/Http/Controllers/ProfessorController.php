@@ -17,7 +17,7 @@ class ProfessorController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$data['professores'] = Professor::get ();
+		$data['professores'] = Professor::withTrashed()->get ();
 		$data['page_title'] = 'Professores'; 
 		return view ( 'paginas.cadastro.professor.index')->with($data);
 	}
@@ -50,6 +50,7 @@ class ProfessorController extends Controller {
 			
 			$professor = new Professor ();
 			$professor->login = $request->get ( 'login' );
+			$professor->crefito = $request->get ( 'crefito' );
 			$usuario->Professor ()->save ( $professor );
 			
 			DB::commit ();
@@ -70,7 +71,7 @@ class ProfessorController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) { 
-		$data['professor'] = Professor::findOrFail ( $id );
+		$data['professor'] = Professor::withTrashed ()->findOrFail ( $id );
 		$data['page_title'] = 'Visualizar professor';
 		return view ( 'paginas.cadastro.professor.show')->with($data); 
 	}
@@ -100,6 +101,7 @@ class ProfessorController extends Controller {
 			
 			$professor = Professor::findOrFail ( $id );
 			$professor->login = $request->get ( 'login' );
+			$professor->crefito = $request->get ( 'crefito' );
 			
 			$usuario = $professor->usuario;
 			$usuario->nome = $request->get ( "nome" );
@@ -129,14 +131,19 @@ class ProfessorController extends Controller {
 	public function destroy($id) {
 		try {
 			DB::beginTransaction ();
+			$professor = Professor::withTrashed()->find ( $id );
 			
-			$professor = Professor::find ( $id );
-			$professor->delete ();
-			$professor->usuario->delete ();
+			if ($professor->trashed ()) {
+				$professor->restore ();
+				$professor->usuario->restore ();
+				alert ()->success ( '', config ( 'constants.RECOVERED' ) )->autoclose ( 2000 );
+			} else {
+				$professor->delete ();
+				$professor->usuario->delete ();
+				alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+			} 
 			
-			DB::commit ();
-			
-			alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+			DB::commit (); 
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			DB::rollback ();

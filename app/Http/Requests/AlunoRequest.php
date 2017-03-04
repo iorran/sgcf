@@ -33,9 +33,10 @@ class AlunoRequest extends Request {
 			case 'POST' :
 				{ 
 					return [
-							'nome' => 'required',
+							'nome' => 'required|string',
 							'matricula' => 'required|string|size:12|unique:alunos',
 							'email' => 'required|email|unique:usuarios',
+							'telefone' => 'between:10,11',
 							'senha' => 'required|confirmed',
 					];
 				}
@@ -43,9 +44,10 @@ class AlunoRequest extends Request {
 			case 'PATCH' :
 				{
 					return [ 
-							'nome' => 'required',
-							'matricula' => 'required|string|size:12|unique:alunos,id,' . $aluno->id,
-							'email' => 'required|email|unique:usuarios,id,' . $aluno->usuario->id 
+							'nome' => 'required|string',
+							'matricula' => 'required|string|size:12|unique:alunos,matricula,' . $aluno->id,
+							'telefone' => 'between:10,11',
+							'email' => 'required|email|unique:usuarios,email,' . $aluno->usuario->id 
 					];
 				}
 			default :

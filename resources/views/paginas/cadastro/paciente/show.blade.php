@@ -29,6 +29,16 @@
 										</div>
 									</div>
 									<!-- Text input-->
+									<div class="form-group @if($errors->has('cpf')) {!! 'has-error' !!} @endif">
+										<label class="col-md-4 control-label" for="nome">CPF</label>
+										<div class="col-md-4">
+											<input id="cpf" name="cpf" type="number"
+												placeholder="Apenas dígitos" class="form-control input-md" 
+												value="{{ old('cpf',  isset($paciente->cpf) ? $paciente->cpf : null) }}" disabled>
+												@if($errors->has('cpf')) {!! $errors->first('cpf', '<span class="help-block">:message</span>') !!} @endif
+										</div>
+									</div>
+									<!-- Text input-->
 									<div class="form-group @if($errors->has('profissao')) {!! 'has-error' !!} @endif">
 										<label class="col-md-4 control-label" for="profissao">Profissão</label>
 										<div class="col-md-4">
@@ -90,6 +100,16 @@
 												placeholder="Logradouro" class="form-control input-md"
 												value="{{ old('logradouro',  isset($paciente->endereco->logradouro) ? $paciente->endereco->logradouro : null) }}" disabled>
 												@if($errors->has('Logradouro')) {!! $errors->first('Logradouro', '<span class="help-block">:message</span>') !!} @endif
+										</div>
+									</div>
+									<!-- Text input-->
+									<div class="form-group @if($errors->has('complemento')) {!! 'has-error' !!} @endif"> 
+										<label class="col-md-4 control-label" for="complemento">Complemento</label>
+										<div class="col-md-4">
+											<input disabled id="complemento" name="complemento" type="text"
+												placeholder="Complemento" class="form-control input-md"
+												value="{{ old('complemento',  isset($paciente->endereco->complemento) ? $paciente->endereco->complemento : null) }}">
+												@if($errors->has('complemento')) {!! $errors->first('complemento', '<span class="help-block">:message</span>') !!} @endif
 										</div>
 									</div>
 									<!-- Text input-->

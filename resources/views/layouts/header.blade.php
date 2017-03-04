@@ -26,22 +26,10 @@
           			<div class="navbar-custom-menu">
             			<ul class="nav navbar-nav">
 			            	<!-- User Account: style can be found in dropdown.less -->
-			              	<li class="dropdown user user-menu">
-				                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				              		<i class="fa fa-gears"></i>
-				                </a>
-				                <ul class="dropdown-menu">
-				                	<!-- User image -->
-				                  	<li class="user-header">
-	                    				<p> 
-					                    	{!! Session('usuario.0.nome') !!} 
-	                    				</p>
-	                  				</li>
-	                  				<!-- Menu Footer-->
-	                  				<li class="user-footer">
-	                      				<a href="{{route('login.sair')}}" class="btn btn-default btn-flat">Sair</a>
-	                  				</li>
-	                			</ul>
+			              	<li class="user user-menu">
+				                <a href="{{route('login.sair')}}">
+				              		Sair   <i class="fa fa-sign-out" aria-hidden="true"></i>
+				                </a> 
 	              			</li>
             			</ul>
           			</div>

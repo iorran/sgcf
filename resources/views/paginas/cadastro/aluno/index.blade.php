@@ -23,23 +23,37 @@
 				<tbody>
 					@forelse($alunos as $aluno)
 					<tr>
+					
 						<td>{{ $aluno->id }}</td>
 						<td>{{ $aluno->matricula }}</td>
 						<td>{{ $aluno->usuario->nome }}</td>
-						<td align="center">
-							<a href="{{ route('cadastro.aluno.edit', $aluno->id) }}" class="btn btn-primary">
-								<i class="fa fa-fw fa-edit"></i>
-							</a> 
-							<a href="{{ route('cadastro.aluno.show', $aluno->id) }}" class="btn btn-info">
-								<i class="fa fa-fw fa-eye"></i>
-							</a>
-							<button type="button" class="btn btn-danger" remover-aluno="true" data-id="{{ $aluno->id }}">
-								<i class="fa fa-fw fa-remove"></i>
-							</button>
-							<form id="formRemoverAluno{{ $aluno->id }}" action="{{ route('cadastro.aluno.destroy', $aluno->id) }}" method="post">
-								<input type="hidden" name="_method" value="DELETE">
-								{!! csrf_field() !!}
-							</form>
+						<td align="center"> 
+							@if ($aluno->trashed())   
+								<form action="{{ route('cadastro.aluno.destroy', $aluno->id) }}" method="post">
+									<input type="hidden" name="_method" value="DELETE">
+									{!! csrf_field() !!}
+									<a href="{{ route('cadastro.aluno.show', $aluno->id) }}" class="btn btn-info" title="{!! config ( 'constants.bt_v' ) !!}">
+										<i class="fa fa-fw fa-eye"></i>
+									</a>
+									<button type="submit" class="btn btn-warning" title="{!! config ( 'constants.bt_a' ) !!}">
+										<i class="fa fa-fw fa-undo"></i>
+									</button>
+								</form>
+							@else 
+								<a href="{{ route('cadastro.aluno.show', $aluno->id) }}" class="btn btn-info" title="{!! config ( 'constants.bt_v' ) !!}">
+									<i class="fa fa-fw fa-eye"></i>
+								</a>
+								<a href="{{ route('cadastro.aluno.edit', $aluno->id) }}" class="btn btn-primary" title="{!! config ( 'constants.bt_e' ) !!}">
+									<i class="fa fa-fw fa-edit"></i>
+								</a> 
+								<button type="button" class="btn btn-danger" remover-aluno="true" data-id="{{ $aluno->id }}" title="{!! config ( 'constants.bt_d' ) !!}">
+									<i class="fa fa-fw fa-remove"></i>
+								</button>
+								<form id="formRemoverAluno{{ $aluno->id }}" action="{{ route('cadastro.aluno.destroy', $aluno->id) }}" method="post">
+									<input type="hidden" name="_method" value="DELETE">
+									{!! csrf_field() !!}
+								</form>
+							@endif
 						</td>
 					</tr>
 					@empty

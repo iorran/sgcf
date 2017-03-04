@@ -12,14 +12,16 @@ class CreatePacientesTable extends Migration {
 			$table->engine = 'InnoDB';
 			$table->increments ( 'id' );
 			$table->string ( 'nome' );
-			$table->string ( 'naturalidade' )->nullable();
-			$table->string ( 'profissao' )->nullable();
-			$table->string ( 'nacionalidade' )->nullable();
-			$table->date ( 'nascimento' )->nullable(); 
-			$table->string('telefone')->nullable(); 
+			$table->string ( 'cpf' );
+			$table->string ( 'naturalidade' )->nullable ();
+			$table->string ( 'profissao' )->nullable ();
+			$table->string ( 'nacionalidade' )->nullable ();
+			$table->date ( 'nascimento' )->nullable ();
+			$table->string ( 'telefone' )->nullable ();
 			$table->integer ( 'endereco_id', false, true );
 			$table->foreign ( 'endereco_id' )->references ( 'id' )->on ( 'enderecos' );
 			$table->timestamps ();
+			$table->SoftDeletes ();
 		} );
 	}
 	

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Anexo;
 
 class Paciente extends Model {
 	/**
@@ -11,6 +13,15 @@ class Paciente extends Model {
 	 * @var string
 	 */
 	protected $table = 'pacientes';
+	
+	use SoftDeletes;
+	
+	/**
+	 * The attributes that should be mutated to dates.
+	 *
+	 * @var array
+	 */
+	protected $dates = ['deleted_at'];
 	
 	/**
 	 * The attributes that are mass assignable.
@@ -33,6 +44,15 @@ class Paciente extends Model {
 	 * @var Aluno
 	 */
 	public function endereco() {
-		return $this->belongsTo ( 'App\Models\Endereco' );
+		return $this->belongsTo ( 'App\Models\Endereco' )->withTrashed();
+	}
+	
+	/**
+	 * Retorna os anexos
+	 *
+	 * @var Anexo
+	 */
+	public function anexos() {
+		return $this->hasMany( 'App\Models\Anexo' );
 	}
 }

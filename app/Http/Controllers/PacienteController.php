@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PacienteRequest;
+use App\Models\Agendamento;
 use App\Models\Endereco;
 use App\Models\Paciente;
 use DB;
@@ -16,7 +17,7 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$data ['pacientes'] = Paciente::get ();
+		$data ['pacientes'] = Paciente::withTrashed ()->get ();
 		$data ['page_title'] = 'Pacientes';
 		return view ( 'paginas.cadastro.paciente.index' )->with ( $data );
 	}
@@ -43,6 +44,7 @@ class PacienteController extends Controller {
 			
 			$endereco = new Endereco ();
 			$endereco->logradouro = $request->get ( "logradouro" );
+			$endereco->complemento = $request->get ( "complemento" );
 			$endereco->numero = $request->get ( "numero" );
 			$endereco->bairro = $request->get ( "bairro" );
 			$endereco->cep = $request->get ( "cep" );
@@ -53,11 +55,11 @@ class PacienteController extends Controller {
 			$paciente = new Paciente ();
 			
 			$paciente->nome = $request->get ( "nome" );
+			$paciente->cpf = $request->get ( "cpf" );
 			$paciente->naturalidade = $request->get ( "naturalidade" );
 			$paciente->profissao = $request->get ( "profissao" );
 			$paciente->nacionalidade = $request->get ( "nacionalidade" );
 			$paciente->nascimento = $request->get ( "nascimento" );
-			$paciente->ddd = $request->get ( "ddd" );
 			$paciente->telefone = $request->get ( "telefone" );
 			$endereco->paciente ()->save ( $paciente );
 			
@@ -79,7 +81,7 @@ class PacienteController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		$data ['paciente'] = Paciente::findOrFail ( $id );
+		$data ['paciente'] = Paciente::withTrashed ()->findOrFail ( $id );
 		$data ['page_title'] = 'Visualizar paciente';
 		return view ( 'paginas.cadastro.paciente.show' )->with ( $data );
 	}
@@ -107,26 +109,27 @@ class PacienteController extends Controller {
 		try {
 			DB::beginTransaction ();
 			
-			$endereco = Endereco::findOrFail ( $id );
+			$paciente = Paciente::findOrFail ( $id );
+			$paciente->nome = $request->get ( "nome" );
+			$paciente->cpf = $request->get ( "cpf" );
+			$paciente->naturalidade = $request->get ( "naturalidade" );
+			$paciente->profissao = $request->get ( "profissao" );
+			$paciente->nacionalidade = $request->get ( "nacionalidade" );
+			$paciente->nascimento = $request->get ( "nascimento" );
+			$paciente->telefone = $request->get ( "telefone" );
+			
+			$endereco = $paciente->endereco;
 			$endereco->logradouro = $request->get ( "logradouro" );
+			$endereco->complemento = $request->get ( "complemento" );
 			$endereco->numero = $request->get ( "numero" );
 			$endereco->bairro = $request->get ( "bairro" );
 			$endereco->cep = $request->get ( "cep" );
 			$endereco->cidade = $request->get ( "cidade" );
 			$endereco->estado = $request->get ( "estado" );
 			
-			$paciente = $endereco->paciente;
-			$paciente->nome = $request->get ( "nome" );
-			$paciente->naturalidade = $request->get ( "naturalidade" );
-			$paciente->profissao = $request->get ( "profissao" );
-			$paciente->nacionalidade = $request->get ( "nacionalidade" );
-			$paciente->nascimento = $request->get ( "nascimento" );
-			$paciente->ddd = $request->get ( "ddd" );
-			$paciente->telefone = $request->get ( "telefone" );
-			
 			// $aluno->save();
 			// $aluno->usuario->save();
-			$endereco->push ();
+			$paciente->push ();
 			
 			DB::commit ();
 			
@@ -147,21 +150,41 @@ class PacienteController extends Controller {
 	 */
 	public function destroy($id) {
 		try {
-			DB::beginTransaction ();
-
-			$endereco = Endereco::findOrFail ( $id );
-			$endereco->paciente->delete ();
-			$endereco->delete ();
-			
-			DB::commit ();
-			
-			alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+			if($this->isConsultaMarcada($id) <= 0){ 
+				DB::beginTransaction ();
+				$paciente = Paciente::withTrashed ()->find ( $id );
+				
+				if ($paciente->trashed ()) {
+					$paciente->restore ();
+					$paciente->endereco->restore ();
+					alert ()->success ( '', config ( 'constants.RECOVERED' ) )->autoclose ( 2000 );
+				} else {
+					$paciente->endereco->delete ();
+					$paciente->delete ();
+					alert ()->success ( '', config ( 'constants.REMOVED' ) )->autoclose ( 2000 );
+				}
+				
+				DB::commit ();
+			}else{
+				alert ()->info ( 'Este paciente possui consultas marcadas, não será possível desativar.', 'Atenção' )->persistent ( 'Fechar' );
+			}
 		} catch ( \Exception $e ) {
 			Log::error ( $e );
 			DB::rollback ();
 			alert ()->error ( $e->getMessage (), 'Atenção' )->persistent ( 'Fechar' );
 		}
 		return redirect ( 'cadastro/paciente' );
+	}
+ 
+	/**
+	 * Verificar se o aluno possui alguma consulta marcada
+	 *
+	 * @return boolean
+	 */
+	public function isConsultaMarcada($id) {
+		//$agendamento = Agendamento::where('paciente_id','=',$id)->where('iniciada','=','0')->where('data_consulta','>=',date('Y-m-d'))->where('hora_start','>=', date('H:i'))->get();
+		$agendamento = Agendamento::where('paciente_id','=',$id)->where('iniciada','=','0')->get();
+		return count($agendamento);
 	}
 	
 	/**

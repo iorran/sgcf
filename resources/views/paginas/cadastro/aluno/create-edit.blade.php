@@ -21,7 +21,7 @@
 					<label class="col-md-4 control-label" for="matricula">Matrícula</label>
 					<div class="col-md-4">
 						<input id="matricula" name="matricula" type="number"
-							placeholder="Somente números" class="form-control input-md"
+							placeholder="Somente números(12 caracteres)" class="form-control input-md"
 							value="{{ old('matricula',  isset($aluno->matricula) ? $aluno->matricula : null) }}">
 							@if($errors->has('matricula')) {!! $errors->first('matricula', '<span class="help-block">:message</span>') !!} @endif
 					</div>
@@ -46,6 +46,17 @@
 							placeholder="Email" class="form-control input-md"
 							value="{{ old('email',  isset($aluno->usuario->email) ? $aluno->usuario->email : null) }}">
 							@if($errors->has('email')) {!! $errors->first('email', '<span class="help-block">:message</span>') !!} @endif
+					</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group @if($errors->has('telefone')) {!! 'has-error' !!} @endif">
+					<label class="col-md-4 control-label" for="telefone">Telefone</label>
+					<div class="col-md-4">
+						<input id="telefone" name="telefone" type="number"
+							placeholder="DDD + Número " class="form-control input-md"
+							value="{{ old('telefone',  isset($aluno->usuario->telefone) ? $aluno->usuario->telefone : null) }}">
+							@if($errors->has('telefone')) {!! $errors->first('telefone', '<span class="help-block">:message</span>') !!} @endif
 					</div>
 				</div>
 				
@@ -76,7 +87,7 @@
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="cadastrarAluno"></label>
 					<div class="col-md-4">
-						<button id="cadastrarAluno" name="cadastrarAluno"
+						<button type="submit" id="cadastrarAluno" name="cadastrarAluno"
 							class="btn btn-success">Salvar</button>
 						<a href="{{ URL::previous() }}" class="btn btn-default">Voltar</a>
 					</div>

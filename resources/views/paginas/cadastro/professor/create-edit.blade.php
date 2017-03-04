@@ -48,6 +48,17 @@
 							@if($errors->has('email')) {!! $errors->first('email', '<span class="help-block">:message</span>') !!} @endif
 					</div>
 				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="crefito">Crefito</label>
+					<div class="col-md-4">
+						<input id="crefito" name="crefito" type="text"
+							placeholder="Crefito" class="form-control input-md"
+							value="{{ old('crefito',  isset($professor->crefito) ? $professor->crefito : null) }}">
+							@if($errors->has('crefito')) {!! $errors->first('crefito', '<span class="help-block">:message</span>') !!} @endif
+					</div>
+				</div>
 				
 				@if(!isset($professor->id))
 					<!-- Password input-->
